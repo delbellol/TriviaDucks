@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Trivia Ducks</string>
+    <string name="welcome">Welcome</string>
+    <string name="reg">Are you already registered? </string>
+    <string name="email">E-mail:</string>
+    <string name="password">Password:</string>
+    <string name="password_forgotten">Did you forget your password?</string>
+    <string name="login">Login</string>
+    <string name="login_google">Login with Google</string>
+    <string name="or">OR</string>
+    <string name="question">Question</string>
 </resources>
