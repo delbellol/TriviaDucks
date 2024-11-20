@@ -14,4 +14,10 @@
     <string name="profile">Profile</string>
     <string name="ranking">Ranking</string>
     <string name="cover">cover</string>
+    <string name="one_shot">One Shot</string>
+    <string name="trials">Trials</string>
+    <string name="monete">Monete</string>
+    <string name="settings_description">bottone per accedere alle impostazioni</string>
+    <string name="profile_description">bottone per accedere al proprio profilo</string>
+    <string name="ranking_description">bottone per accedere alla sezione classifica</string>
 </resources>
