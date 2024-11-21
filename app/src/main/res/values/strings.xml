@@ -40,4 +40,5 @@
     <string name="quit_game_description">Sei sicuro di voler uscire dalla partita?</string>
     <string name="quit_game">Esci</string>
     <string name="cancel_quit_game">Annulla</string>
+    <string name="default_gameover">GameOver</string>
 </resources>

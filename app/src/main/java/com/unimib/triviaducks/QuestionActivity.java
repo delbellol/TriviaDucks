@@ -1,6 +1,7 @@
 package com.unimib.triviaducks;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -26,7 +27,7 @@ public class QuestionActivity extends AppCompatActivity {
         close.setOnClickListener(view -> {
             /*Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);*/
-            showQuitGamePopup();
+            showQuitGameDialog();
         });
 
         //distinzione tra le due modalità
@@ -64,12 +65,13 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 countdownTextView.setText(R.string.time_out);
-                // Logica quando il tempo finisce - DA FARE
+                showGameOverDialog();
             }
         }.start();
     }
 
-    private void showQuitGamePopup() {
+    //metodo del dialog che chiede conferma prima di uscire dalla partita
+    private void showQuitGameDialog() {
         if (timer != null) {
             timer.cancel();
         }
@@ -95,6 +97,22 @@ public class QuestionActivity extends AppCompatActivity {
                 startCountdown(timeRemaining);
         });
 
+        dialog.show();
+    }
+
+    //metodo game over
+    private void showGameOverDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_game_over);
+        dialog.setCancelable(false);
+
+        Button backHomeButton = dialog.findViewById(R.id.home);
+        backHomeButton.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
         dialog.show();
     }
 }
