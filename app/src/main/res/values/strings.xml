@@ -26,4 +26,8 @@
     <string name="play">Gioca</string>
     <string name="default_description">Descrizione della modalità di gioco</string>
     <string name="default_title">Modalità</string>
+    <string name="account">Account</string>
+    <string name="change_password">Password</string>
+    <string name="change_number">Phone number</string>
+    <string name="mail">E-mail</string>
 </resources>
