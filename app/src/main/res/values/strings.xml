@@ -15,9 +15,15 @@
     <string name="ranking">Ranking</string>
     <string name="cover">cover</string>
     <string name="one_shot">One Shot</string>
+    <string name="one_shot_description">1 vita, domande infinite -> ritorna il punteggio che hai fatto, tempo per domanda: 20 sec (massimo 1 vita bonus), si possono utilizzare potenziamenti al costo di punti </string>
     <string name="trials">Trials</string>
+    <string name="trials_description">vite infinite, set di domande finito (10, 20 … 50), mostra il punteggio al termine della partita,  con un messaggio personalizzato in base al numero di risposte corrette</string>
     <string name="monete">Monete</string>
     <string name="settings_description">bottone per accedere alle impostazioni</string>
     <string name="profile_description">bottone per accedere al proprio profilo</string>
     <string name="ranking_description">bottone per accedere alla sezione classifica</string>
+    <string name="close_description">bottone per tornare alla schermata principale</string>
+    <string name="play">Gioca</string>
+    <string name="default_description">Descrizione della modalità di gioco</string>
+    <string name="default_title">Modalità</string>
 </resources>
