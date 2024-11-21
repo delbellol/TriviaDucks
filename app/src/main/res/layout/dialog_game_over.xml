@@ -4,13 +4,11 @@
     android:orientation="vertical"
     android:background="@android:color/holo_green_light"
     android:elevation="4dp"
-    android:padding="16dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp">
+    android:padding="16dp">
 
 
     <ImageButton
-        android:id="@+id/close_popup"
+        android:id="@+id/close_dialog"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:contentDescription="@string/close_description"
@@ -18,7 +16,7 @@
         style="@style/Widget.Material3.MaterialTimePicker.ImageButton"/>
 
     <TextView
-        android:id="@+id/popup_title"
+        android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_title"
@@ -27,7 +25,7 @@
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/popup_description"
+        android:id="@+id/dialog_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_description"

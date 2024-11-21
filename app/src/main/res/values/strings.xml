@@ -37,4 +37,7 @@
     <string name="answer3">Risposta 3</string>
     <string name="answer4">Risposta 4</string>
     <string name="time_out">Tempo Scaduto</string>
+    <string name="quit_game_description">Sei sicuro di voler uscire dalla partita?</string>
+    <string name="quit_game">Esci</string>
+    <string name="cancel_quit_game">Annulla</string>
 </resources>

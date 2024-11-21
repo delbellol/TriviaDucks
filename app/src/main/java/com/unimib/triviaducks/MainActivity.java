@@ -1,13 +1,10 @@
 package com.unimib.triviaducks;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -34,25 +31,16 @@ public class MainActivity extends AppCompatActivity {
         });
          */
 
-        oneshot.setOnClickListener(v -> showPopup(v, "oneshot"));
-        trials.setOnClickListener(v -> showPopup(v, "trials"));
+        oneshot.setOnClickListener(v -> showDialog("oneshot"));
+        trials.setOnClickListener(v -> showDialog("trials"));
     }
 
-    private void showPopup(View anchorView, String mode) {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+    private void showDialog(String mode) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_game_mode);
 
-        PopupWindow popupWindow = new PopupWindow(popupView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                true);
-
-        popupWindow.showAtLocation(anchorView.getRootView(), Gravity.CENTER, 0, 0);
-
-        ImageButton closeButton = popupView.findViewById(R.id.close_popup);
-        closeButton.setOnClickListener(view -> popupWindow.dismiss());
-
-        TextView title = popupView.findViewById(R.id.popup_title);
-        TextView description = popupView.findViewById(R.id.popup_description);
+        TextView title = dialog.findViewById(R.id.dialog_title);
+        TextView description = dialog.findViewById(R.id.dialog_description);
         if ("oneshot".equals(mode)) {
             title.setText(getString(R.string.one_shot));
             description.setText(getString(R.string.one_shot_description));
@@ -61,12 +49,18 @@ public class MainActivity extends AppCompatActivity {
             description.setText(getString(R.string.trials_description));
         }
 
-        Button play = popupView.findViewById(R.id.play);
+        ImageButton closeButton = dialog.findViewById(R.id.close_dialog);
+        closeButton.setOnClickListener(view -> dialog.dismiss());
+
+        Button play = dialog.findViewById(R.id.play);
         play.setOnClickListener(view -> {
             Intent intent = new Intent(this, QuestionActivity.class);
             intent.putExtra("mode", mode);
             startActivity(intent);
+            dialog.dismiss();
         });
+
+        dialog.show();
     }
 
 }
