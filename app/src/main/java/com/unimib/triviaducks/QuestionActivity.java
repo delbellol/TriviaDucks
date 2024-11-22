@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -11,16 +12,47 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class QuestionActivity extends AppCompatActivity {
     private TextView countdownTextView;
     private CountDownTimer timer;
     private long timeRemaining = 0;
+    private QuizData answer;
+    private int counter = 0;
+    private TextView questionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_question);
+
+        questionTextView = findViewById(R.id.question);
+
+        new Thread(() -> {
+            try {
+                onLoad();
+                runOnUiThread(() -> {
+                    Log.d("QuestionActivity", answer.toString());
+                    if (counter < answer.getResults().size()) {
+                        questionTextView.setText(answer.getResults().get(counter).getQuestion());
+                    }
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    Log.d("QuestionActivity", "Errore: " + e.getMessage());});
+            }
+        }).start();
+
 
         //bottone per uscire dalla partita
         ImageButton close = findViewById(R.id.close_game);
@@ -40,6 +72,26 @@ public class QuestionActivity extends AppCompatActivity {
         else{
             trials();
         }
+    }
+
+    private void onLoad () throws Exception{
+        String result = "";
+
+        URL url = new URL("https://opentdb.com/api.php?amount=10");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(conn.getInputStream()))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                result += line;
+            }
+            jsonToObject(result);
+        }
+    }
+
+    private void jsonToObject (String json) throws JsonGenerationException, JsonMappingException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        answer = objectMapper.readValue(json, QuizData.class);
     }
 
     // Metodi delle due modalità
