@@ -20,16 +20,23 @@ public class MainActivity extends AppCompatActivity {
 
         Button oneshot = findViewById(R.id.oneShot);
         Button trials = findViewById(R.id.trials);
-        /*
-        oneshot.setOnClickListener(view -> {
-            Intent intent = new Intent(this, QuestionActivity.class);
+        ImageButton account = findViewById(R.id.account);
+        ImageButton settings = findViewById(R.id.settings);
+        ImageButton ranking = findViewById(R.id.ranking);
+
+        account.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
         });
-        trials.setOnClickListener(view -> {
-            Intent intent = new Intent(this, QuestionActivity.class);
+        settings.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         });
-         */
+        ranking.setOnClickListener(view -> {
+            Intent intent = new Intent(this, RankingActivity.class);
+            startActivity(intent);
+        });
+
 
         oneshot.setOnClickListener(v -> showDialog("oneshot"));
         trials.setOnClickListener(v -> showDialog("trials"));

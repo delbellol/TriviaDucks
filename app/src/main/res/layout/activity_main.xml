@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_marginHorizontal="10dp"
     android:layout_marginTop="30dp"
-    tools:context=".QuestionActivity">
+    tools:context=".MainActivity">
 
 
 
@@ -30,7 +30,7 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/profile"
+                android:id="@+id/account"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:contentDescription="@string/profile_description"
