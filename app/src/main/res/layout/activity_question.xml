@@ -73,24 +73,28 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/answer1"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/answer1" />
 
         <Button
+            android:id="@+id/answer2"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/answer2" />
 
         <Button
+            android:id="@+id/answer3"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/answer3" />
 
         <Button
+            android:id="@+id/answer4"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -43,9 +43,11 @@ public class QuestionActivity extends AppCompatActivity {
                 onLoad();
                 runOnUiThread(() -> {
                     Log.d("QuestionActivity", answer.toString());
-                    if (counter < answer.getResults().size()) {
+                    if (counter < answer.getResults().size())
                         questionTextView.setText(answer.getResults().get(counter).getQuestion());
-                    }
+                    else
+                        showGameOverDialog();
+                    counter++;
                 });
             } catch (Exception e) {
                 runOnUiThread(() -> {
@@ -57,8 +59,6 @@ public class QuestionActivity extends AppCompatActivity {
         //bottone per uscire dalla partita
         ImageButton close = findViewById(R.id.close_game);
         close.setOnClickListener(view -> {
-            /*Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);*/
             showQuitGameDialog();
         });
 
@@ -72,6 +72,12 @@ public class QuestionActivity extends AppCompatActivity {
         else{
             trials();
         }
+
+        //Bottone risposta corretta
+        Button answer1 = findViewById(R.id.answer1);
+        answer1.setOnClickListener(view -> {
+            isCorrectAnswer();
+        });
     }
 
     private void onLoad () throws Exception{
@@ -166,5 +172,12 @@ public class QuestionActivity extends AppCompatActivity {
             finish();
         });
         dialog.show();
+    }
+
+    //metodo per risposta corretta
+    private void isCorrectAnswer () {
+        counter++;
+            questionTextView.setText(answer.getResults().get(counter).getQuestion());
+        Log.d("Question_activity", ""+counter);
     }
 }
