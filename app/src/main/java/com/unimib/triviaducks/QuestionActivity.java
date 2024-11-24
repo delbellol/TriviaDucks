@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity {
     private TextView countdownTextView;
@@ -29,6 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
     private QuizData answer;
     private int counter = 0;
     private TextView questionTextView;
+    private Button correctButton, answerButton1, answerButton2, answerButton3, answerButton4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +41,17 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
 
         questionTextView = findViewById(R.id.question);
+        answerButton1 = findViewById(R.id.answer1);
+        answerButton2 = findViewById(R.id.answer2);
+        answerButton3 = findViewById(R.id.answer3);
+        answerButton4 = findViewById(R.id.answer4);
 
         new Thread(() -> {
             try {
                 onLoad();
                 runOnUiThread(() -> {
                     Log.d("QuestionActivity", answer.toString());
-                    if (counter < answer.getResults().size())
-                        questionTextView.setText(answer.getResults().get(counter).getQuestion());
-                    else
-                        showGameOverDialog();
-                    counter++;
+                    isCorrectAnswer();
                 });
             } catch (Exception e) {
                 runOnUiThread(() -> {
@@ -74,8 +78,7 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
         //Bottone risposta corretta
-        Button answer1 = findViewById(R.id.answer1);
-        answer1.setOnClickListener(view -> {
+        answerButton1.setOnClickListener(view -> {
             isCorrectAnswer();
         });
     }
@@ -83,7 +86,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void onLoad () throws Exception{
         String result = "";
 
-        URL url = new URL("https://opentdb.com/api.php?amount=10");
+        URL url = new URL("https://opentdb.com/api.php?amount=10&type=multiple");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         try (BufferedReader reader = new BufferedReader(
@@ -176,8 +179,36 @@ public class QuestionActivity extends AppCompatActivity {
 
     //metodo per risposta corretta
     private void isCorrectAnswer () {
-        counter++;
-            questionTextView.setText(answer.getResults().get(counter).getQuestion());
-        Log.d("Question_activity", ""+counter);
+        List<String> answers = new ArrayList<>();
+        answers.add(answer.getResults().get(counter).getCorrectAnswer());
+        answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(0));
+        answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(1));
+        answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(2));
+        List<Button> buttons = new ArrayList<>();
+        buttons.add(answerButton1);
+        buttons.add(answerButton2);
+        buttons.add(answerButton3);
+        buttons.add(answerButton4);
+
+
+        Log.d("Question_activity", answers+" ");
+
+        Collections.shuffle(answers);
+
+        questionTextView.setText(answer.getResults().get(counter).getQuestion());
+
+        for (int i=0; i<answers.size(); i++) {
+            if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
+                Log.d("Question_activity", "AAAAAAA");
+                //Aggiungere qui la parte per cambiare il bottone della risposta corretta
+            }
+            buttons.get(i).setText(answers.get(i));
+        }
+        Log.d("Question_activity", answers+" ");
+
+        if (counter < answer.getResults().size()-1)
+            counter++;
+        else
+            showGameOverDialog();
     }
 }
