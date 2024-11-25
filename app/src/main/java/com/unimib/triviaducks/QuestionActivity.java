@@ -76,11 +76,6 @@ public class QuestionActivity extends AppCompatActivity {
         else{
             trials();
         }
-
-        //Bottone risposta corretta
-        answerButton1.setOnClickListener(view -> {
-            isCorrectAnswer();
-        });
     }
 
     private void onLoad () throws Exception{
@@ -175,21 +170,25 @@ public class QuestionActivity extends AppCompatActivity {
 
         Button backHomeButton = dialog.findViewById(R.id.home);
         backHomeButton.setOnClickListener(view -> {
-            dialog.dismiss();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
+            dialog.dismiss();
         });
         dialog.show();
     }
 
     //metodo per risposta corretta
     private void isCorrectAnswer () {
+        if (counter == answer.getResults().size()-1)
+            showGameOverDialog();
+
         List<String> answers = new ArrayList<>();
         answers.add(answer.getResults().get(counter).getCorrectAnswer());
         answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(0));
         answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(1));
         answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(2));
+
         List<Button> buttons = new ArrayList<>();
         buttons.add(answerButton1);
         buttons.add(answerButton2);
@@ -203,18 +202,18 @@ public class QuestionActivity extends AppCompatActivity {
         questionTextView.setText(answer.getResults().get(counter).getQuestion());
 
         for (int i=0; i<answers.size(); i++) {
-            if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
-                Log.d("Question_activity", "test");
-                //Aggiungere qui la parte per cambiare il bottone della risposta corretta
-            }
             buttons.get(i).setText(answers.get(i));
-        }
-        Log.d("Question_activity", answers+" ");
-
-        if (counter < answer.getResults().size()-1)
-            counter++;
-        else {
-            showGameOverDialog();
+            if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
+                buttons.get(i).setOnClickListener(view -> {
+                    isCorrectAnswer();
+                });
+                counter++;
+            }
+            else {
+                buttons.get(i).setOnClickListener(view -> {
+                    showGameOverDialog();
+                });
+            }
         }
     }
 }
