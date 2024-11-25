@@ -133,6 +133,9 @@ public class QuestionActivity extends AppCompatActivity {
 
     //metodo del dialog che chiede conferma prima di uscire dalla partita
     private void showQuitGameDialog() {
+        if (isFinishing() || isDestroyed())
+            return;
+
         if (timer != null) {
             timer.cancel();
         }
@@ -146,16 +149,16 @@ public class QuestionActivity extends AppCompatActivity {
 
         quitGameButton.setOnClickListener(view -> {
             finish();
+            dialog.dismiss();
         });
 
         cancelButton.setOnClickListener(view -> {
-            dialog.dismiss();
-
-
             String mode = getIntent().getStringExtra("mode");
             assert mode != null;
             if (mode.equals("oneshot"))
                 startCountdown(timeRemaining);
+
+            dialog.dismiss();
         });
 
         dialog.show();
@@ -163,6 +166,9 @@ public class QuestionActivity extends AppCompatActivity {
 
     //metodo game over
     private void showGameOverDialog() {
+        if (isFinishing() || isDestroyed())
+            return;
+
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_game_over);
         dialog.setCancelable(false);
@@ -190,8 +196,7 @@ public class QuestionActivity extends AppCompatActivity {
         buttons.add(answerButton3);
         buttons.add(answerButton4);
 
-
-        Log.d("Question_activity", answers+" ");
+        //Log.d("Question_activity", answers+" ");
 
         Collections.shuffle(answers);
 
@@ -199,7 +204,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         for (int i=0; i<answers.size(); i++) {
             if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
-                Log.d("Question_activity", "AAAAAAA");
+                Log.d("Question_activity", "test");
                 //Aggiungere qui la parte per cambiare il bottone della risposta corretta
             }
             buttons.get(i).setText(answers.get(i));
@@ -208,7 +213,8 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (counter < answer.getResults().size()-1)
             counter++;
-        else
+        else {
             showGameOverDialog();
+        }
     }
 }
