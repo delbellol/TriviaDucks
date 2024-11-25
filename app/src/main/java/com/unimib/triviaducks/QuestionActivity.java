@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+//import com.fasterxml.jackson.core.JsonGenerationException;
+//import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -32,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
     private QuizData answer;
     private int counter = 0;
     private TextView questionTextView;
-    private Button correctButton, answerButton1, answerButton2, answerButton3, answerButton4;
+    private Button answerButton1, answerButton2, answerButton3, answerButton4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +54,14 @@ public class QuestionActivity extends AppCompatActivity {
                     isCorrectAnswer();
                 });
             } catch (Exception e) {
-                runOnUiThread(() -> {
-                    Log.d("QuestionActivity", "Errore: " + e.getMessage());});
+                runOnUiThread(() -> Log.d("QuestionActivity", "Errore: " + e.getMessage()));
             }
         }).start();
 
 
         //bottone per uscire dalla partita
         ImageButton close = findViewById(R.id.close_game);
-        close.setOnClickListener(view -> {
-            showQuitGameDialog();
-        });
+        close.setOnClickListener(view -> showQuitGameDialog());
 
         //distinzione tra le due modalità
         String mode = getIntent().getStringExtra("mode");
@@ -93,7 +90,7 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
-    private void jsonToObject (String json) throws JsonGenerationException, JsonMappingException, IOException {
+    private void jsonToObject (String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         answer = objectMapper.readValue(json, QuizData.class);
     }
@@ -182,37 +179,33 @@ public class QuestionActivity extends AppCompatActivity {
     private void isCorrectAnswer () {
         if (counter == answer.getResults().size()-1)
             showGameOverDialog();
+        else {
+            List<String> answers = new ArrayList<>();
+            answers.add(answer.getResults().get(counter).getCorrectAnswer());
+            answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(0));
+            answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(1));
+            answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(2));
 
-        List<String> answers = new ArrayList<>();
-        answers.add(answer.getResults().get(counter).getCorrectAnswer());
-        answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(0));
-        answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(1));
-        answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(2));
+            List<Button> buttons = new ArrayList<>();
+            buttons.add(answerButton1);
+            buttons.add(answerButton2);
+            buttons.add(answerButton3);
+            buttons.add(answerButton4);
 
-        List<Button> buttons = new ArrayList<>();
-        buttons.add(answerButton1);
-        buttons.add(answerButton2);
-        buttons.add(answerButton3);
-        buttons.add(answerButton4);
+            //Log.d("Question_activity", answers+" ");
 
-        //Log.d("Question_activity", answers+" ");
+            Collections.shuffle(answers);
 
-        Collections.shuffle(answers);
+            questionTextView.setText(answer.getResults().get(counter).getQuestion());
 
-        questionTextView.setText(answer.getResults().get(counter).getQuestion());
-
-        for (int i=0; i<answers.size(); i++) {
-            buttons.get(i).setText(answers.get(i));
-            if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
-                buttons.get(i).setOnClickListener(view -> {
-                    isCorrectAnswer();
-                });
-                counter++;
-            }
-            else {
-                buttons.get(i).setOnClickListener(view -> {
-                    showGameOverDialog();
-                });
+            for (int i = 0; i < answers.size(); i++) {
+                buttons.get(i).setText(answers.get(i));
+                if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
+                    buttons.get(i).setOnClickListener(view -> isCorrectAnswer());
+                    counter++;
+                } else {
+                    buttons.get(i).setOnClickListener(view -> showGameOverDialog());
+                }
             }
         }
     }
