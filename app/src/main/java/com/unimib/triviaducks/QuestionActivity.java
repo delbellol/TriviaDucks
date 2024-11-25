@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-//import com.fasterxml.jackson.core.JsonGenerationException;
-//import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -63,7 +61,7 @@ public class QuestionActivity extends AppCompatActivity {
         ImageButton close = findViewById(R.id.close_game);
         close.setOnClickListener(view -> showQuitGameDialog());
 
-        //distinzione tra le due modalità
+        /*distinzione tra le due modalità
         String mode = getIntent().getStringExtra("mode");
 
         assert mode != null;
@@ -72,7 +70,7 @@ public class QuestionActivity extends AppCompatActivity {
         }
         else{
             trials();
-        }
+        }*/
     }
 
     private void onLoad () throws Exception{
@@ -97,8 +95,12 @@ public class QuestionActivity extends AppCompatActivity {
 
     // Metodi delle due modalità
     private void oneShot (){
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
         countdownTextView = findViewById(R.id.countdown);
-        startCountdown(20000);
+        startCountdown(20999);
     }
 
     private void trials (){
@@ -140,6 +142,8 @@ public class QuestionActivity extends AppCompatActivity {
         Button cancelButton = dialog.findViewById(R.id.cancel);
 
         quitGameButton.setOnClickListener(view -> {
+            if (timer != null)
+                timer.cancel();
             finish();
             dialog.dismiss();
         });
@@ -180,6 +184,9 @@ public class QuestionActivity extends AppCompatActivity {
         if (counter == answer.getResults().size()-1)
             showGameOverDialog();
         else {
+            String mode = getIntent().getStringExtra("mode");
+            assert mode != null;
+
             List<String> answers = new ArrayList<>();
             answers.add(answer.getResults().get(counter).getCorrectAnswer());
             answers.add(answer.getResults().get(counter).getIncorrectAnswers().get(0));
@@ -192,8 +199,6 @@ public class QuestionActivity extends AppCompatActivity {
             buttons.add(answerButton3);
             buttons.add(answerButton4);
 
-            //Log.d("Question_activity", answers+" ");
-
             Collections.shuffle(answers);
 
             questionTextView.setText(answer.getResults().get(counter).getQuestion());
@@ -201,6 +206,9 @@ public class QuestionActivity extends AppCompatActivity {
             for (int i = 0; i < answers.size(); i++) {
                 buttons.get(i).setText(answers.get(i));
                 if (answers.get(i).equals(answer.getResults().get(counter).getCorrectAnswer())) {
+                    if (mode.equals("oneshot")) {
+                        oneShot();
+                    }
                     buttons.get(i).setOnClickListener(view -> isCorrectAnswer());
                     counter++;
                 } else {
