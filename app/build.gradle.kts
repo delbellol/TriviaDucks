@@ -39,6 +39,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation (libs.commons.validator)
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
