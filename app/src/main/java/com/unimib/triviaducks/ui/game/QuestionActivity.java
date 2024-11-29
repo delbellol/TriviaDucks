@@ -1,4 +1,4 @@
-package com.unimib.triviaducks;
+package com.unimib.triviaducks.ui.game;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unimib.triviaducks.QuizData;
+import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.home.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;

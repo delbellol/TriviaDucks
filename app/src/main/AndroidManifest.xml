@@ -16,25 +16,25 @@
         >
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.home.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".RankingActivity"
+            android:name=".ui.home.RankingActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.home.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".AccountActivity"
+            android:name=".ui.home.AccountActivity"
             android:exported="false" />
         <activity
-            android:name=".QuestionActivity"
+            android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
             android:name=".DebugActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.welcome.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

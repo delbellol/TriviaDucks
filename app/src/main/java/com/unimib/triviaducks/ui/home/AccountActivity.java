@@ -1,4 +1,4 @@
-package com.unimib.triviaducks;
+package com.unimib.triviaducks.ui.home;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.unimib.triviaducks.R;
 
 public class AccountActivity extends AppCompatActivity {
 
