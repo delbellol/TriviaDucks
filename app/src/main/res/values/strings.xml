@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">Trivia Ducks</string>
+    <string name="welcome">Welcome</string>
+    <string name="reg">Are you already registered? </string>
+    <string name="email">E-mail:</string>
+    <string name="password">Password:</string>
+    <string name="password_forgotten">Did you forget your password?</string>
+    <string name="login">Login</string>
+    <string name="login_google">Login with Google</string>
+    <string name="or">OR</string>
+    <string name="question">Question</string>
+    <string name="leaderboard">LeaderBoard</string>
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+    <string name="ranking">Ranking</string>
+    <string name="cover">cover</string>
+    <string name="one_shot">One Shot</string>
+    <string name="one_shot_description">1 vita, domande infinite -> ritorna il punteggio che hai fatto, tempo per domanda: 20 sec (massimo 1 vita bonus), si possono utilizzare potenziamenti al costo di punti </string>
+    <string name="trials">Trials</string>
+    <string name="trials_description">vite infinite, set di domande finito (10, 20 … 50), mostra il punteggio al termine della partita,  con un messaggio personalizzato in base al numero di risposte corrette</string>
+    <string name="monete">Monete</string>
+    <string name="settings_description">bottone per accedere alle impostazioni</string>
+    <string name="profile_description">bottone per accedere al proprio profilo</string>
+    <string name="ranking_description">bottone per accedere alla sezione classifica</string>
+    <string name="close_description">bottone per tornare alla schermata principale</string>
+    <string name="play">Gioca</string>
+    <string name="default_description">Descrizione della modalità di gioco</string>
+    <string name="default_title">Modalità</string>
+    <string name="account">Account</string>
+    <string name="change_password">Password</string>
+    <string name="change_number">Phone number</string>
+    <string name="mail">E-mail</string>
+    <string name="question_text">Testo della Domanda</string>
+    <string name="default_countdown" />
+    <string name="answer1">Risposta 1</string>
+    <string name="answer2">Risposta 2</string>
+    <string name="answer3">Risposta 3</string>
+    <string name="answer4">Risposta 4</string>
+    <string name="time_out">Tempo Scaduto</string>
+    <string name="quit_game_description">Sei sicuro di voler uscire dalla partita?</string>
+    <string name="quit_game">Esci</string>
+    <string name="cancel_quit_game">Annulla</string>
+    <string name="default_gameover">GameOver</string>
+    <string name="back_home">Torna alla home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
