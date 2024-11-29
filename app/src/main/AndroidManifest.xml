@@ -19,22 +19,13 @@
             android:name=".ui.home.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.RankingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.SettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.AccountActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
             android:name=".DebugActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.welcome.LoginActivity"
+            android:name=".ui.welcome.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

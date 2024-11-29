@@ -1,10 +1,7 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,13 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.game.QuestionActivity;
-import com.unimib.triviaducks.ui.home.AccountActivity;
-import com.unimib.triviaducks.ui.home.RankingActivity;
-import com.unimib.triviaducks.ui.home.SettingsActivity;
 
 /**
  * A simple {@link Fragment} subclass.
