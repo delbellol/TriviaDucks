@@ -76,7 +76,7 @@ public class GameQuestionFragment extends Fragment {
         // frammento più pulito e conforme all'architettura MVVM.
         new Thread(() -> {
             try {
-                onLoad();
+                apiCall();
                 new Handler(Looper.getMainLooper()).post(() -> {
                     Log.d("QuestionActivity", answer.toString());
                     isCorrectAnswer();
@@ -109,7 +109,7 @@ public class GameQuestionFragment extends Fragment {
         }*/
     }
 
-    private void onLoad () throws Exception{
+    private void apiCall () throws Exception{
         String result = "";
 
         URL url = new URL("https://opentdb.com/api.php?amount=10&type=multiple");

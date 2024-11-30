@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_nav_graph"
+    app:startDestination="@id/gameQuestionFragment">
+    <fragment
+        android:id="@+id/gameQuestionFragment"
+        android:name="com.unimib.triviaducks.ui.game.fragment.GameQuestionFragment"
+        android:label="GameQuestionFragment"
+        tools:layout="@layout/fragment_game_question" />
+</navigation>
