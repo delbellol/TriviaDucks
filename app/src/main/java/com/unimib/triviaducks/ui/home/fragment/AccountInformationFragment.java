@@ -1,10 +1,8 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,11 +19,6 @@ import android.widget.ImageButton;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.home.MainActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountInformationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccountInformationFragment extends Fragment {
     private ImageButton accountButton;
 
@@ -54,16 +47,17 @@ public class AccountInformationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Scegliere immagine dalla galleria
         ActivityResultLauncher<String> mGetContent = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri uri) {
-                        if (uri != null) {
-                            accountButton.setImageURI(uri);
-                        }
+            new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    if (uri != null) {
+                        accountButton.setImageURI(uri);
                     }
                 }
+            }
         );
 
         ImageButton close = view.findViewById(R.id.close);
@@ -71,10 +65,12 @@ public class AccountInformationFragment extends Fragment {
 
         //Bottone per la chiusura del fragment
         close.setOnClickListener(v -> {
+            //TODO cambiare con nav graph
             Log.d("MainActivity", "AAAAAAAAAAAAAAAAAAAAAAAAAA");
         });
 
         accountButton.setOnClickListener(v -> {
+            //richiama il metodo a riga 51
             mGetContent.launch("image/*");
         });
     }
