@@ -2,53 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_nav_graph"
-    app:startDestination="@id/mainFragment">
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.unimib.triviaducks.ui.home.fragment.MainFragment"
-        android:label="MainFragment"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_accountInformationFragment"
-            app:destination="@id/accountInformationFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_leaderboardFragment"
-            app:destination="@id/leaderboardFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_gameModeFragment"
-            app:destination="@id/gameModeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/accountInformationFragment"
-        android:name="com.unimib.triviaducks.ui.home.fragment.AccountInformationFragment"
-        android:label="fragment_account_information"
-        tools:layout="@layout/fragment_account_information" />
+    android:id="@+id/home_nav_graph">
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.SettingsFragment"
-        android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        android:label="SettingsFragment" />
     <fragment
-        android:id="@+id/leaderboardFragment"
-        android:name="com.unimib.triviaducks.ui.home.fragment.LeaderboardFragment"
-        android:label="LeaderboardFragment"
-        tools:layout="@layout/fragment_leaderboard" />
-    <fragment
-        android:id="@+id/gameModeFragment"
-        android:name="com.unimib.triviaducks.ui.home.fragment.GameModeFragment"
-        android:label="GameModeFragment"
-        tools:layout="@layout/fragment_game_mode">
-        <action
-            android:id="@+id/action_gameModeFragment_to_questionActivity"
-            app:destination="@id/questionActivity" />
-    </fragment>
-    <activity
-        android:id="@+id/questionActivity"
-        android:name="com.unimib.triviaducks.ui.game.QuestionActivity"
-        android:label="fragment_game_question"
-        tools:layout="@layout/fragment_game_question" />
+        android:id="@+id/accountInformationFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.AccountInformationFragment"
+        android:label="AccountInformationFragment" />
 </navigation>
