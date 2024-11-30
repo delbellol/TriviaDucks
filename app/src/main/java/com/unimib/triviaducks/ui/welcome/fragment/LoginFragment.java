@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.welcome.fragment;
 
+import static android.app.ProgressDialog.show;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,9 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.unimib.triviaducks.R;
+
+import androidx.navigation.Navigation;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -58,12 +63,15 @@ public class LoginFragment extends Fragment {
                 }else{
                     editTextPassword.setError("Check your password");
                     //avviso che compare a schermo quando sbagli ad inserire la password
-                    Snackbar.make(view.findViewById(android.R.id.content), "Check your password", Snackbar.LENGTH_SHORT).show();
+                    //sostituito view.findViewById(android.R.id.content) con requireView()
+                    Snackbar.make(requireView(), "Check your password", Snackbar.LENGTH_SHORT).show();
 
                 }
             }else{
                 editTextEMail.setError("Insert a correct email");
-                Snackbar.make(view.findViewById(android.R.id.content), "Insert a correct email", Snackbar.LENGTH_SHORT).show();
+                //avviso che compare a schermo quando sbagli ad inserire la mail
+                //sostituito view.findViewById(android.R.id.content) con requireView()
+                Snackbar.make(requireView(), "Insert a correct email", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
