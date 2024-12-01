@@ -8,5 +8,22 @@
         android:id="@+id/gameQuestionFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameQuestionFragment"
         android:label="GameQuestionFragment"
-        tools:layout="@layout/fragment_game_question" />
+        tools:layout="@layout/fragment_game_question" >
+        <action
+            android:id="@+id/action_gameQuestionFragment_to_gameOverFragment"
+            app:destination="@id/gameOverFragment" />
+        <action
+            android:id="@+id/action_gameQuestionFragment_to_gameQuitFragment"
+            app:destination="@id/gameQuitFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameOverFragment"
+        android:name="com.unimib.triviaducks.ui.game.fragment.GameOverFragment"
+        android:label="fragment_game_over"
+        tools:layout="@layout/fragment_game_over" />
+    <fragment
+        android:id="@+id/gameQuitFragment"
+        android:name="com.unimib.triviaducks.ui.game.fragment.GameQuitFragment"
+        android:label="GameQuitFragment"
+        tools:layout="@layout/fragment_game_quit" />
 </navigation>

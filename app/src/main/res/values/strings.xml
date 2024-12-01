@@ -31,7 +31,7 @@
     <string name="change_number">Phone number</string>
     <string name="mail">E-mail</string>
     <string name="question_text">Testo della Domanda</string>
-    <string name="default_countdown" />
+    <string name="default_countdown">00</string>
     <string name="answer1">Risposta 1</string>
     <string name="answer2">Risposta 2</string>
     <string name="answer3">Risposta 3</string>
@@ -68,4 +68,5 @@
     <string name="gadgets">Gadgets</string>
     <string name="anime">Anime and Manga</string>
     <string name="cartoon">Cartoon and Animations</string>
+    <string name="default_counter">0</string>
 </resources>

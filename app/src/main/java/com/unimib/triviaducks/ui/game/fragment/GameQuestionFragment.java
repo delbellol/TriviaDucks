@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +19,13 @@ import android.widget.TextView;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.GameViewModel;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class GameQuestionFragment extends Fragment {
     private GameViewModel gameViewModel;
-    private TextView questionTextView;
+    private TextView questionTextView, counterTextView, countdownTextView;
     private Button answer1Button, answer2Button, answer3Button, answer4Button;
 
     public GameQuestionFragment() {
@@ -52,8 +55,10 @@ public class GameQuestionFragment extends Fragment {
 
         gameViewModel = new GameViewModel();
 
+
         questionTextView = view.findViewById(R.id.question);
-        //countdownTextView = view.findViewById(R.id.countdown);
+        counterTextView = view.findViewById(R.id.counter);
+        countdownTextView = view.findViewById(R.id.countdown);
 
         answer1Button = view.findViewById(R.id.answer1);
         answer2Button = view.findViewById(R.id.answer2);
@@ -64,16 +69,28 @@ public class GameQuestionFragment extends Fragment {
 
         //chiudere la partita quanndo premi bottone
         closeImageButton.setOnClickListener(v ->
-                Log.d("QuestionActivity", "GAMEOVER")
+                Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
         );
 
         //Richiamo metodi get per ottenere messaggi da visualizzare
         gameViewModel.setGameCallback(new GameViewModel.GameCallback() {
             @Override
-            public void getQuestionData(String question, List<String> answers) {
+            public void getQuestionData(int counter, String question, List<String> answers) {
+                counterTextView.setText(String.valueOf(counter + 1));
                 questionTextView.setText(question);
                 updateAnswerButtons(answers);
             }
+
+            @Override
+            public void timeOut(long secondsRemaining) {
+                countdownTextView.setText(String.valueOf(secondsRemaining));
+            }
+
+            @Override
+            public void gameOver() {
+                // Mostra dialog di game over
+            }
+
         });
 
         gameViewModel.quizDataTest();
@@ -81,10 +98,15 @@ public class GameQuestionFragment extends Fragment {
 
     //metodo che si occupa di accoppiare le risposte ai bottoni
     private void updateAnswerButtons(List<String> answers) {
-        Button[] buttons = {answer1Button, answer2Button, answer3Button, answer4Button};
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setText(answers.get(i));
-            buttons[i].setOnClickListener(v -> gameViewModel.isCorrectAnswer());
+        List<Button> buttons = Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button);
+        Collections.shuffle(buttons);
+
+        for (int i = 0; i < buttons.size(); i++) {
+            Button button = buttons.get(i);
+            String answer = answers.get(i);
+
+            button.setText(answer);
+            button.setOnClickListener(v -> gameViewModel.isCorrectAnswer(answer));
         }
     }
 }
