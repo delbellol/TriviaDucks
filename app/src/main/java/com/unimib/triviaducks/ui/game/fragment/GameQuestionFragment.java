@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -18,12 +19,14 @@ import android.widget.TextView;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.GameViewModel;
+import com.unimib.triviaducks.ui.game.QuestionActivity;
 
 import org.jsoup.Jsoup;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class GameQuestionFragment extends Fragment {
     private GameViewModel gameViewModel;
@@ -93,6 +96,11 @@ public class GameQuestionFragment extends Fragment {
             @Override
             public void gameOver() {
                 // Mostra dialog di game over
+                //lo mostra come fragmennt
+                //Navigation.findNavController(getActivity(), R.id.main_content).navigate(R.id.action_gameQuestionFragment_to_gameOverFragment);
+                //lo mostra come dialog
+                GameOverFragment gameOverDialog = new GameOverFragment();
+                gameOverDialog.show(getFragmentManager(), "gameOverDialog");
             }
 
         });

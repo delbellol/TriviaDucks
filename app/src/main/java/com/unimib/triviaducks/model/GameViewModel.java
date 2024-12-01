@@ -6,12 +6,14 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unimib.triviaducks.Question;
 import com.unimib.triviaducks.QuizData;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,6 +127,8 @@ public class GameViewModel {
             callback.getQuestionData(counter, currentQuestion, currentAnswers);
         }
 
+        //TODO renndere 30999 unna constannte nella classe util.connstannts
+        // forse annche 1000 nel metodo startcountdown
         startCountdown(30999);
 
         counter++;
@@ -135,6 +139,11 @@ public class GameViewModel {
     //metodo gameover
     private void gameOver() {
         Log.d("GameViewModel", "GAMEOVER");
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        callback.gameOver();
     }
 
     //TODO Renderlo private e sistemare nomi e sistemarlo
