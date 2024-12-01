@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.GameViewModel;
 
+import org.jsoup.Jsoup;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -77,7 +79,9 @@ public class GameQuestionFragment extends Fragment {
             @Override
             public void getQuestionData(int counter, String question, List<String> answers) {
                 counterTextView.setText(String.valueOf(counter + 1));
-                questionTextView.setText(question);
+                //implemenntando jsoup decodifico i caratteri speciali, come ad esempio ", nel testo
+                //della domanda
+                questionTextView.setText(Jsoup.parse(question).text());
                 updateAnswerButtons(answers);
             }
 
@@ -105,7 +109,8 @@ public class GameQuestionFragment extends Fragment {
             Button button = buttons.get(i);
             String answer = answers.get(i);
 
-            button.setText(answer);
+            //implemenntando jsoup decodifico i caratteri speciali nel testo delle risposte
+            button.setText(Jsoup.parse(answer).text());
             button.setOnClickListener(v -> gameViewModel.isCorrectAnswer(answer));
         }
     }
