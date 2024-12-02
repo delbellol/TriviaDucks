@@ -1,4 +1,4 @@
-package com.unimib.triviaducks;
+package com.unimib.triviaducks.model;
 
 import androidx.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class QuizData {
+public class QuestionAPIResponse {
     @JsonProperty("response_code")
     private int responseCode;
     private List<Question> results;

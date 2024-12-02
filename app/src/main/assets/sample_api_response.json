@@ -1,0 +1,125 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Video Games",
+      "question": "In &quot;Call Of Duty: Zombies&quot;, &quot;Richtofen&quot; is in possession of two filled blood vials belonging to who?",
+      "correct_answer": "Sal DeLuca and Finn O&#039;Leary",
+      "incorrect_answers": [
+        "Richtofen",
+        "Al Arlington and Sal DeLuca",
+        "Jessica Rose and Jack Vincent"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Video Games",
+      "question": "In the ARPG &quot;Path of Exile,&quot; what is the highest amount of sockets that an item can have?",
+      "correct_answer": "6",
+      "incorrect_answers": [
+        "5",
+        "4",
+        "8"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Science &amp; Nature",
+      "question": "How many protons are in an oxygen atom?",
+      "correct_answer": "Eight",
+      "incorrect_answers": [
+        "Four",
+        "Two",
+        "Six"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "General Knowledge",
+      "question": "What is the star sign of someone born on Valentines day?",
+      "correct_answer": "Aquarius",
+      "incorrect_answers": [
+        "Pisces",
+        "Capricorn",
+        "Scorpio"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Video Games",
+      "question": "What two characters from the game Undertale are never in a relationship or not related?",
+      "correct_answer": "Frisk &amp; Chara",
+      "incorrect_answers": [
+        "Sans &amp; Papyrus",
+        "Toriel &amp; Asgore",
+        "Alphys &amp; Undyne"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Video Games",
+      "question": "In the game &quot;Red Dead Redemption&quot;, what is the name of John Marston&#039;s dog?",
+      "correct_answer": "Rufus",
+      "incorrect_answers": [
+        "Rutus",
+        "Finn",
+        "Apollo"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Television",
+      "question": "What was the name of the the first episode of Doctor Who to air in 1963?",
+      "correct_answer": "An Unearthly Child",
+      "incorrect_answers": [
+        "The Daleks",
+        "The Aztecs",
+        "The Edge of Destruction"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "General Knowledge",
+      "question": "What is the world&#039;s most expensive spice by weight?",
+      "correct_answer": "Saffron",
+      "incorrect_answers": [
+        "Cinnamon",
+        "Cardamom",
+        "Vanilla"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Science: Computers",
+      "question": "Moore&#039;s law originally stated that the number of transistors on a microprocessor chip would double every...",
+      "correct_answer": "Year",
+      "incorrect_answers": [
+        "Four Years",
+        "Two Years",
+        "Eight Years"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Cartoon &amp; Animations",
+      "question": "In &quot;Gravity Falls&quot;, the character Bill Cipher remarks that &quot;the universe is what?&quot;",
+      "correct_answer": "A hologram ",
+      "incorrect_answers": [
+        "An illusion ",
+        "A simulation",
+        "Corrupting"
+      ]
+    }
+  ]
+}

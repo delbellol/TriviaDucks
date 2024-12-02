@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unimib.triviaducks.Question;
-import com.unimib.triviaducks.QuizData;
+import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.model.QuestionAPIResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class GameViewModel extends ViewModel {
-    private QuizData quizData;
+    private QuestionAPIResponse questionAPIResponse;
     private CountDownTimer timer;
     private int counter = 0;
     private Question currentResult;
@@ -56,7 +56,7 @@ public class GameViewModel extends ViewModel {
                 String jsonResponse = apiCall();
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                quizData = objectMapper.readValue(jsonResponse, QuizData.class);
+                questionAPIResponse = objectMapper.readValue(jsonResponse, QuestionAPIResponse.class);
 
                 mainHandler.post(() -> loadNewQuestion());
             } catch (Exception e) {
@@ -86,11 +86,11 @@ public class GameViewModel extends ViewModel {
     //TODO cambiare con il gameover fatto bene
     //metodo che controlla se la risposta è corretta
     public void isCorrectAnswer (String currentAnswer) {
-        String correctAnswer = quizData.getResults().get(counter - 1).getCorrectAnswer();
-        if (quizData == null) {
+        String correctAnswer = questionAPIResponse.getResults().get(counter - 1).getCorrectAnswer();
+        if (questionAPIResponse == null) {
             Log.d("GameViewModel", "Errore quizData è uguale a null");
         }
-        else if (counter >= quizData.getResults().size()-1) {
+        else if (counter >= questionAPIResponse.getResults().size()-1) {
             endGame();
         }
         else if (currentAnswer.equals(correctAnswer)){
@@ -105,7 +105,7 @@ public class GameViewModel extends ViewModel {
     //metodo che si occupa di vedere se la risposta è corretta e di andare avanti o
     //dare il gameover
     private void loadNewQuestion () {
-        currentResult = quizData.getResults().get(counter);
+        currentResult = questionAPIResponse.getResults().get(counter);
 
         List<String> answers = new ArrayList<>();
         answers.add(currentResult.getCorrectAnswer());

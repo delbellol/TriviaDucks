@@ -1,4 +1,4 @@
-package com.unimib.triviaducks;
+package com.unimib.triviaducks.model;
 
 import androidx.annotation.NonNull;
 

@@ -39,6 +39,7 @@ dependencies {
     implementation (libs.commons.validator)
     implementation (libs.jackson.databind)
     implementation (libs.jsoup)
+    implementation (libs.google.gson)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     testImplementation(libs.junit)

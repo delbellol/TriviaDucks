@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.0"
 commonsValidatorVersion = "1.9.0"
+googleGson = "2.11.0"
 jacksonDatabind = "2.15.2"
 jsoup = "1.18.2"
 junit = "4.13.2"
@@ -15,6 +16,7 @@ navigationUi = "2.8.4"
 
 [libraries]
 commons-validator = { module = "commons-validator:commons-validator", version.ref = "commonsValidatorVersion" }
+google-gson = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
