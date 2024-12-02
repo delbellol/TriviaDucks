@@ -9,11 +9,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.unimib.triviaducks.R;
@@ -65,8 +67,8 @@ public class AccountInformationFragment extends Fragment {
 
         //Bottone per la chiusura del fragment
         close.setOnClickListener(v -> {
-            //TODO cambiare con nav graph
-            Log.d("MainActivity", "AAAAAAAAAAAAAAAAAAAAAAAAAA");
+            //Funziona
+            Navigation.findNavController(v).navigate(R.id.action_accountInformationFragment_to_mainFragment);
         });
 
         accountButton.setOnClickListener(v -> {
