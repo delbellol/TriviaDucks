@@ -5,10 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +17,12 @@ import android.widget.TextView;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.GameViewModel;
-import com.unimib.triviaducks.ui.game.QuestionActivity;
 
 import org.jsoup.Jsoup;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class GameQuestionFragment extends Fragment {
     private GameViewModel gameViewModel;
@@ -70,31 +66,43 @@ public class GameQuestionFragment extends Fragment {
         answer3Button = view.findViewById(R.id.answer3);
         answer4Button = view.findViewById(R.id.answer4);
 
-        ImageButton closeImageButton = view.findViewById(R.id.close_game);
-
         //chiudere la partita quanndo premi bottone
+        ImageButton closeImageButton = view.findViewById(R.id.close_game);
         closeImageButton.setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
         );
 
-        //Richiamo metodi get per ottenere messaggi da visualizzare
-        gameViewModel.setGameCallback(new GameViewModel.GameCallback() {
-            @Override
-            public void getQuestionData(int counter, String question, List<String> answers) {
-                counterTextView.setText(String.valueOf(counter + 1));
-                //implemenntando jsoup decodifico i caratteri speciali, come ad esempio ", nel testo
-                //della domanda
-                questionTextView.setText(Jsoup.parse(question).text());
-                updateAnswerButtons(answers);
-            }
+        //Richiamo metodi per ottenere messaggi da visualizzare
+        gameViewModel.questionCounter.observe(getViewLifecycleOwner(), counter -> {
+            counterTextView.setText(counter);
+        });
 
-            @Override
-            public void timeOut(long secondsRemaining) {
-                countdownTextView.setText(String.valueOf(secondsRemaining));
-            }
+        gameViewModel.currentQuestion.observe(getViewLifecycleOwner(), question -> {
+            //implemenntando jsoup decodifico i caratteri speciali, come ad esempio ", nel testo
+            //della domanda
+            questionTextView.setText(Jsoup.parse(question).text());
+        });
 
-            @Override
-            public void gameOver() {
+        gameViewModel.currentAnswers.observe(getViewLifecycleOwner(), answers -> {
+            List<Button> buttons = Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button);
+            Collections.shuffle(buttons);
+
+            for (int i = 0; i < buttons.size(); i++) {
+                Button button = buttons.get(i);
+                String answer = answers.get(i);
+
+                //implemenntando jsoup decodifico i caratteri speciali nel testo delle risposte
+                button.setText(Jsoup.parse(answer).text());
+                button.setOnClickListener(v -> gameViewModel.isCorrectAnswer(answer));
+            }
+        });
+
+        gameViewModel.secondsRemaining.observe(getViewLifecycleOwner(), seconds -> {
+            countdownTextView.setText(String.valueOf(seconds));
+        });
+
+        gameViewModel.gameOver.observe(getViewLifecycleOwner(), isGameOver -> {
+            if (isGameOver) {
                 // Mostra dialog di game over
                 //lo mostra come fragmennt
                 //Navigation.findNavController(getActivity(), R.id.main_content).navigate(R.id.action_gameQuestionFragment_to_gameOverFragment);
@@ -102,24 +110,8 @@ public class GameQuestionFragment extends Fragment {
                 GameOverFragment gameOverDialog = new GameOverFragment();
                 gameOverDialog.show(getFragmentManager(), "gameOverDialog");
             }
-
         });
 
         gameViewModel.quizDataTest();
-    }
-
-    //metodo che si occupa di accoppiare le risposte ai bottoni
-    private void updateAnswerButtons(List<String> answers) {
-        List<Button> buttons = Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button);
-        Collections.shuffle(buttons);
-
-        for (int i = 0; i < buttons.size(); i++) {
-            Button button = buttons.get(i);
-            String answer = answers.get(i);
-
-            //implemenntando jsoup decodifico i caratteri speciali nel testo delle risposte
-            button.setText(Jsoup.parse(answer).text());
-            button.setOnClickListener(v -> gameViewModel.isCorrectAnswer(answer));
-        }
     }
 }

@@ -5,15 +5,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unimib.triviaducks.Question;
 import com.unimib.triviaducks.QuizData;
-import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,28 +22,47 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameViewModel {
+public class GameViewModel extends ViewModel {
     private QuizData quizData;
     private CountDownTimer timer;
-    private long secondsRemaining = 0;
-    private String currentQuestion;
-    private List<String> currentAnswers;
     private int counter = 0;
     private Question currentResult;
 
-    //TODO nomi da cambiare e sistemare codice
-    //TODO andrannno aggiunti anche gli eventi per quanndo termina il tempo e per il gameover
-    //Interfaccia che permette di notificare gli eventi al fragment
-    public interface GameCallback {
-        void getQuestionData(int counter, String question, List<String> answers);
-        void timeOut(long secondsRemaining);
-        void gameOver();
-    }
+    //LiveData per gestire le informazioni
+    private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
+    public LiveData<String> questionCounter = mutableQuestionCounter;
 
-    private GameCallback callback;
+    private final MutableLiveData<String> mutableCurrentQuestion = new MutableLiveData<>();
+    public LiveData<String> currentQuestion = mutableCurrentQuestion;
 
-    public void setGameCallback(GameCallback callback) {
-        this.callback = callback;
+    private final MutableLiveData<List<String>> mutableCurrentAnswers = new MutableLiveData<>();
+    public LiveData<List<String>> currentAnswers = mutableCurrentAnswers;
+
+    private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
+    public LiveData<Long> secondsRemaining = mutableSecondsRemaining;
+
+    private final MutableLiveData<Boolean> mutableGameOver = new MutableLiveData<>();
+    public LiveData<Boolean> gameOver = mutableGameOver;
+
+    //TODO nomi da cambiare
+    //TODO rendere metodo private
+    //Rende i dati della chiamata API oggetti java di tipo QuizData, contiene il codice
+    //che era implementato direttamente nel onViewCreated e il metodo jsonToObject
+    public void quizDataTest() {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        new Thread(() -> {
+            try {
+                String jsonResponse = apiCall();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                quizData = objectMapper.readValue(jsonResponse, QuizData.class);
+
+                mainHandler.post(() -> loadNewQuestion());
+            } catch (Exception e) {
+                Log.d("GameViewModel", "Errore: " + e.getMessage());
+            }
+        }).start();
     }
 
     //TODO nomi da cambiare
@@ -66,28 +83,6 @@ public class GameViewModel {
         return result.toString();
     }
 
-    //TODO nomi da cambiare
-    //TODO rendere metodo private
-    //TODO per ora usiamo handler ma è meglio utlizzare livedata
-    //Rende i dati della chiamata API oggetti java di tipo QuizData, contiene il codice
-    //che era implementato direttamente nel onViewCreated e il metodo jsonToObject
-    public void quizDataTest() {
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        new Thread(() -> {
-            try {
-                String jsonResponse = apiCall();
-
-                ObjectMapper objectMapper = new ObjectMapper();
-                quizData = objectMapper.readValue(jsonResponse, QuizData.class);
-
-                mainHandler.post(() -> loadNewQuestion());
-            } catch (Exception e) {
-                Log.d("GameViewModel", "Errore: " + e.getMessage());
-            }
-        }).start();
-    }
-
     //TODO cambiare con il gameover fatto bene
     //metodo che controlla se la risposta è corretta
     public void isCorrectAnswer (String currentAnswer) {
@@ -96,13 +91,13 @@ public class GameViewModel {
             Log.d("GameViewModel", "Errore quizData è uguale a null");
         }
         else if (counter >= quizData.getResults().size()-1) {
-            gameOver();
+            endGame();
         }
         else if (currentAnswer.equals(correctAnswer)){
             loadNewQuestion();
         }
         else{
-            gameOver();
+            endGame();
         }
     }
 
@@ -111,21 +106,19 @@ public class GameViewModel {
     //dare il gameover
     private void loadNewQuestion () {
         currentResult = quizData.getResults().get(counter);
-        currentQuestion = currentResult.getQuestion();
-        Log.d("GameViewModel", currentQuestion);
-        
+
         List<String> answers = new ArrayList<>();
         answers.add(currentResult.getCorrectAnswer());
-        Log.d("GameViewModel", currentResult.getCorrectAnswer());
         answers.addAll(currentResult.getIncorrectAnswers());
+
+        Log.d("GameViewModel", currentResult.getQuestion());
+        Log.d("GameViewModel", currentResult.getCorrectAnswer());
 
         Collections.shuffle(answers);
 
-        currentAnswers = answers;
-
-        if (callback != null) {
-            callback.getQuestionData(counter, currentQuestion, currentAnswers);
-        }
+        mutableQuestionCounter.postValue(String.valueOf(counter+1));
+        mutableCurrentQuestion.postValue(currentResult.getQuestion());
+        mutableCurrentAnswers.postValue(answers);
 
         //TODO renndere 30999 unna constannte nella classe util.connstannts
         // forse annche 1000 nel metodo startcountdown
@@ -137,13 +130,13 @@ public class GameViewModel {
     //TODO Aggiungere metodi per timer e metodi per gameover
 
     //metodo gameover
-    private void gameOver() {
+    private void endGame() {
         Log.d("GameViewModel", "GAMEOVER");
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
-        callback.gameOver();
+        mutableGameOver.postValue(true);
     }
 
     //TODO Renderlo private e sistemare nomi e sistemarlo
@@ -157,13 +150,12 @@ public class GameViewModel {
         timer = new CountDownTimer(duration, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                long secondsRemaining = millisUntilFinished / 1000;
-                callback.timeOut(secondsRemaining);
+                mutableSecondsRemaining.postValue(millisUntilFinished / 1000);
             }
 
             @Override
             public void onFinish() {
-                gameOver();
+                endGame();
             }
         }.start();
     }
