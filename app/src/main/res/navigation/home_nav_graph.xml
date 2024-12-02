@@ -2,13 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_nav_graph">
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.unimib.triviaducks.ui.home.fragment.SettingsFragment"
-        android:label="SettingsFragment" />
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+
     <fragment
         android:id="@+id/accountInformationFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.AccountInformationFragment"
-        android:label="AccountInformationFragment" />
+        android:label="Preferences"
+        tools:layout="@layout/fragment_account_information" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.SettingsFragment"
+        android:label="Popular"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.HomeFragment"
+        android:label="Popular"
+        tools:layout="@layout/fragment_home" />
 </navigation>
