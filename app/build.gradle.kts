@@ -40,6 +40,7 @@ dependencies {
     implementation (libs.jackson.databind)
     implementation (libs.jsoup)
     implementation (libs.google.gson)
+    implementation(libs.room.runtime)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     testImplementation(libs.junit)
