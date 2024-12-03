@@ -1,12 +1,17 @@
 package com.unimib.triviaducks.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+@Entity
 public class Question {
+    @PrimaryKey
+    public int uid;
     private String type;
     private String difficulty;
     private String category;

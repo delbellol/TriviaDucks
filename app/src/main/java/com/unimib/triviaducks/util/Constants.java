@@ -54,4 +54,7 @@ public class Constants {
             R.string.comics, R.string.gadgets, R.string.anime, R.string.cartoon);
 
     public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
+
+    public static final int DATABASE_VERSION = 1;
+    public static final String SAVED_ARTICLES_DATABASE = "saved_db";
 }
