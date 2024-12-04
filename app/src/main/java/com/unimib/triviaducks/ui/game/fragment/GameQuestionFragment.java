@@ -54,7 +54,7 @@ public class GameQuestionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        gameViewModel = new GameViewModel(getContext()); //Aggiunto getContext perché serve per JSONParserUtils
+        gameViewModel = new GameViewModel(); //Aggiunto getContext perché serve per JSONParserUtils
 
 
         questionTextView = view.findViewById(R.id.question);
@@ -109,7 +109,7 @@ public class GameQuestionFragment extends Fragment {
                 //lo mostra come dialog
                 GameOverFragment gameOverDialog = new GameOverFragment();
                 //TODO sostituire getFragmantManager con qualcosa di non deprecato
-                gameOverDialog.show(getFragmentManager(), "gameOverDialog");
+                gameOverDialog.show(getParentFragmentManager(), "gameOverDialog"); //changed getFragmentManager (deprecated) with getParentFragmentManager
             }
         });
 

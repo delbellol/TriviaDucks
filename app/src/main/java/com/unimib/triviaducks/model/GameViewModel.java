@@ -54,9 +54,9 @@ public class GameViewModel extends ViewModel {
     public LiveData<Boolean> gameOver = mutableGameOver;
 
     //Aggiunto context perché serve per richiamare JSONParserUtils
-    public Context context;
-    public GameViewModel(Context context) {
-        this.context = context;
+    //public Context context;
+    public GameViewModel() {
+
     }
 
     //TODO nomi da cambiare
@@ -74,7 +74,7 @@ public class GameViewModel extends ViewModel {
                 questionAPIResponse = objectMapper.readValue(jsonResponse, QuestionAPIResponse.class);
                  */
                 //Creo un oggetto parser che parsa il JSON in oggetti passandogli il contesto
-                JSONParserUtils parser = new JSONParserUtils(context);
+                JSONParserUtils parser = new JSONParserUtils();
                 //Faccio una chiamata alla funzione parser.parse che parsa il json in una lista di oggetti che poi ritorna
                 questionAPIResponse = parser.parseJSONWithGSon(jsonResponse);
                 //Passo al main handler la lista di oggetti per tirarla fuori dal thread perché altrimenti al termine si distrugge
@@ -164,7 +164,7 @@ public class GameViewModel extends ViewModel {
 
     //TODO Renderlo private e sistemare nomi e sistemarlo
     //metodo countdown
-    public void startCountdown(long duration) {
+    private void startCountdown(long duration) {  //con metodo private sembrerebbe funzionare
         if (timer != null) {
             timer.cancel();
             timer = null;
