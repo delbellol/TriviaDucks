@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.model;
 
+import static com.unimib.triviaducks.util.Constants.countDownInterval;
+import static com.unimib.triviaducks.util.Constants.timerTime;
 import static java.security.AccessController.getContext;
 
 import android.content.Context;
@@ -141,16 +143,15 @@ public class GameViewModel extends ViewModel {
         mutableCurrentQuestion.postValue(currentResult.getQuestion());
         mutableCurrentAnswers.postValue(answers);
 
-        //TODO rendere 30999 unna constannte nella classe util.connstannts
-        // forse annche 1000 nel metodo startcountdown
-        startCountdown(30999);
+        //DONE rendere 30999 unna constannte nella classe util.connstannts
+        //DO forse annche 1000 nel metodo startcountdown
+        startCountdown(timerTime);
 
 
         counter++;
     }
 
     //TODO Aggiungere metodi per timer e metodi per gameover
-
     //metodo gameover
     private void endGame() {
         Log.d("GameViewModel", "GAMEOVER");
@@ -169,10 +170,10 @@ public class GameViewModel extends ViewModel {
             timer = null;
         }
 
-        timer = new CountDownTimer(duration, 1000) {
+        timer = new CountDownTimer(duration, countDownInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mutableSecondsRemaining.postValue(millisUntilFinished / 1000);
+                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
             }
 
             @Override

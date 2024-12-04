@@ -57,4 +57,7 @@ public class Constants {
 
     public static final int DATABASE_VERSION = 1;
     public static final String SAVED_ARTICLES_DATABASE = "saved_db";
+
+    public static final int timerTime = 30999;
+    public static final int countDownInterval = 1000;
 }
