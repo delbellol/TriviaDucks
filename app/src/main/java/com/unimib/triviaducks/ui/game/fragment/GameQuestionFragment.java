@@ -54,7 +54,7 @@ public class GameQuestionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        gameViewModel = new GameViewModel();
+        gameViewModel = new GameViewModel(getContext()); //Aggiunto getContext perché serve per JSONParserUtils
 
 
         questionTextView = view.findViewById(R.id.question);
@@ -66,7 +66,7 @@ public class GameQuestionFragment extends Fragment {
         answer3Button = view.findViewById(R.id.answer3);
         answer4Button = view.findViewById(R.id.answer4);
 
-        //chiudere la partita quanndo premi bottone
+        //chiudere la partita quando premi bottone
         ImageButton closeImageButton = view.findViewById(R.id.close_game);
         closeImageButton.setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
@@ -78,7 +78,7 @@ public class GameQuestionFragment extends Fragment {
         });
 
         gameViewModel.currentQuestion.observe(getViewLifecycleOwner(), question -> {
-            //implemenntando jsoup decodifico i caratteri speciali, come ad esempio ", nel testo
+            //implementando jsoup decodifico i caratteri speciali, come ad esempio ", nel testo
             //della domanda
             questionTextView.setText(Jsoup.parse(question).text());
         });
@@ -91,7 +91,7 @@ public class GameQuestionFragment extends Fragment {
                 Button button = buttons.get(i);
                 String answer = answers.get(i);
 
-                //implemenntando jsoup decodifico i caratteri speciali nel testo delle risposte
+                //implementando jsoup decodifico i caratteri speciali nel testo delle risposte
                 button.setText(Jsoup.parse(answer).text());
                 button.setOnClickListener(v -> gameViewModel.isCorrectAnswer(answer));
             }
@@ -108,6 +108,7 @@ public class GameQuestionFragment extends Fragment {
                 //Navigation.findNavController(getActivity(), R.id.main_content).navigate(R.id.action_gameQuestionFragment_to_gameOverFragment);
                 //lo mostra come dialog
                 GameOverFragment gameOverDialog = new GameOverFragment();
+                //TODO sostituire getFragmantManager con qualcosa di non deprecato
                 gameOverDialog.show(getFragmentManager(), "gameOverDialog");
             }
         });

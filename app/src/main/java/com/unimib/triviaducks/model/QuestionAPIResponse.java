@@ -29,6 +29,7 @@ public class QuestionAPIResponse {
     @NonNull
     @Override
     public String toString() {
+        //TODO rename this string
         String AAA = "";
         for (int i=0; i<results.size(); i++) {
             AAA+= results.get(i).toString()+"\n";

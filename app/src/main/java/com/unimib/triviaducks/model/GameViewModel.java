@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.model;
 
+import static java.security.AccessController.getContext;
+
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,8 +15,11 @@ import androidx.lifecycle.ViewModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.QuestionAPIResponse;
+import com.unimib.triviaducks.util.JSONParserUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -21,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class GameViewModel extends ViewModel {
     private QuestionAPIResponse questionAPIResponse;
@@ -44,21 +51,35 @@ public class GameViewModel extends ViewModel {
     private final MutableLiveData<Boolean> mutableGameOver = new MutableLiveData<>();
     public LiveData<Boolean> gameOver = mutableGameOver;
 
+    //Aggiunto context perché serve per richiamare JSONParserUtils
+    public Context context;
+    public GameViewModel(Context context) {
+        this.context = context;
+    }
+
     //TODO nomi da cambiare
     //TODO rendere metodo private
     //Rende i dati della chiamata API oggetti java di tipo QuizData, contiene il codice
     //che era implementato direttamente nel onViewCreated e il metodo jsonToObject
     public void quizDataTest() {
         Handler mainHandler = new Handler(Looper.getMainLooper());
-
         new Thread(() -> {
             try {
                 String jsonResponse = apiCall();
 
-                ObjectMapper objectMapper = new ObjectMapper();
+                //Righe vecchie di Jackson, sarebbero da eliminare
+                /*ObjectMapper objectMapper = new ObjectMapper();
                 questionAPIResponse = objectMapper.readValue(jsonResponse, QuestionAPIResponse.class);
-
+                 */
+                //Creo un oggetto parser che parsa il JSON in oggetti passandogli il contesto
+                JSONParserUtils parser = new JSONParserUtils(context);
+                //Faccio una chiamata alla funzione parser.parse che parsa il json in una lista di oggetti che poi ritorna
+                questionAPIResponse = parser.parseJSONWithGSon(jsonResponse);
+                //Passo al main handler la lista di oggetti per tirarla fuori dal thread perché altrimenti al termine si distrugge
+                mainHandler.post(() -> questionAPIResponse = questionAPIResponse);
+                //Passo al main handler il compito di chiamare loadNewQuestion()
                 mainHandler.post(() -> loadNewQuestion());
+
             } catch (Exception e) {
                 Log.d("GameViewModel", "Errore: " + e.getMessage());
             }
@@ -120,9 +141,10 @@ public class GameViewModel extends ViewModel {
         mutableCurrentQuestion.postValue(currentResult.getQuestion());
         mutableCurrentAnswers.postValue(answers);
 
-        //TODO renndere 30999 unna constannte nella classe util.connstannts
+        //TODO rendere 30999 unna constannte nella classe util.connstannts
         // forse annche 1000 nel metodo startcountdown
         startCountdown(30999);
+
 
         counter++;
     }
