@@ -108,7 +108,6 @@ public class GameQuestionFragment extends Fragment {
                 //Navigation.findNavController(getActivity(), R.id.main_content).navigate(R.id.action_gameQuestionFragment_to_gameOverFragment);
                 //lo mostra come dialog
                 GameOverFragment gameOverDialog = new GameOverFragment();
-                //TODO sostituire getFragmantManager con qualcosa di non deprecato
                 gameOverDialog.show(getParentFragmentManager(), "gameOverDialog"); //changed getFragmentManager (deprecated) with getParentFragmentManager
             }
         });
