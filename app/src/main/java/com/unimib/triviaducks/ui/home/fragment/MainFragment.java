@@ -15,11 +15,6 @@ import android.widget.ImageButton;
 
 import com.unimib.triviaducks.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainFragment extends Fragment {
 
     public MainFragment() {
@@ -46,18 +41,22 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Dichiaro i bottoni (R.id.nome_del_bottone dichiarato nel mainfragment layout)
         Button oneshot = view.findViewById(R.id.oneShot);
         Button trials = view.findViewById(R.id.trials);
         ImageButton account = view.findViewById(R.id.account);
         ImageButton settings = view.findViewById(R.id.settings);
         ImageButton leaderboard = view.findViewById(R.id.ranking);
 
+        //collega i bottoni del main ai vari fragment tramite action di home_nav_graph
         account.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_accountInformationFragment);
         });
+
         settings.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_settingsFragment);
         });
+
         leaderboard.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_leaderboardFragment);
         });
@@ -65,7 +64,10 @@ public class MainFragment extends Fragment {
         oneshot.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_gameModeFragment);
         });
-        //trials.setOnClickListener(v -> showDialog("trials"));
+
+        trials.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_gameModeFragment);
+        });
     }
 
 /*

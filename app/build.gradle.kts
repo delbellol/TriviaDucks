@@ -32,13 +32,15 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation (libs.commons.validator)
-    implementation ("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation (libs.jackson.databind)
+    implementation (libs.jsoup)
+    implementation (libs.google.gson)
+    implementation(libs.room.runtime)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     testImplementation(libs.junit)

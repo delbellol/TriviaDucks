@@ -18,17 +18,13 @@ import com.unimib.triviaducks.R;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LoginFragment extends Fragment {
     private TextInputEditText editTextEMail, editTextPassword;
 
     public LoginFragment() {
         // Required empty public constructor
     }
+
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
@@ -59,10 +55,9 @@ public class LoginFragment extends Fragment {
             if(isEmailOk(editTextEMail.getText().toString())) {
                 if (isPasswordOk(editTextPassword.getText().toString())) {
                     Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_mainActivity);
-                    //Intent intent = new Intent(this, MainActivity.class);
-                    //startActivity(intent);
                 }else{
                     editTextPassword.setError("Check your password");
+                    //avviso che compare a schermo quando sbagli ad inserire la password
                     Snackbar.make(view.findViewById(android.R.id.content), "Check your password", Snackbar.LENGTH_SHORT).show();
 
                 }
