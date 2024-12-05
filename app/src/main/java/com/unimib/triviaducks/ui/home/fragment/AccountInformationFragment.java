@@ -66,11 +66,12 @@ public class AccountInformationFragment extends Fragment {
         accountButton = view.findViewById(R.id.profile);
 
         //Bottone per la chiusura del fragment
+        /*
         close.setOnClickListener(v -> {
             //Funziona
             Navigation.findNavController(v).navigate(R.id.action_accountInformationFragment_to_mainFragment);
         });
-
+*/
         accountButton.setOnClickListener(v -> {
             //richiama il metodo a riga 51
             mGetContent.launch("image/*");
