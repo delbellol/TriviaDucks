@@ -72,11 +72,12 @@ public class AccountInformationFragment extends Fragment {
         importImageButton = view.findViewById(R.id.ImportPfpFromDeviceBtn);
 
         //Bottone per la chiusura del fragment
+        /*
         close.setOnClickListener(v -> {
             //TODO cambiare con nav graph
             Log.d("MainActivity", "AAAAAAAAAAAAAAAAAAAAAAAAAA");
         });
-
+*/
         importImageButton.setOnClickListener(v -> {
             //richiama il metodo a riga 51
             mGetContent.launch("image/*");

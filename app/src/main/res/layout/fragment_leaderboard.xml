@@ -7,15 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginTop="30dp"
-    tools:context=".ui.home.MainActivity">
+    tools:context=".ui.home.fragment.LeaderboardFragment">
 
-
-
-    <ImageButton
-        android:id="@+id/close"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription="@string/close_description"
-        android:src="@drawable/baseline_arrow_back_ios_new_24"
-        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"/>
 </LinearLayout>
