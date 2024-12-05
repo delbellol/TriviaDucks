@@ -19,7 +19,7 @@
             android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.welcome.WelcomeActivity"
+            android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
             android:name=".ui.home.MainActivity"

@@ -6,76 +6,288 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="30dp"
-    tools:context=".ui.home.fragment.AccountInformationFragment">
+    android:gravity="top|center_horizontal"
+    android:background="@drawable/account_background"
+    tools:context=".ui.home.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/close_description"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            style="@style/Widget.Material3.MaterialTimePicker.ImageButton"/>
 
         <TextView
             android:id="@+id/countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
             android:text="@string/account"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
     <LinearLayout
+        android:background="@drawable/account_background_white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:layout_gravity="center"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/profile"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_height="300dp"
-            android:contentDescription="@string/close_description"
-            android:src="@drawable/cover"
-            style="@style/Widget.Material3.MaterialTimePicker.ImageButton"/>
-        <Button
-            style="@style/Widget.Material3.Button"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="@string/change_password"
-            app:icon="@drawable/baseline_password_24"
-            app:iconGravity="textStart"
-            app:iconTint="@null"
-            />
+            android:orientation="horizontal">
 
-        <Button
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="@string/change_number"
-            app:icon="@drawable/baseline_local_phone_24"
-            app:iconGravity="textStart"
-            app:iconTint="@null"
-            />
 
-        <Button
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="25dp"
+                app:cardCornerRadius="150dp">
+
+                <ImageView
+                    android:id="@+id/profilePicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/close_description"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/cover"
+                    style="@style/Widget.Material3.MaterialTimePicker.ImageButton"/>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/changePfpBtnsLayout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="@string/mail"
-            app:icon="@drawable/baseline_alternate_email_24"
-            app:iconGravity="textStart"
-            app:iconTint="@null"
-            />
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginTop="-50dp"
+            android:layout_marginEnd="50dp">
+
+
+            <ImageButton
+                android:id="@+id/ChangePfPBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxWidth="50dp"
+                android:maxHeight="50dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="Change pfp image"
+                android:src="@drawable/toolpencil"
+                android:background="@drawable/account_choose_image_background"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/DefaultImagesGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Choose or Upload a new image:"
+                android:gravity="center"
+                android:textColor="@color/material_dynamic_neutral40"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="15dp"
+                />
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/arrowRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="50dp"
+                        android:maxHeight="50dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/arrowright"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background_round"/>
+
+                    <ImageButton
+                        android:id="@+id/ImportPfpFromDeviceBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/upload_icon"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"/>
+
+                    <ImageButton
+                        android:id="@+id/defaultProfilePicture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/p2"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"/>
+                    <ImageButton
+                        android:id="@+id/defaultProfilePicture2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/p1"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"/>
+                    <ImageButton
+                        android:id="@+id/defaultProfilePicture3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/p3"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"
+                        />
+                    <ImageButton
+                        android:id="@+id/defaultProfilePicture4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/p4"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"/>
+                    <ImageButton
+                        android:id="@+id/defaultProfilePicture5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/p5"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"/>
+                    <ImageButton
+                        android:id="@+id/defaultProfilePicture6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/p6"
+                        style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+                        android:background="@drawable/account_choose_image_background"/>
+
+
+                    <ImageView
+                        android:id="@+id/arrowLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="50dp"
+                        android:maxHeight="50dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/arrowleft"
+                        android:background="@drawable/account_choose_image_background_round"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ContactsBtns"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="bottom"
+            android:visibility="visible">
+
+
+            <Button
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/change_password"
+                app:icon="@drawable/baseline_password_24"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                />
+
+            <Button
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/change_number"
+                app:icon="@drawable/baseline_local_phone_24"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                />
+
+            <Button
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/mail"
+                app:icon="@drawable/baseline_alternate_email_24"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
