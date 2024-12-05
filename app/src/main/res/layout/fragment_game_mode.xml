@@ -6,9 +6,11 @@
     android:elevation="4dp"
     android:padding="16dp">
 
-
+    <!-- cambiato l'id da close_dialog a close per uniformarlo con gli altri che si chiamano tutti close
+     se dovessero esserci problemi con altri metodi associati oltre a cambiare l'id qua sotto
+     cambiarlo anche nel file java altrimenti crasha-->
     <ImageButton
-        android:id="@+id/close_dialog"
+        android:id="@+id/close"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:contentDescription="@string/close_description"
