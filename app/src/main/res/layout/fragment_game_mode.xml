@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/gameModeFragment"
     android:orientation="vertical"
     android:background="@android:color/holo_green_light"
     android:elevation="4dp"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".ui.home.fragment.GameModeFragment">
 
-    <!-- cambiato l'id da close_dialog a close per uniformarlo con gli altri che si chiamano tutti close
-     se dovessero esserci problemi con altri metodi associati oltre a cambiare l'id qua sotto
-     cambiarlo anche nel file java altrimenti crasha-->
     <ImageButton
         android:id="@+id/close"
         android:layout_width="50dp"

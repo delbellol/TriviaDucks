@@ -19,5 +19,28 @@
         android:id="@+id/homeFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.HomeFragment"
         android:label="Popular"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_gameModeFragment"
+            app:destination="@id/gameModeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/leaderboardFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.LeaderboardFragment"
+        android:label="fragment_leaderboard"
+        tools:layout="@layout/fragment_leaderboard" />
+    <fragment
+        android:id="@+id/gameModeFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.GameModeFragment"
+        android:label="fragment_game_mode"
+        tools:layout="@layout/fragment_game_mode" >
+        <action
+            android:id="@+id/action_gameModeFragment_to_questionActivity"
+            app:destination="@id/questionActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/questionActivity"
+        android:name="com.unimib.triviaducks.ui.game.QuestionActivity"
+        android:label="fragment_game_question"
+        tools:layout="@layout/fragment_game_question" />
 </navigation>
