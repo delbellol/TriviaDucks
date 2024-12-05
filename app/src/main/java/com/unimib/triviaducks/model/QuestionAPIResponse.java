@@ -1,4 +1,4 @@
-package com.unimib.triviaducks;
+package com.unimib.triviaducks.model;
 
 import androidx.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class QuizData {
+public class QuestionAPIResponse {
     @JsonProperty("response_code")
     private int responseCode;
     private List<Question> results;
@@ -29,6 +29,7 @@ public class QuizData {
     @NonNull
     @Override
     public String toString() {
+        //TODO rename this string
         String AAA = "";
         for (int i=0; i<results.size(); i++) {
             AAA+= results.get(i).toString()+"\n";

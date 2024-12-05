@@ -53,4 +53,11 @@ public class Constants {
             R.string.sports, R.string.geography, R.string.history, R.string.politics, R.string.art, R.string.celebrities, R.string.animals, R.string.vehicles,
             R.string.comics, R.string.gadgets, R.string.anime, R.string.cartoon);
 
+    public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
+
+    public static final int DATABASE_VERSION = 1;
+    public static final String SAVED_ARTICLES_DATABASE = "saved_db";
+
+    public static final int timerTime = 30999;
+    public static final int countDownInterval = 1000;
 }
