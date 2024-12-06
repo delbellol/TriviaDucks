@@ -1,60 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/homeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginTop="30dp"
     tools:context=".ui.home.fragment.HomeFragment">
 
-    <TextView
-        android:id="@+id/monete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:text="@string/monete" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="467dp">
+        <TextView
+            android:id="@+id/marginTop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/titleImageView"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintWidth_percent="1" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/titleImageView"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="50dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/cover"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8"
-            app:srcCompat="@drawable/cover" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marginTop"
+            app:layout_constraintBottom_toTopOf="@+id/test"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintWidth_percent="1"
+            app:srcCompat="@drawable/title" />
 
-        <Button
-            android:id="@+id/oneShot"
+        <LinearLayout
+            android:id="@+id/test"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
-            android:text="@string/one_shot"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView"
-            app:layout_constraintWidth_percent="0.6" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleImageView"
+            app:layout_constraintBottom_toTopOf="@id/warning"
+            app:layout_constraintHeight_percent="0.35"
+            app:layout_constraintWidth_percent="1" >
 
-        <Button
-            android:id="@+id/trials"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/categoryViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/warning"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/trials"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
+            android:text="@string/home_swipe_warning"
+            android:gravity="top|center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/oneShot"
-            app:layout_constraintWidth_percent="0.6" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/test"
+            app:layout_constraintBottom_toTopOf="@id/gameButtonLayout"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/gameButtonLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/warning"
+            app:layout_constraintWidth_percent="1">
+
+                <Button
+                    android:id="@+id/oneShot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/one_shot"
+                    app:layout_constraintBottom_toTopOf="@id/trials"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/gameButtonLayout"
+                    app:layout_constraintWidth_percent="0.6" />
+
+                <Button
+                    android:id="@+id/trials"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trials"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/oneShot"
+                    app:layout_constraintBottom_toBottomOf="@id/gameButtonLayout"
+                    app:layout_constraintWidth_percent="0.6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
