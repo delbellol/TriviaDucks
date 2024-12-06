@@ -17,6 +17,7 @@ import com.unimib.triviaducks.R;
 public class GameQuitFragment extends Fragment {
 
     Button close;
+    Button cancel;
 
     public GameQuitFragment() {
         // Required empty public constructor
@@ -47,6 +48,13 @@ public class GameQuitFragment extends Fragment {
 
         close.setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.action_gameQuitFragment_to_mainActivity)
+        );
+
+        cancel = view.findViewById(R.id.cancel);
+
+        cancel.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.action_gameQuitFragment_to_gameQuestionFragment)
+                //Fixare domanda che cambia e timer che si azzera
         );
 
 
