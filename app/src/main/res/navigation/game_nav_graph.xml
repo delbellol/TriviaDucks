@@ -25,5 +25,17 @@
         android:id="@+id/gameQuitFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameQuitFragment"
         android:label="GameQuitFragment"
-        tools:layout="@layout/fragment_game_quit" />
+        tools:layout="@layout/fragment_game_quit" >
+        <action
+            android:id="@+id/action_gameQuitFragment_to_gameQuestionFragment"
+            app:destination="@id/gameQuestionFragment" />
+        <action
+            android:id="@+id/action_gameQuitFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.unimib.triviaducks.ui.home.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>
