@@ -26,7 +26,7 @@ import com.unimib.triviaducks.ui.home.MainActivity;
 
 public class GameModeFragment extends DialogFragment {
     private Button play;
-    private ImageButton close;
+    private Button close;
 
     public GameModeFragment() {
         // Required empty public constructor
