@@ -14,6 +14,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -43,9 +44,13 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation (libs.navigation.fragment.ktx)
+    implementation (libs.navigation.ui.ktx)
+    implementation(libs.retrofit)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation (libs.navigation.fragment.ktx)
-    implementation (libs.navigation.ui.ktx)
+
 }
