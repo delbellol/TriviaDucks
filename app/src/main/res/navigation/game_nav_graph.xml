@@ -15,12 +15,19 @@
         <action
             android:id="@+id/action_gameQuestionFragment_to_gameQuitFragment"
             app:destination="@id/gameQuitFragment" />
+        <action
+            android:id="@+id/action_gameQuestionFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
     <fragment
         android:id="@+id/gameOverFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameOverFragment"
         android:label="fragment_game_over"
-        tools:layout="@layout/fragment_game_over" />
+        tools:layout="@layout/fragment_game_over" >
+        <action
+            android:id="@+id/action_gameOverFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/gameQuitFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameQuitFragment"

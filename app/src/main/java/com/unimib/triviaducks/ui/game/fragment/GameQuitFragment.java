@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -52,8 +53,11 @@ public class GameQuitFragment extends DialogFragment {
 
         close.setOnClickListener(v -> {
             //TODO Sistemare questo che va nel fragment sbagliato
-                Navigation.findNavController(view).navigate(R.id.action_gameQuitFragment_to_mainActivity);
-                }
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            this.dismiss();
+            }
         );
 
         cancel = view.findViewById(R.id.cancel);
