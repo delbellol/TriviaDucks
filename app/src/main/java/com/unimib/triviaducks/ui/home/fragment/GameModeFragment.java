@@ -12,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.unimib.triviaducks.R;
 
 public class GameModeFragment extends Fragment {
     private Button play;
+    private ImageButton close;
 
     public GameModeFragment() {
         // Required empty public constructor
@@ -49,5 +51,10 @@ public class GameModeFragment extends Fragment {
         play.setOnClickListener(v -> {
             navController.navigate(R.id.action_gameModeFragment_to_questionActivity);
         });
+
+        close = view.findViewById(R.id.close);
+        close.setOnClickListener(v ->
+            navController.navigate(R.id.action_gameModeFragment_to_homeFragment)
+        );
     }
 }

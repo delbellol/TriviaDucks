@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.content.Intent;
+
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.home.MainActivity;
 

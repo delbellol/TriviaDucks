@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -13,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.home.MainActivity;
 
-public class GameQuitFragment extends Fragment {
+
+public class GameQuitFragment extends DialogFragment {
 
     Button close;
     Button cancel;
@@ -46,15 +50,16 @@ public class GameQuitFragment extends Fragment {
 
         close = view.findViewById(R.id.close);
 
-        close.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_gameQuitFragment_to_mainActivity)
+        close.setOnClickListener(v -> {
+            //TODO Sistemare questo che va nel fragment sbagliato
+                Navigation.findNavController(view).navigate(R.id.action_gameQuitFragment_to_mainActivity);
+                }
         );
 
         cancel = view.findViewById(R.id.cancel);
 
         cancel.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_gameQuitFragment_to_gameQuestionFragment)
-                //Fixare domanda che cambia e timer che si azzera
+                this.dismiss()
         );
 
 

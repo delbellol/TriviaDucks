@@ -68,8 +68,11 @@ public class GameQuestionFragment extends Fragment {
 
         //chiudere la partita quando premi bottone
         ImageButton closeImageButton = view.findViewById(R.id.close_game);
-        closeImageButton.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
+        closeImageButton.setOnClickListener(v -> {
+                    GameQuitFragment gameQuitDialog = new GameQuitFragment();
+                    gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+                }
+                //Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
         );
 
         //Richiamo metodi per ottenere messaggi da visualizzare
