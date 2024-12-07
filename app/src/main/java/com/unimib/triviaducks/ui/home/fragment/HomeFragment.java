@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
 import com.unimib.triviaducks.ui.home.MainActivity;
@@ -61,9 +63,14 @@ public class HomeFragment extends Fragment {
         );
 
         ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
+        TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
 
         CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(images);
         viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+
+        }).attach();
 
         NavController navController = Navigation.findNavController(view);
 

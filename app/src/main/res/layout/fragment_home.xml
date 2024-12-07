@@ -23,7 +23,7 @@
             android:id="@+id/titleImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="@string/cover"
+            android:contentDescription="@string/default_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marginTop"
@@ -39,22 +39,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleImageView"
-            app:layout_constraintBottom_toTopOf="@id/warning"
+            app:layout_constraintBottom_toTopOf="@id/categoryTabLayout"
             app:layout_constraintHeight_percent="0.35"
-            app:layout_constraintWidth_percent="1" />
+            app:layout_constraintWidth_percent="1"
+            app:tabIndicatorColor="@android:color/holo_blue_bright"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorFullWidth="false" />
 
-        <TextView
-            android:id="@+id/warning"
-            android:layout_width="0dp"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/categoryTabLayout"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="@string/home_swipe_warning"
             android:gravity="top|center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/categoryViewPager"
             app:layout_constraintBottom_toTopOf="@id/gameButtonLayout"
             app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="1" />
+            app:layout_constraintWidth_percent="0.6" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/gameButtonLayout"
@@ -65,7 +67,7 @@
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/warning"
+            app:layout_constraintTop_toBottomOf="@id/categoryTabLayout"
             app:layout_constraintWidth_percent="1">
 
 
