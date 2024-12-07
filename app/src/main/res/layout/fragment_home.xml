@@ -27,29 +27,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marginTop"
-            app:layout_constraintBottom_toTopOf="@+id/test"
+            app:layout_constraintBottom_toTopOf="@+id/categoryViewPager"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintWidth_percent="1"
             app:srcCompat="@drawable/title" />
 
-        <LinearLayout
-            android:id="@+id/test"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/categoryViewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleImageView"
             app:layout_constraintBottom_toTopOf="@id/warning"
             app:layout_constraintHeight_percent="0.35"
-            app:layout_constraintWidth_percent="1" >
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/categoryViewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-        </LinearLayout>
+            app:layout_constraintWidth_percent="1" />
 
         <TextView
             android:id="@+id/warning"
@@ -59,7 +51,7 @@
             android:gravity="top|center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test"
+            app:layout_constraintTop_toBottomOf="@id/categoryViewPager"
             app:layout_constraintBottom_toTopOf="@id/gameButtonLayout"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintWidth_percent="1" />
@@ -76,27 +68,30 @@
             app:layout_constraintTop_toBottomOf="@id/warning"
             app:layout_constraintWidth_percent="1">
 
-                <Button
-                    android:id="@+id/oneShot"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/one_shot"
-                    app:layout_constraintBottom_toTopOf="@id/trials"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/gameButtonLayout"
-                    app:layout_constraintWidth_percent="0.6" />
 
                 <Button
                     android:id="@+id/trials"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:text="@string/trials"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/oneShot"
-                    app:layout_constraintBottom_toBottomOf="@id/gameButtonLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/gameButtonLayout"
+                    app:layout_constraintBottom_toTopOf="@id/oneShot"
+                    app:layout_constraintHeight_percent="0.3"
                     app:layout_constraintWidth_percent="0.6" />
+
+                <Button
+                    android:id="@+id/oneShot"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/one_shot"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/trials"
+                    app:layout_constraintBottom_toBottomOf="@id/gameButtonLayout"
+                    app:layout_constraintHeight_percent="0.3"
+                    app:layout_constraintWidth_percent="0.6"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
