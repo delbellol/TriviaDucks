@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.content.Intent;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 import com.unimib.triviaducks.ui.home.MainActivity;
 
 public class HomeFragment extends Fragment {
@@ -53,12 +54,18 @@ public class HomeFragment extends Fragment {
 
         oneShot = view.findViewById(R.id.oneShot);
         oneShot.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //sostituito con sotto
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
         });
 
         trials = view.findViewById(R.id.trials);
         trials.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //sostituito con sotto
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
         });
     }
 }

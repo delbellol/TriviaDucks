@@ -52,7 +52,6 @@ public class GameQuitFragment extends DialogFragment {
         close = view.findViewById(R.id.close);
 
         close.setOnClickListener(v -> {
-            //TODO Sistemare questo che va nel fragment sbagliato
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
