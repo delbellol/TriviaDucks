@@ -1,8 +1,9 @@
 package com.unimib.triviaducks.model;
 
-import static com.unimib.triviaducks.util.Constants.countDownInterval;
-import static com.unimib.triviaducks.util.Constants.timerTime;
+import static com.unimib.triviaducks.util.Constants.COUNTDOWN_INTERVAL;
+import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
+import android.app.MediaRouteButton;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,6 +46,7 @@ public class GameViewModel extends ViewModel {
     private final MutableLiveData<Boolean> mutableGameOver = new MutableLiveData<>();
     public LiveData<Boolean> gameOver = mutableGameOver;
 
+
     //Aggiunto context perché serve per richiamare JSONParserUtils
     //public Context context;
     public GameViewModel() {
@@ -63,7 +65,7 @@ public class GameViewModel extends ViewModel {
                 //Creo un oggetto parser che parsa il JSON in oggetti passandogli il contesto
                 JSONParserUtils parser = new JSONParserUtils();
                 //Faccio una chiamata alla funzione parser.parse che parsa il json in una lista di oggetti che poi ritorna
-                questionAPIResponse = parser.parseJSONWithGSon(jsonResponse);
+                questionAPIResponse = parser.parseJSONFileWithGSon(jsonResponse);
                 //Passo al main handler la lista di oggetti per tirarla fuori dal thread perché altrimenti al termine si distrugge
                 mainHandler.post(() -> questionAPIResponse = questionAPIResponse);
                 //Passo al main handler il compito di chiamare loadNewQuestion()
@@ -130,7 +132,7 @@ public class GameViewModel extends ViewModel {
         mutableCurrentQuestion.postValue(currentResult.getQuestion());
         mutableCurrentAnswers.postValue(answers);
 
-        startCountdown(timerTime);
+        startCountdown(TIMER_TIME);
 
         counter++;
     }
@@ -154,10 +156,10 @@ public class GameViewModel extends ViewModel {
             timer = null;
         }
 
-        timer = new CountDownTimer(duration, countDownInterval) {
+        timer = new CountDownTimer(duration, COUNTDOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
+                mutableSecondsRemaining.postValue(millisUntilFinished / COUNTDOWN_INTERVAL);
             }
 
             @Override

@@ -37,6 +37,13 @@ public class Constants {
     public static final String GADGETS = "Science: Gadgets";
     public static final String ANIME_MANGA = "Entertainment: Japanese Anime & Manga";
     public static final String CARTOON = "Entertainment: Cartoon & Animations";
+    public static final String TOP_HEADLINES_AMOUNT_PARAMETER = "amount";
+    public static final String TOP_HEADLINES_TYPE_PARAMETER = "type";
+    public static final String TOP_HEADLINES_CATEGORY_PARAMETER = "category";
+    public static final String QUESTION_API_BASE_URL = "https://opentdb.com/api.php?";
+
+    public static final String API_ENDPOINT = "api.php";
+
 
     public static final List<String> DIFFICULTY = Arrays.asList(
             EASY_DIFFICULTY, MEDIUM_DIFFICULTY, HARD_DIFFICULTY);
@@ -56,8 +63,10 @@ public class Constants {
     public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
 
     public static final int DATABASE_VERSION = 1;
-    public static final String SAVED_ARTICLES_DATABASE = "saved_db";
+    public static final String SAVED_QUESTION_DATABASE = "saved_db";
 
-    public static final int timerTime = 30999;
-    public static final int countDownInterval = 1000;
+    public static final int TIMER_TIME = 30999;
+    public static final int COUNTDOWN_INTERVAL = 1000;
+
+    public static final int FRESH_TIMEOUT = 1000*60;
 }

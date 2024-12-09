@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,16 +15,9 @@ import android.widget.Button;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.repository.IQuestionRepository;
-import com.unimib.triviaducks.repository.QuestionMockRepository;
-import com.unimib.triviaducks.repository.QuestionRepositoryAPI;
-import com.unimib.triviaducks.ui.home.MainActivity;
-import com.unimib.triviaducks.util.ResponseCallback;
 
-import java.util.List;
-
-public class HomeFragment extends Fragment implements ResponseCallback {
+public class HomeFragment extends Fragment {
     private Button oneShot;
     private Button trials;
     // private RecyclerView recyclerView;
@@ -79,15 +71,5 @@ public class HomeFragment extends Fragment implements ResponseCallback {
         trials.setOnClickListener(v -> {
             navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
         });
-    }
-
-    @Override
-    public void onSuccess(List<Question> questionList, long lastUpdate) {
-
-    }
-
-    @Override
-    public void onFailure(String errorMessage) {
-
     }
 }

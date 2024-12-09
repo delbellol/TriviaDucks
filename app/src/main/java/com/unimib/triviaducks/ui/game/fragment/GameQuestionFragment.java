@@ -12,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.GameViewModel;
+import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.util.ResponseCallback;
 
 import org.jsoup.Jsoup;
 
@@ -24,10 +28,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GameQuestionFragment extends Fragment {
+public class GameQuestionFragment extends Fragment  implements ResponseCallback {
     private GameViewModel gameViewModel;
     private TextView questionTextView, counterTextView, countdownTextView;
     private Button answer1Button, answer2Button, answer3Button, answer4Button;
+    private ProgressBar progressBar;
 
     public GameQuestionFragment() {
         // Required empty public constructor
@@ -58,6 +63,7 @@ public class GameQuestionFragment extends Fragment {
 
 
         questionTextView = view.findViewById(R.id.question);
+        progressBar = view.findViewById(R.id.circular_progress);
         counterTextView = view.findViewById(R.id.counter);
         countdownTextView = view.findViewById(R.id.countdown);
 
@@ -113,5 +119,15 @@ public class GameQuestionFragment extends Fragment {
         });
 
         gameViewModel.quizDataTest();
+    }
+
+    @Override
+    public void onSuccess(List<Question> questionList, long lastUpdate) {
+
+    }
+
+    @Override
+    public void onFailure(String errorMessage) {
+
     }
 }

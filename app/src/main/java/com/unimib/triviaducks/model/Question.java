@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Question {
     @PrimaryKey
-    public int uid;
+    public long uid;
     private String type;
     private String difficulty;
     private String category;
@@ -71,6 +71,14 @@ public class Question {
 
     public void setIncorrectAnswers(List<String> incorrectAnswers) {
         this.incorrectAnswers = incorrectAnswers;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
     @NonNull
