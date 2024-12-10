@@ -17,10 +17,12 @@ navigationFragmentKtx = "2.7.3"
 navigationUi = "2.8.4"
 retrofit = "2.11.0"
 roomRuntime = "2.6.1"
+shimmerVersion = "0.5.0"
 
 [libraries]
 commons-validator = { module = "commons-validator:commons-validator", version.ref = "commonsValidatorVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+facebook-shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmerVersion" }
 google-gson = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }

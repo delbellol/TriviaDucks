@@ -40,7 +40,7 @@ public class Constants {
     public static final String TOP_HEADLINES_AMOUNT_PARAMETER = "amount";
     public static final String TOP_HEADLINES_TYPE_PARAMETER = "type";
     public static final String TOP_HEADLINES_CATEGORY_PARAMETER = "category";
-    public static final String QUESTION_API_BASE_URL = "https://opentdb.com/api.php?";
+    public static final String QUESTION_API_BASE_URL = "https://opentdb.com/";
 
     public static final String API_ENDPOINT = "api.php";
 
@@ -69,4 +69,7 @@ public class Constants {
     public static final int COUNTDOWN_INTERVAL = 1000;
 
     public static final int FRESH_TIMEOUT = 1000*60;
+
+    public static final String SHARED_PREFERENCES_FILENAME = "com.unimib.triviaducks.preferences";
+    public static final String SHARED_PREFERNECES_LAST_UPDATE = "last_update";
 }

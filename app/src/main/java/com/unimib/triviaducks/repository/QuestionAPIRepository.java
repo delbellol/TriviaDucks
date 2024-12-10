@@ -105,12 +105,12 @@ public class QuestionAPIRepository implements IQuestionRepository{
             }
 
             // Writes the news in the database and gets the associated primary keys
-            List<Long> insertedNewsIds = questionDAO.insertQuestionList(questionList);
+            List<Long> insertedQuestionsIds = questionDAO.insertQuestionList(questionList);
             for (int i = 0; i < questionList.size(); i++) {
                 // Adds the primary key to the corresponding object News just downloaded so that
                 // if the user marks the news as favorite (and vice-versa), we can use its id
                 // to know which news in the database must be marked as favorite/not favorite
-                questionList.get(i).setUid(insertedNewsIds.get(i));
+                questionList.get(i).setUid(insertedQuestionsIds.get(i));
             }
 
             responseCallback.onSuccess(questionList, System.currentTimeMillis());

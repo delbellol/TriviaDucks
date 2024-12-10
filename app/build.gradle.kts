@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -15,6 +17,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+
+        resValue("bool", "debug_mode", gradleLocalProperties(rootDir, providers).getProperty("debug_mode"))
     }
 
     buildTypes {
@@ -48,7 +52,7 @@ dependencies {
     implementation (libs.navigation.ui.ktx)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-
+    implementation (libs.facebook.shimmer)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
