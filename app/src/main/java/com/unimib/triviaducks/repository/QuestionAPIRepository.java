@@ -4,7 +4,6 @@ package com.unimib.triviaducks.repository;
 import static com.unimib.triviaducks.util.Constants.FRESH_TIMEOUT;
 
 import android.app.Application;
-import android.telecom.Call;
 
 import androidx.annotation.NonNull;
 
@@ -19,6 +18,7 @@ import com.unimib.triviaducks.util.ResponseCallback;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -39,7 +39,6 @@ public class QuestionAPIRepository implements IQuestionRepository {
     }
 
     public void fetchQuestion(int amount, String type, long lastUpdate) {
-/*
         long currentTime = System.currentTimeMillis();
 
         // It gets the news from the Web Service if the last download
@@ -73,7 +72,6 @@ public class QuestionAPIRepository implements IQuestionRepository {
             readDataFromDatabase(lastUpdate);
         }
 
- */
     }
 
     public void updateQuestion(Question question) {
