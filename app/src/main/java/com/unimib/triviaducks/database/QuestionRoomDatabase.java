@@ -4,10 +4,12 @@ import android.content.Context;
 import com.unimib.triviaducks.util.Constants;
 
 import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.util.Converter;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,6 +19,7 @@ import java.util.concurrent.Executors;
  * <a href="https://developer.android.com/reference/kotlin/androidx/room/Database">...</a>
  */
 @Database(entities = {Question.class}, version = Constants.DATABASE_VERSION, exportSchema = true)
+@TypeConverters(Converter.class)
 public abstract class QuestionRoomDatabase extends RoomDatabase {
 
     public abstract QuestionDAO questionDao();

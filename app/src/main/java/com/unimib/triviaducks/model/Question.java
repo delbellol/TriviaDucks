@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.unimib.triviaducks.util.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -89,6 +90,19 @@ public class Question {
             }
         }
     }
+
+    public static Question getSampleQuestion() {
+        Question sample = new Question();
+        sample.setQuestion("What is the capital of France?");
+        sample.setCorrectAnswer("Paris");
+        List<String> incorrectAnswers = new ArrayList<>();
+        incorrectAnswers.add("London");
+        incorrectAnswers.add("Berlin");
+        incorrectAnswers.add("Madrid");
+        sample.setIncorrectAnswers(incorrectAnswers);
+        return sample;
+    }
+
 
     @NonNull
     @Override

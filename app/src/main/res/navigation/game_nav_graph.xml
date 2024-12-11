@@ -8,7 +8,7 @@
         android:id="@+id/gameQuestionFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameFragment"
         android:label="GameQuestionFragment"
-        tools:layout="@layout/fragment_game_question" >
+        tools:layout="@layout/fragment_game" >
         <action
             android:id="@+id/action_gameQuestionFragment_to_gameOverFragment"
             app:destination="@id/gameOverFragment" />
