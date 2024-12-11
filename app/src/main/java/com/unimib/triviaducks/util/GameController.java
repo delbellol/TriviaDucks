@@ -1,4 +1,4 @@
-package com.unimib.triviaducks.model;
+package com.unimib.triviaducks.util;
 
 import static com.unimib.triviaducks.util.Constants.countDownInterval;
 import static com.unimib.triviaducks.util.Constants.timerTime;
@@ -12,7 +12,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.unimib.triviaducks.util.JSONParserUtils;
+import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.model.QuestionAPIResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameViewModel extends ViewModel {
+public class GameController extends ViewModel {
     private QuestionAPIResponse questionAPIResponse;
     private CountDownTimer timer;
     private int counter = 0;
@@ -47,7 +48,7 @@ public class GameViewModel extends ViewModel {
 
     //Aggiunto context perché serve per richiamare JSONParserUtils
     //public Context context;
-    public GameViewModel() {
+    public GameController() {
 
     }
 

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.model.GameViewModel;
+import com.unimib.triviaducks.util.GameController;
 
 import org.jsoup.Jsoup;
 
@@ -24,23 +24,29 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GameQuestionFragment extends Fragment {
-    private GameViewModel gameViewModel;
+public class GameFragment extends Fragment {
+    private GameController gameController;
     private TextView questionTextView, counterTextView, countdownTextView;
     private Button answer1Button, answer2Button, answer3Button, answer4Button;
 
-    public GameQuestionFragment() {
+    public GameFragment() {
         // Required empty public constructor
     }
 
-    public static GameQuestionFragment newInstance() {
-        GameQuestionFragment fragment = new GameQuestionFragment();
+    public static GameFragment newInstance() {
+        GameFragment fragment = new GameFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (requireActivity().getResources().getBoolean(R.bool.debug_mode)) {
+            questionRepository = new QuestionMockRepository(requireActivity().getApplication(), this);
+        } else {
+            questionRepository = new QuestionAPIRepository(requireActivity().getApplication(), this);
+        }
     }
 
     @Override
@@ -50,11 +56,12 @@ public class GameQuestionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_game_question, container, false);
     }
 
+    /*
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        gameViewModel = new GameViewModel(); //Aggiunto getContext perché serve per JSONParserUtils
+        gameViewModel = new GameController(); //Aggiunto getContext perché serve per JSONParserUtils
 
 
         questionTextView = view.findViewById(R.id.question);
@@ -114,4 +121,5 @@ public class GameQuestionFragment extends Fragment {
 
         gameViewModel.quizDataTest();
     }
+     */
 }
