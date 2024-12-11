@@ -28,7 +28,7 @@ public class QuestionMockRepository implements IQuestionRepository{
     }
 
     @Override
-    public void fetchQuestions(String amount, String type, long lastUpdate) {
+    public void fetchQuestions(int amount, String type, long lastUpdate) {
         QuestionAPIResponse questionApiResponse = null;
 
         JSONParserUtils jsonParserUtils = new JSONParserUtils(application.getApplicationContext());

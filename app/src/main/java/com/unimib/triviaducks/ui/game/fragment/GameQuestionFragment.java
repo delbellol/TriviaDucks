@@ -18,8 +18,11 @@ import android.widget.TextView;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.model.GameViewModel;
+//import com.unimib.triviaducks.model.GameViewModel;
 import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.repository.IQuestionRepository;
+import com.unimib.triviaducks.repository.QuestionAPIRepository;
+import com.unimib.triviaducks.repository.QuestionMockRepository;
 import com.unimib.triviaducks.util.ResponseCallback;
 
 import org.jsoup.Jsoup;
@@ -29,7 +32,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class GameQuestionFragment extends Fragment  implements ResponseCallback {
-    private GameViewModel gameViewModel;
+    private IQuestionRepository questionRepository;
+
+    //private GameViewModel gameViewModel;
     private TextView questionTextView, counterTextView, countdownTextView;
     private Button answer1Button, answer2Button, answer3Button, answer4Button;
     private ProgressBar progressBar;
@@ -46,6 +51,12 @@ public class GameQuestionFragment extends Fragment  implements ResponseCallback 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (requireActivity().getResources().getBoolean(R.bool.debug_mode)) {
+            questionRepository = new QuestionMockRepository(requireActivity().getApplication(), this);
+        } else {
+            questionRepository = new QuestionAPIRepository(requireActivity().getApplication(), this);
+        }
     }
 
     @Override
@@ -55,6 +66,17 @@ public class GameQuestionFragment extends Fragment  implements ResponseCallback 
         return inflater.inflate(R.layout.fragment_game_question, container, false);
     }
 
+    @Override
+    public void onSuccess(List<Question> questionList, long lastUpdate) {
+
+    }
+
+    @Override
+    public void onFailure(String errorMessage) {
+
+    }
+
+    /*
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -130,4 +152,6 @@ public class GameQuestionFragment extends Fragment  implements ResponseCallback 
     public void onFailure(String errorMessage) {
 
     }
+
+     */
 }

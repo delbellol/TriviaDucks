@@ -37,7 +37,7 @@ public class QuestionAPIRepository implements IQuestionRepository{
     }
 
     @Override
-    public void fetchQuestions(String amount, String type, long lastUpdate){
+    public void fetchQuestions(int amount, String type, long lastUpdate){
 
         long currentTime = System.currentTimeMillis();
 
