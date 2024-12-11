@@ -6,13 +6,14 @@ import androidx.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
+import com.unimib.triviaducks.util.Constants;
 
 import java.util.List;
 
 @Entity
 public class Question {
-    @PrimaryKey
-    public int uid;
+    @PrimaryKey(autoGenerate = true)
+    private long uid;
     private String type;
     private String difficulty;
     private String category;
@@ -25,6 +26,13 @@ public class Question {
     private List<String> incorrectAnswers;
 
     // Getters e setters
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
     public String getType() {
         return type;
     }
@@ -71,6 +79,15 @@ public class Question {
 
     public void setIncorrectAnswers(List<String> incorrectAnswers) {
         this.incorrectAnswers = incorrectAnswers;
+    }
+
+    public static void filterQuestion(List<Question> questionList) {
+        for (int i = 0; i < questionList.size(); i++) {
+            if (questionList.get(i).getQuestion().equals(Constants.REMOVED_QUESTION)) {
+                questionList.remove(i);
+                i--;
+            }
+        }
     }
 
     @NonNull

@@ -51,7 +51,7 @@ public class GameController extends ViewModel {
     public GameController() {
 
     }
-
+/*
     //TODO nomi da cambiare
     //TODO rendere metodo private
     //Rende i dati della chiamata API oggetti java di tipo QuizData, contiene il codice
@@ -64,7 +64,7 @@ public class GameController extends ViewModel {
                 //Creo un oggetto parser che parsa il JSON in oggetti passandogli il contesto
                 JSONParserUtils parser = new JSONParserUtils();
                 //Faccio una chiamata alla funzione parser.parse che parsa il json in una lista di oggetti che poi ritorna
-                questionAPIResponse = parser.parseJSONWithGSon(jsonResponse);
+                questionAPIResponse = parser.parseJSONFileWithGSon(jsonResponse);
                 //Passo al main handler la lista di oggetti per tirarla fuori dal thread perché altrimenti al termine si distrugge
                 mainHandler.post(() -> questionAPIResponse = questionAPIResponse);
                 //Passo al main handler il compito di chiamare loadNewQuestion()
@@ -76,6 +76,8 @@ public class GameController extends ViewModel {
         }).start();
     }
 
+
+ */
     //TODO nomi da cambiare
     //Fa una chiamata di tipo GET per ottennere i dati dalla API
     private String apiCall() throws IOException {

@@ -16,7 +16,12 @@ import android.widget.TextView;
 
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.repository.IQuestionRepository;
+import com.unimib.triviaducks.repository.QuestionAPIRepository;
+import com.unimib.triviaducks.repository.QuestionMockRepository;
 import com.unimib.triviaducks.util.GameController;
+import com.unimib.triviaducks.util.ResponseCallback;
 
 import org.jsoup.Jsoup;
 
@@ -24,7 +29,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GameFragment extends Fragment {
+public class GameFragment extends Fragment implements ResponseCallback {
+
+    private IQuestionRepository questionRepository;
+
     private GameController gameController;
     private TextView questionTextView, counterTextView, countdownTextView;
     private Button answer1Button, answer2Button, answer3Button, answer4Button;
@@ -42,11 +50,8 @@ public class GameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (requireActivity().getResources().getBoolean(R.bool.debug_mode)) {
-            questionRepository = new QuestionMockRepository(requireActivity().getApplication(), this);
-        } else {
-            questionRepository = new QuestionAPIRepository(requireActivity().getApplication(), this);
-        }
+        questionRepository = new QuestionMockRepository(requireActivity().getApplication(), this);
+
     }
 
     @Override
@@ -54,6 +59,16 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_question, container, false);
+    }
+
+    @Override
+    public void onSuccess(List<Question> questionList, long lastUpdate) {
+
+    }
+
+    @Override
+    public void onFailure(String errorMessage) {
+
     }
 
     /*
