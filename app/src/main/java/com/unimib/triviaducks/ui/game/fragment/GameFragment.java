@@ -5,12 +5,15 @@ import static com.unimib.triviaducks.util.Constants.SHARED_PREFERNECES_LAST_UPDA
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +39,8 @@ public class GameFragment extends Fragment implements ResponseCallback {
     private IQuestionRepository questionRepository;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
+    private ImageButton closeImageButton;
+
     private TextView questionTextView;
     private Button answer1Button, answer2Button, answer3Button, answer4Button;
 
@@ -57,8 +62,9 @@ public class GameFragment extends Fragment implements ResponseCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_game, container, false);
 
+        View view = inflater.inflate(R.layout.fragment_game, container, false);
+        /*
         // Find the views
         questionTextView = view.findViewById(R.id.question);
         answer1Button = view.findViewById(R.id.answer1);
@@ -84,8 +90,20 @@ public class GameFragment extends Fragment implements ResponseCallback {
 
         // Fetch questions from repository
         questionRepository.fetchQuestion(Constants.TRIVIA_AMOUNT_VALUE, Constants.TRIVIA_TYPE_VALUE, Long.parseLong(lastUpdate));
-
+*/
         return view;
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        closeImageButton = view.findViewById(R.id.close_game);
+        closeImageButton.setOnClickListener(v -> {
+                    GameQuitFragment gameQuitDialog = new GameQuitFragment();
+                    gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+                }
+                //Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
+        );
     }
 
     private void displayQuestion(Question question) {
