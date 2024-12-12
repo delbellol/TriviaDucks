@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -16,9 +14,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
-        resValue("bool", "debug_mode", gradleLocalProperties(rootDir, providers).getProperty("debug_mode"))
     }
 
     buildTypes {
@@ -37,27 +32,27 @@ android {
 }
 
 dependencies {
-    implementation(libs.appcompat)
-    implementation(libs.material)
     implementation(libs.activity)
+    implementation(libs.appcompat)
+    implementation(libs.commons.validator)
     implementation(libs.constraintlayout)
-    implementation (libs.commons.validator)
-    implementation (libs.jackson.databind)
-    implementation (libs.jsoup)
-    implementation (libs.viewpager2)
-    implementation (libs.material)
-    implementation (libs.google.gson)
-    implementation(libs.room.runtime)
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
-    implementation (libs.navigation.fragment.ktx)
-    implementation (libs.navigation.ui.ktx)
-    implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation (libs.facebook.shimmer)
+    implementation(libs.google.gson)
+    implementation(libs.jackson.databind)
+    implementation(libs.jsoup)
+    implementation(libs.material)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.viewpager2)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
+
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.ext.junit)
 
 }

@@ -6,14 +6,15 @@ import androidx.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
+import com.unimib.triviaducks.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Question {
-    @PrimaryKey
-    public long uid;
+    @PrimaryKey(autoGenerate = true)
+    private long uid;
     private String type;
     private String difficulty;
     private String category;
@@ -26,6 +27,13 @@ public class Question {
     private List<String> incorrectAnswers;
 
     // Getters e setters
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
     public String getType() {
         return type;
     }
@@ -74,25 +82,27 @@ public class Question {
         this.incorrectAnswers = incorrectAnswers;
     }
 
-    public long getUid() {
-        return uid;
-    }
-
-    public void setUid(long uid) {
-        this.uid = uid;
+    public static void filterQuestion(List<Question> questionList) {
+        for (int i = 0; i < questionList.size(); i++) {
+            if (questionList.get(i).getQuestion().equals(Constants.REMOVED_QUESTION)) {
+                questionList.remove(i);
+                i--;
+            }
+        }
     }
 
     public static Question getSampleQuestion() {
         Question sample = new Question();
-        sample.setQuestion("Not so long question sample");
-        sample.setCorrectAnswer("Not so long correct answer sample");
+        sample.setQuestion("What is the capital of France?");
+        sample.setCorrectAnswer("Paris");
         List<String> incorrectAnswers = new ArrayList<>();
-        incorrectAnswers.add("Not so long incorrect answer sample");
-        incorrectAnswers.add("Not so long incorrect answer sample");
-        incorrectAnswers.add("Not so long incorrect answer sample");
+        incorrectAnswers.add("London");
+        incorrectAnswers.add("Berlin");
+        incorrectAnswers.add("Madrid");
         sample.setIncorrectAnswers(incorrectAnswers);
         return sample;
     }
+
 
     @NonNull
     @Override

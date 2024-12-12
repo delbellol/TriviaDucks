@@ -62,7 +62,6 @@ public class HomeFragment extends Fragment {
 
         //questionRepository.fetchQuestion();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         // Inflate the layout for this fragment
         return view;
     }

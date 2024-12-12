@@ -1,7 +1,8 @@
 [versions]
 agp = "8.6.0"
 commonsValidatorVersion = "1.9.0"
-converterGson = "2.9.0"
+converterGson = "2.11.0"
+glide = "4.16.0"
 googleGson = "2.11.0"
 jacksonDatabind = "2.15.2"
 jsoup = "1.18.2"
@@ -15,15 +16,13 @@ constraintlayout = "2.2.0"
 navigationFragment = "2.8.4"
 navigationFragmentKtx = "2.7.3"
 navigationUi = "2.8.4"
-retrofit = "2.11.0"
 roomRuntime = "2.6.1"
 viewpager2 = "1.1.0"
-shimmerVersion = "0.5.0"
 
 [libraries]
 commons-validator = { module = "commons-validator:commons-validator", version.ref = "commonsValidatorVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-facebook-shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmerVersion" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-gson = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
@@ -38,10 +37,10 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-

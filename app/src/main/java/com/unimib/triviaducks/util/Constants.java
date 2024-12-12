@@ -72,4 +72,15 @@ public class Constants {
 
     public static final String SHARED_PREFERENCES_FILENAME = "com.unimib.triviaducks.preferences";
     public static final String SHARED_PREFERNECES_LAST_UPDATE = "last_update";
+
+
+
+    public static final String TRIVIA_API_BASE_URL = "https://opentdb.com/";
+    public static final String TRIVIA_ENDPOINT = "api.php";
+    public static final String TRIVIA_AMOUNT_PARAMETER = "amount";
+    public static final String TRIVIA_TYPE_PARAMETER = "type";
+    public static final int TRIVIA_AMOUNT_VALUE = 10;
+    public static final String TRIVIA_TYPE_VALUE = "multiple";
+
+    public static final String REMOVED_QUESTION = "[Removed]";
 }

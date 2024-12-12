@@ -3,7 +3,6 @@ package com.unimib.triviaducks.service;
 import android.app.Application;
 
 import com.unimib.triviaducks.database.QuestionRoomDatabase;
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.util.Constants;
 
 import okhttp3.OkHttpClient;
@@ -12,6 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceLocator {
+
     private static volatile ServiceLocator INSTANCE = null;
 
     private ServiceLocator() {
@@ -39,7 +39,7 @@ public class ServiceLocator {
 
     public QuestionAPIService getQuestionAPIService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.QUESTION_API_BASE_URL)
+                .baseUrl(Constants.TRIVIA_API_BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(QuestionAPIService.class);
