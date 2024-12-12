@@ -16,23 +16,20 @@ public interface QuestionDAO {
     @Query("SELECT * FROM Question")
     List<Question> getAll();
 
-    @Query("SELECT * FROM Question WHERE liked = 1")
-    List<Question> getLiked();
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Question... questions);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Question... articles);
+    void insertAll(List<Question> questions);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Question> articles);
+    List<Long> insertQuestionList (List<Question> questionList);
 
     @Update
-    void updateArticle(Question article);
+    void updateQuestion(Question question);
 
     @Delete
-    void delete(Question user);
-
-    @Query("DELETE from Question WHERE liked = 0")
-    void deleteCached();
+    void delete(Question question);
 
     @Query("DELETE from Question")
     void deleteAll();

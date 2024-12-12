@@ -7,12 +7,13 @@ import androidx.room.PrimaryKey;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Question {
     @PrimaryKey
-    public int uid;
+    public long uid;
     private String type;
     private String difficulty;
     private String category;
@@ -71,6 +72,26 @@ public class Question {
 
     public void setIncorrectAnswers(List<String> incorrectAnswers) {
         this.incorrectAnswers = incorrectAnswers;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public static Question getSampleQuestion() {
+        Question sample = new Question();
+        sample.setQuestion("Not so long question sample");
+        sample.setCorrectAnswer("Not so long correct answer sample");
+        List<String> incorrectAnswers = new ArrayList<>();
+        incorrectAnswers.add("Not so long incorrect answer sample");
+        incorrectAnswers.add("Not so long incorrect answer sample");
+        incorrectAnswers.add("Not so long incorrect answer sample");
+        sample.setIncorrectAnswers(incorrectAnswers);
+        return sample;
     }
 
     @NonNull
