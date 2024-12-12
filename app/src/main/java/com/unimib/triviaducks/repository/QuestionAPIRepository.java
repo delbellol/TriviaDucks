@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.repository;
 
+
+import static com.unimib.triviaducks.util.Constants.FRESH_TIMEOUT;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -12,7 +15,6 @@ import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.service.QuestionAPIService;
 import com.unimib.triviaducks.service.ServiceLocator;
 import com.unimib.triviaducks.util.ResponseCallback;
-import static com.unimib.triviaducks.util.Constants.FRESH_TIMEOUT;
 
 import java.util.List;
 
@@ -20,32 +22,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionAPIRepository implements IQuestionRepository{
+public class QuestionAPIRepository implements IQuestionRepository {
 
     private static final String TAG = QuestionAPIRepository.class.getSimpleName();
 
     private final Application application;
     private final QuestionAPIService questionAPIService;
-    private final QuestionDAO questionDAO;
+    private final QuestionDAO questionDao;
     private final ResponseCallback responseCallback;
 
     public QuestionAPIRepository(Application application, ResponseCallback responseCallback) {
         this.application = application;
         this.questionAPIService = ServiceLocator.getInstance().getQuestionAPIService();
-        this.questionDAO = ServiceLocator.getInstance().getQuestionsDB(application).questionDao();
+        this.questionDao = ServiceLocator.getInstance().getQuestionsDB(application).questionDao();
         this.responseCallback = responseCallback;
     }
 
-    @Override
-    public void fetchQuestions(int amount, String type, long lastUpdate){
-
+    public void fetchQuestion(int amount, String type, long lastUpdate) {
         long currentTime = System.currentTimeMillis();
 
         // It gets the news from the Web Service if the last download
         // of the news has been performed more than FRESH_TIMEOUT value ago
         if (currentTime - lastUpdate > FRESH_TIMEOUT) {
-            Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
-                    amount,
+            Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(amount,
                     type
             );
 
@@ -57,7 +56,7 @@ public class QuestionAPIRepository implements IQuestionRepository{
                     if (response.body() != null && response.isSuccessful() &&
                             response.body().getResponseCode() == 0) {
                         List<Question> questionList = response.body().getResults();
-                        //Question.filterQuestions(questionList);
+                        Question.filterQuestion(questionList);
                         saveDataInDatabase(questionList);
                     } else {
                         responseCallback.onFailure(application.getString(R.string.error_retrieving_news));
@@ -72,21 +71,19 @@ public class QuestionAPIRepository implements IQuestionRepository{
         } else {
             readDataFromDatabase(lastUpdate);
         }
+
     }
 
-
-    @Override
-    public void updateQuestions(Question question) {
+    public void updateQuestion(Question question) {
         QuestionRoomDatabase.databaseWriteExecutor.execute(() -> {
-            questionDAO.updateQuestion(question);
-            //TODO responseCallback.onNewsFavoriteStatusChanged(news);
+            questionDao.updateQuestion(question);
         });
     }
 
     private void saveDataInDatabase(List<Question> questionList) {
         QuestionRoomDatabase.databaseWriteExecutor.execute(() -> {
             // Reads the news from the database
-            List<Question> allQuestions = questionDAO.getAll();
+            List<Question> allQuestions = questionDao.getAll();
 
             // Checks if the news just downloaded has already been downloaded earlier
             // in order to preserve the news status (marked as favorite or not)
@@ -105,7 +102,7 @@ public class QuestionAPIRepository implements IQuestionRepository{
             }
 
             // Writes the news in the database and gets the associated primary keys
-            List<Long> insertedQuestionsIds = questionDAO.insertQuestionList(questionList);
+            List<Long> insertedQuestionsIds = questionDao.insertQuestionList(questionList);
             for (int i = 0; i < questionList.size(); i++) {
                 // Adds the primary key to the corresponding object News just downloaded so that
                 // if the user marks the news as favorite (and vice-versa), we can use its id
@@ -119,7 +116,7 @@ public class QuestionAPIRepository implements IQuestionRepository{
 
     private void readDataFromDatabase(long lastUpdate) {
         QuestionRoomDatabase.databaseWriteExecutor.execute(() -> {
-            responseCallback.onSuccess(questionDAO.getAll(), lastUpdate);
+            responseCallback.onSuccess(questionDao.getAll(), lastUpdate);
         });
     }
 }

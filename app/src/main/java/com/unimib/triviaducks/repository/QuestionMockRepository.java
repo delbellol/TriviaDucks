@@ -7,14 +7,13 @@ import com.unimib.triviaducks.database.QuestionDAO;
 import com.unimib.triviaducks.database.QuestionRoomDatabase;
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.QuestionAPIResponse;
+import com.unimib.triviaducks.service.ServiceLocator;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.JSONParserUtils;
 import com.unimib.triviaducks.util.ResponseCallback;
-import com.unimib.triviaducks.service.ServiceLocator;
 
 import java.io.IOException;
 import java.util.List;
-
 
 public class QuestionMockRepository implements IQuestionRepository{
     private final Application application;
@@ -27,16 +26,15 @@ public class QuestionMockRepository implements IQuestionRepository{
         this.questionDao = ServiceLocator.getInstance().getQuestionsDB(application).questionDao();
     }
 
-    @Override
-    public void fetchQuestions(int amount, String type, long lastUpdate) {
-        QuestionAPIResponse questionApiResponse = null;
+    public void fetchQuestion(int amount, String type, long lastUpdate) {
+        QuestionAPIResponse questionAPIResponse = null;
 
         JSONParserUtils jsonParserUtils = new JSONParserUtils(application.getApplicationContext());
 
         try {
-            questionApiResponse = jsonParserUtils.parseJSONFileWithGSon(Constants.SAMPLE_JSON_FILENAME);
-            if (questionApiResponse != null) {
-                saveDataInDatabase(questionApiResponse.getResults());
+            questionAPIResponse = jsonParserUtils.parseJSONFileWithGSon(Constants.SAMPLE_JSON_FILENAME);
+            if (questionAPIResponse != null) {
+                saveDataInDatabase(questionAPIResponse.getResults());
             } else {
                 responseCallback.onFailure(application.getString(R.string.error_retrieving_news));
             }
@@ -48,9 +46,10 @@ public class QuestionMockRepository implements IQuestionRepository{
     }
 
     @Override
-    public void updateQuestions(Question question) {
+    public void updateQuestion(Question question) {
 
     }
+
 
     private void saveDataInDatabase(List<Question> questionList) {
         QuestionRoomDatabase.databaseWriteExecutor.execute(() -> {
@@ -75,12 +74,12 @@ public class QuestionMockRepository implements IQuestionRepository{
             }
 
             // Writes the news in the database and gets the associated primary keys
-            List<Long> insertedQuestionsIds = questionDao.insertQuestionList(questionList);
+            List<Long> insertedNewsIds = questionDao.insertQuestionList(questionList);
             for (int i = 0; i < questionList.size(); i++) {
                 // Adds the primary key to the corresponding object News just downloaded so that
                 // if the user marks the news as favorite (and vice-versa), we can use its id
                 // to know which news in the database must be marked as favorite/not favorite
-                questionList.get(i).setUid(insertedQuestionsIds.get(i));
+                questionList.get(i).setUid(insertedNewsIds.get(i));
             }
 
             responseCallback.onSuccess(questionList, System.currentTimeMillis());

@@ -23,7 +23,7 @@ public interface QuestionDAO {
     void insertAll(List<Question> questions);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertQuestionList (List<Question> questionList);
+    List<Long> insertQuestionList(List<Question> questionList);
 
     @Update
     void updateQuestion(Question question);
