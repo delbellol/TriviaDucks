@@ -64,6 +64,7 @@ public class GameFragment extends Fragment implements ResponseCallback {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_game, container, false);
+
         /*
         // Find the views
         questionTextView = view.findViewById(R.id.question);
@@ -102,7 +103,6 @@ public class GameFragment extends Fragment implements ResponseCallback {
                     GameQuitFragment gameQuitDialog = new GameQuitFragment();
                     gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
                 }
-                //Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
         );
     }
 
