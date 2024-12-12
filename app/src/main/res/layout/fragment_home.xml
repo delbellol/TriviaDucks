@@ -55,6 +55,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/oneShot"
             app:layout_constraintWidth_percent="0.6" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressIndicator"
+        android:layout_width="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
 </LinearLayout>
