@@ -14,11 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.content.Intent;
+
+import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
 import com.unimib.triviaducks.ui.home.MainActivity;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.unimib.triviaducks.repository.IQuestionRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +31,9 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private Button oneShot;
     private Button trials;
-
+    // private RecyclerView recyclerView;
+    private CircularProgressIndicator circularProgressIndicator;
+    private IQuestionRepository questionRepository;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -41,13 +48,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*if(requireActivity().getResources().getBoolean(R.bool.debug_mode)){
+            questionRepository = new QuestionMockRepository();
+        } else{
+            questionRepository = new QuestionRepositoryAPI();
+        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //questionRepository.fetchQuestion();
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
 
     @Override
@@ -76,12 +92,18 @@ public class HomeFragment extends Fragment {
 
         oneShot = view.findViewById(R.id.oneShot);
         oneShot.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //sostituito con sotto
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
         });
 
         trials = view.findViewById(R.id.trials);
         trials.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //sostituito con sotto
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
         });
     }
 }

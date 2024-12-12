@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_theme_tertiaryContainer"
-    tools:context=".ui.game.QuestionActivity">
+    android:orientation="vertical"
+    android:layout_marginTop="30dp"
+    android:id="@+id/fragment_game_question"
+    tools:context=".ui.game.fragment.GameQuestionFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/marginTop"
