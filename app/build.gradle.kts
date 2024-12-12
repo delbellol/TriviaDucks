@@ -44,6 +44,8 @@ dependencies {
     implementation (libs.commons.validator)
     implementation (libs.jackson.databind)
     implementation (libs.jsoup)
+    implementation (libs.viewpager2)
+    implementation (libs.material)
     implementation (libs.google.gson)
     implementation(libs.room.runtime)
     implementation(libs.navigation.fragment)

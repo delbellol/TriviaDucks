@@ -7,15 +7,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
+import com.unimib.triviaducks.ui.home.MainActivity;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.repository.IQuestionRepository;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private Button oneShot;
@@ -59,6 +67,24 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        List<Integer> images = Arrays.asList(
+                R.drawable.category_all,
+                R.drawable.category_science,
+                R.drawable.category_geography,
+                R.drawable.category_history,
+                R.drawable.category_sports
+        );
+
+        ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
+        TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
+
+        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(images);
+        viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+
+        }).attach();
 
         NavController navController = Navigation.findNavController(view);
 
