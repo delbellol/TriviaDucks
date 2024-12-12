@@ -45,5 +45,5 @@
         android:id="@+id/questionActivity"
         android:name="com.unimib.triviaducks.ui.game.QuestionActivity"
         android:label="fragment_game_question"
-        tools:layout="@layout/fragment_game_question" />
+        tools:layout="@layout/fragment_game" />
 </navigation>

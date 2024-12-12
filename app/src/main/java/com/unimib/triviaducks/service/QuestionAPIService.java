@@ -17,3 +17,4 @@ public interface QuestionAPIService {
             @Query(TRIVIA_TYPE_PARAMETER) String type
     );
 }
+
