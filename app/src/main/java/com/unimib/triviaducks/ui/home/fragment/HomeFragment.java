@@ -14,9 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.content.Intent;
+
+import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
 import com.unimib.triviaducks.ui.home.MainActivity;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -90,12 +93,18 @@ public class HomeFragment extends Fragment {
 
         oneShot = view.findViewById(R.id.oneShot);
         oneShot.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //sostituito con sotto
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
         });
 
         trials = view.findViewById(R.id.trials);
         trials.setOnClickListener(v -> {
-            navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
+            //sostituito con sotto
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
         });
     }
 }

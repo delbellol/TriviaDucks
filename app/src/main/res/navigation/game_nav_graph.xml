@@ -15,15 +15,34 @@
         <action
             android:id="@+id/action_gameQuestionFragment_to_gameQuitFragment"
             app:destination="@id/gameQuitFragment" />
+        <action
+            android:id="@+id/action_gameQuestionFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
     <fragment
         android:id="@+id/gameOverFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameOverFragment"
         android:label="fragment_game_over"
-        tools:layout="@layout/fragment_game_over" />
+        tools:layout="@layout/fragment_game_over" >
+        <action
+            android:id="@+id/action_gameOverFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/gameQuitFragment"
         android:name="com.unimib.triviaducks.ui.game.fragment.GameQuitFragment"
         android:label="GameQuitFragment"
-        tools:layout="@layout/fragment_game_quit" />
+        tools:layout="@layout/fragment_game_quit" >
+        <action
+            android:id="@+id/action_gameQuitFragment_to_gameQuestionFragment"
+            app:destination="@id/gameQuestionFragment" />
+        <action
+            android:id="@+id/action_gameQuitFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.unimib.triviaducks.ui.home.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>
