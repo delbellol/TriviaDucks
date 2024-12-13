@@ -17,13 +17,13 @@
         >
 
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.game.QuestionActivity"
+            android:name=".ui.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

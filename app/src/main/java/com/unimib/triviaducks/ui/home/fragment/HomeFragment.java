@@ -70,19 +70,40 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Integer> images = Arrays.asList(
-                R.drawable.category_all,
-                R.drawable.category_science,
-                R.drawable.category_geography,
-                R.drawable.category_history,
-                R.drawable.category_sports
+        List<String> lottieAnimations = Arrays.asList(
+               // "category_all.json",
+                "category_science.json",
+                "category_geography.json",
+                "category_history.json",
+                "category_sports.json"
         );
 
         ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
         TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
 
-        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(images);
+        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(lottieAnimations);
         viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            // Imposta il titolo per ogni tab (se vuoi usare un nome per ogni categoria)
+            switch (position) {
+                case 0:
+                    tab.setText("All");
+                    break;
+                case 1:
+                    tab.setText("Science");
+                    break;
+                case 2:
+                    tab.setText("Geography");
+                    break;
+                case 3:
+                    tab.setText("History");
+                    break;
+                case 4:
+                    tab.setText("Sports");
+                    break;
+            }
+        }).attach();
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
 
