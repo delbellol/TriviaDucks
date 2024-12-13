@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:layout_marginTop="30dp"
     android:id="@+id/fragment_game_question"
-    tools:context=".ui.game.fragment.GameQuestionFragment">
+    tools:context=".ui.game.fragment.GameFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/marginTop"

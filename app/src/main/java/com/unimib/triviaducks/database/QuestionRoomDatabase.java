@@ -33,7 +33,7 @@ public abstract class QuestionRoomDatabase extends RoomDatabase {
             synchronized (QuestionRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    QuestionRoomDatabase.class, Constants.SAVED_ARTICLES_DATABASE)
+                                    QuestionRoomDatabase.class, Constants.SAVED_QUESTIONS_DATABASE)
                             .allowMainThreadQueries().build();
                 }
             }
