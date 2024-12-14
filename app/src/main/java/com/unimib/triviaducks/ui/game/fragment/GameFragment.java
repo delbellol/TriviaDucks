@@ -1,226 +1,219 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_FILENAME;
-import static com.unimib.triviaducks.util.Constants.SHARED_PREFERNECES_LAST_UPDATE;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.repository.IQuestionRepository;
-import com.unimib.triviaducks.repository.QuestionAPIRepository;
-import com.unimib.triviaducks.repository.QuestionMockRepository;
+import com.unimib.triviaducks.model.Result;
+import com.unimib.triviaducks.repository.QuestionRepository;
+import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModel;
+import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
-import com.unimib.triviaducks.util.ResponseCallback;
+import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
+
+import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameFragment extends Fragment implements ResponseCallback {
+public class GameFragment extends Fragment {
+    private static final String TAG = GameFragment.class.getSimpleName();
 
-    public static final String TAG = GameFragment.class.getName();
+    private int counter = 0;
 
-    private static final int viewedElements = 5;
-    private List<Question> questionList;
-    private IQuestionRepository questionRepository;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
-    private ImageButton closeImageButton;
+    private Question currentQuestion;
 
-    private TextView questionTextView;
-    private Button answer1Button, answer2Button, answer3Button, answer4Button;
+    private QuestionRepository questionRepository;
+    private List<Question> questionList;
+    private QuestionViewModel questionViewModel;
+    private CircularProgressIndicator circularProgressIndicator;
 
-    public GameFragment() {
-        // Required empty public constructor
-    }
+    private TextView questionTextView, counterTextView;
+    private Button answerButton1, answerButton2, answerButton3, answerButton4;
+
+    public GameFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //if (requireActivity().getResources().getBoolean(R.bool.debug_mode)) {
-            questionRepository = new QuestionMockRepository(requireActivity().getApplication(), this);
-        //} else {
-        //    questionRepository = new QuestionAPIRepository(requireActivity().getApplication(), this);
-        //}
+        QuestionRepository questionRepository =
+                ServiceLocator.getInstance().getQuestionsRepository(
+                        requireActivity().getApplication(),
+                        requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
+                );
+
+        if (questionRepository == null) {
+            Log.e(TAG, "QuestionRepository is null!");
+        } else {
+            questionViewModel = new ViewModelProvider(
+                    requireActivity(),
+                    new QuestionViewModelFactory(questionRepository)
+            ).get(QuestionViewModel.class);
+
+            if (questionViewModel == null) {
+                Log.e(TAG, "questionViewModel is null!");
+            }
+        }
+
+        questionList = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
-        /*
-        // Find the views
+        circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
+
+        counterTextView = view.findViewById(R.id.counter);
+
         questionTextView = view.findViewById(R.id.question);
-        answer1Button = view.findViewById(R.id.answer1);
-        answer2Button = view.findViewById(R.id.answer2);
-        answer3Button = view.findViewById(R.id.answer3);
-        answer4Button = view.findViewById(R.id.answer4);
+        answerButton1 = view.findViewById(R.id.answer1);
+        answerButton2 = view.findViewById(R.id.answer2);
+        answerButton3 = view.findViewById(R.id.answer3);
+        answerButton4 = view.findViewById(R.id.answer4);
 
-        questionList = new ArrayList<>();
-        for (int i = 0; i < viewedElements; i++) {
-            questionList.add(Question.getSampleQuestion());
+        View.OnClickListener answerClickListener = v -> {
+            Button clickedButton = (Button) v;
+            checkAnswer(clickedButton.getText().toString(), view);
+        };
+
+        answerButton1.setOnClickListener(answerClickListener);
+        answerButton2.setOnClickListener(answerClickListener);
+        answerButton3.setOnClickListener(answerClickListener);
+        answerButton4.setOnClickListener(answerClickListener);
+
+        if (questionViewModel != null && questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()) != null) {
+            questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()).observe(getViewLifecycleOwner(),
+                    result -> {
+                        if (result.isSuccess()) {
+                            questionList.clear();
+                            questionList.addAll(((Result.Success) result).getData().getQuestions());
+
+                            circularProgressIndicator.setVisibility(View.GONE);
+
+                            loadNextQuestion();
+                        } else {
+                            Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            if (questionViewModel == null){
+                Log.e(TAG, "ViewModel is null!");
+            }
+            if (questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()) == null){
+                Log.e(TAG, "LiveData is null!");
+            }
         }
 
-        // Display the first question
-        displayQuestion(questionList.get(0));
-
-        String lastUpdate = "0";
-        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
-        if (sharedPreferencesUtils.readStringData(
-                Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERNECES_LAST_UPDATE) != null) {
-            lastUpdate = sharedPreferencesUtils.readStringData(
-                    Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERNECES_LAST_UPDATE);
-        }
-
-        // Fetch questions from repository
-        questionRepository.fetchQuestion(Constants.TRIVIA_AMOUNT_VALUE, Constants.TRIVIA_TYPE_VALUE, Long.parseLong(lastUpdate));
-*/
         return view;
     }
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void checkAnswer(String selectedAnswer, View view) {
+        if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
+            Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
 
-        closeImageButton = view.findViewById(R.id.close_game);
-        closeImageButton.setOnClickListener(v -> {
-                    GameQuitFragment gameQuitDialog = new GameQuitFragment();
-                    gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
-                }
-        );
-    }
-
-    private void displayQuestion(Question question) {
-        questionTextView.setText(question.getQuestion());
-        List<String> answers = new ArrayList<>(question.getIncorrectAnswers());
-        answers.add(question.getCorrectAnswer());
-        Collections.shuffle(answers);  // Shuffle answers to randomize the order
-
-        // Set answers to buttons
-        answer1Button.setText(answers.get(0));
-        answer2Button.setText(answers.get(1));
-        answer3Button.setText(answers.get(2));
-        answer4Button.setText(answers.get(3));
-
-        // Add click listeners to check the selected answer
-        answer1Button.setOnClickListener(v -> checkAnswer(answers.get(0), question.getCorrectAnswer()));
-        answer2Button.setOnClickListener(v -> checkAnswer(answers.get(1), question.getCorrectAnswer()));
-        answer3Button.setOnClickListener(v -> checkAnswer(answers.get(2), question.getCorrectAnswer()));
-        answer4Button.setOnClickListener(v -> checkAnswer(answers.get(3), question.getCorrectAnswer()));
-    }
-
-    private void checkAnswer(String selectedAnswer, String correctAnswer) {
-        if (selectedAnswer.equals(correctAnswer)) {
-            Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                    "Correct!", Snackbar.LENGTH_SHORT).show();
+            // Passa alla prossima domanda
+            counter++;
+            if (counter < questionList.size()) {
+                loadNextQuestion();
+            } else {
+                // Fine delle domande
+                Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
+            }
         } else {
-            Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                    "Incorrect!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void onSuccess(List<Question> questionList, long lastUpdate) {
-        sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERNECES_LAST_UPDATE,
-                String.valueOf(lastUpdate));
-        this.questionList.clear();
-        this.questionList.addAll(questionList);
+    private void loadNextQuestion() {
+        currentQuestion = questionList.get(counter);
 
-        // Display the first question after fetching
-        displayQuestion(questionList.get(0));
+        Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
+        Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
+
+        List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
+        allAnswers.add(currentQuestion.getCorrectAnswer());
+        Collections.shuffle(allAnswers);
+
+        counterTextView.setText(String.format(" %d", counter + 1));
+
+
+        questionTextView.setText(Jsoup.parse(currentQuestion.getQuestion()).text());
+
+        answerButton1.setText(Jsoup.parse(allAnswers.get(0)).text());
+        answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
+        answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
+        answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
     }
-
-    @Override
-    public void onFailure(String errorMessage) {
-        Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                errorMessage, Snackbar.LENGTH_LONG).show();
-    }
-
-
-    /*
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        gameViewModel = new GameController(); //Aggiunto getContext perché serve per JSONParserUtils
-
-
-        questionTextView = view.findViewById(R.id.question);
-        counterTextView = view.findViewById(R.id.counter);
-        countdownTextView = view.findViewById(R.id.countdown);
-
-        answer1Button = view.findViewById(R.id.answer1);
-        answer2Button = view.findViewById(R.id.answer2);
-        answer3Button = view.findViewById(R.id.answer3);
-        answer4Button = view.findViewById(R.id.answer4);
-
-        //chiudere la partita quando premi bottone
-        ImageButton closeImageButton = view.findViewById(R.id.close_game);
-        closeImageButton.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_gameQuestionFragment_to_gameQuitFragment)
-        );
-
-        //Richiamo metodi per ottenere messaggi da visualizzare
-        gameViewModel.questionCounter.observe(getViewLifecycleOwner(), counter -> {
-            counterTextView.setText(counter);
-        });
-
-        gameViewModel.currentQuestion.observe(getViewLifecycleOwner(), question -> {
-            //implementando jsoup decodifico i caratteri speciali, come ad esempio ", nel testo
-            //della domanda
-            questionTextView.setText(Jsoup.parse(question).text());
-        });
-
-        gameViewModel.currentAnswers.observe(getViewLifecycleOwner(), answers -> {
-            List<Button> buttons = Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button);
-            Collections.shuffle(buttons);
-
-            for (int i = 0; i < buttons.size(); i++) {
-                Button button = buttons.get(i);
-                String answer = answers.get(i);
-
-                //implementando jsoup decodifico i caratteri speciali nel testo delle risposte
-                button.setText(Jsoup.parse(answer).text());
-                button.setOnClickListener(v -> gameViewModel.isCorrectAnswer(answer));
-            }
-        });
-
-        gameViewModel.secondsRemaining.observe(getViewLifecycleOwner(), seconds -> {
-            countdownTextView.setText(String.valueOf(seconds));
-        });
-
-        gameViewModel.gameOver.observe(getViewLifecycleOwner(), isGameOver -> {
-            if (isGameOver) {
-                // Mostra dialog di game over
-                //lo mostra come fragmennt
-                //Navigation.findNavController(getActivity(), R.id.main_content).navigate(R.id.action_gameQuestionFragment_to_gameOverFragment);
-                //lo mostra come dialog
-                GameOverFragment gameOverDialog = new GameOverFragment();
-                gameOverDialog.show(getParentFragmentManager(), "gameOverDialog"); //changed getFragmentManager (deprecated) with getParentFragmentManager
-            }
-        });
-
-        gameViewModel.quizDataTest();
-
-
-    }
-
-     */
 }
+
+
+
+/*
+
+questionTextView = view.findViewById(R.id.question);
+        button1 = view.findViewById(R.id.answer1);
+        button2 = view.findViewById(R.id.answer2);
+        button3 = view.findViewById(R.id.answer3);
+        button4 = view.findViewById(R.id.answer4);
+
+        // Visualizza la domanda
+        TextView questionTextView = view.findViewById(R.id.question);
+        questionTextView.setText(currentQuestion.getQuestion());
+
+        // Recupera le risposte corrette e sbagliate
+        List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
+        allAnswers.add(currentQuestion.getCorrectAnswer()); // Aggiungi la risposta corretta
+
+        // Mescola le risposte (facoltativo, per randomizzarle)
+        Collections.shuffle(allAnswers);
+
+        // Visualizza le risposte
+        ((TextView) view.findViewById(R.id.answer1)).setText(allAnswers.get(0));
+        ((TextView) view.findViewById(R.id.answer2)).setText(allAnswers.get(1));
+        ((TextView) view.findViewById(R.id.answer3)).setText(allAnswers.get(2));
+        ((TextView) view.findViewById(R.id.answer4)).setText(allAnswers.get(3));
+
+
+
+
+if (currentQuestion != null) {
+
+            // Visualizza la domanda
+            TextView questionTextView = view.findViewById(R.id.question);
+            questionTextView.setText(currentQuestion.getQuestion());
+
+            // Recupera le risposte corrette e sbagliate
+            List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
+            allAnswers.add(currentQuestion.getCorrectAnswer()); // Aggiungi la risposta corretta
+
+            // Mescola le risposte (facoltativo, per randomizzarle)
+            Collections.shuffle(allAnswers);
+
+            // Visualizza le risposte
+            ((TextView) view.findViewById(R.id.answer1)).setText(allAnswers.get(0));
+            ((TextView) view.findViewById(R.id.answer2)).setText(allAnswers.get(1));
+            ((TextView) view.findViewById(R.id.answer3)).setText(allAnswers.get(2));
+            ((TextView) view.findViewById(R.id.answer4)).setText(allAnswers.get(3));
+        }
+
+ */

@@ -56,7 +56,7 @@ public class Constants {
     public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
 
     public static final int DATABASE_VERSION = 1;
-    public static final String SAVED_ARTICLES_DATABASE = "saved_db";
+    public static final String SAVED_QUESTIONS_DATABASE = "saved_db";
 
     public static final int timerTime = 30999;
     public static final int countDownInterval = 1000;
@@ -71,7 +71,15 @@ public class Constants {
     public static final String TRIVIA_TYPE_VALUE = "multiple";
 
     public static final String SHARED_PREFERENCES_FILENAME = "com.unimib.triviaducks.preferences";
-    public static final String SHARED_PREFERNECES_LAST_UPDATE = "last_update";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE = "last_update";
 
     public static final String REMOVED_QUESTION = "[Removed]";
+
+    public static final String RETROFIT_ERROR = "retrofit_error";
+    public static final String UNEXPECTED_ERROR = "unexpected_error";
+
+    public static final String BUNDLE_KEY_CURRENT_ARTICLE = "current_question";
+
+
+    public static final String SHARED_PREFERNECES_LAST_UPDATE = "last_update";
 }

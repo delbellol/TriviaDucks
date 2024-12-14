@@ -16,6 +16,9 @@ public interface QuestionDAO {
     @Query("SELECT * FROM Question")
     List<Question> getAll();
 
+    @Query("SELECT * FROM Question WHERE uid = :id")
+    Question getQuestion(long id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Question... questions);
 
@@ -26,7 +29,7 @@ public interface QuestionDAO {
     List<Long> insertQuestionList(List<Question> questionList);
 
     @Update
-    void updateQuestion(Question question);
+    int updateQuestion(Question question);
 
     @Delete
     void delete(Question question);
