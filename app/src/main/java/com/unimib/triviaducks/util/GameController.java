@@ -4,8 +4,6 @@ import static com.unimib.triviaducks.util.Constants.countDownInterval;
 import static com.unimib.triviaducks.util.Constants.timerTime;
 
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -99,11 +97,11 @@ public class GameController extends ViewModel {
     //TODO cambiare con il gameover fatto bene
     //metodo che controlla se la risposta è corretta
     public void isCorrectAnswer (String currentAnswer) {
-        String correctAnswer = questionAPIResponse.getResults().get(counter - 1).getCorrectAnswer();
+        String correctAnswer = questionAPIResponse.getQuestions().get(counter - 1).getCorrectAnswer();
         if (questionAPIResponse == null) {
             Log.d("GameViewModel", "Errore quizData è uguale a null");
         }
-        else if (counter >= questionAPIResponse.getResults().size()-1) {
+        else if (counter >= questionAPIResponse.getQuestions().size()-1) {
             endGame();
         }
         else if (currentAnswer.equals(correctAnswer)){
@@ -118,7 +116,7 @@ public class GameController extends ViewModel {
     //metodo che si occupa di vedere se la risposta è corretta e di andare avanti o
     //dare il gameover
     private void loadNewQuestion () {
-        currentResult = questionAPIResponse.getResults().get(counter);
+        currentResult = questionAPIResponse.getQuestions().get(counter);
 
         List<String> answers = new ArrayList<>();
         answers.add(currentResult.getCorrectAnswer());

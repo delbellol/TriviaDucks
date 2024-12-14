@@ -74,4 +74,9 @@ public class Constants {
     public static final String SHARED_PREFERENCES_LAST_UPDATE = "last_update";
 
     public static final String REMOVED_QUESTION = "[Removed]";
+
+    public static final String RETROFIT_ERROR = "retrofit_error";
+    public static final String UNEXPECTED_ERROR = "unexpected_error";
+
+    public static final String BUNDLE_KEY_CURRENT_ARTICLE = "current_question";
 }

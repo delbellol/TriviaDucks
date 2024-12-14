@@ -14,16 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import android.content.Intent;
-
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
-import com.unimib.triviaducks.ui.home.MainActivity;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.unimib.triviaducks.repository.IQuestionRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,9 +26,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private Button oneShot;
     private Button trials;
-    // private RecyclerView recyclerView;
-    private CircularProgressIndicator circularProgressIndicator;
-    private IQuestionRepository questionRepository;
+
     public HomeFragment() {
         // Required empty public constructor
     }

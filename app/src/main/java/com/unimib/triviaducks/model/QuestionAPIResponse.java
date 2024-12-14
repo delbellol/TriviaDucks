@@ -1,7 +1,5 @@
 package com.unimib.triviaducks.model;
 
-import androidx.annotation.NonNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -11,6 +9,13 @@ public class QuestionAPIResponse {
     private int responseCode;
     private List<Question> results;
 
+    public QuestionAPIResponse() {
+    }
+
+    public QuestionAPIResponse(List<Question> results) {
+        this.results = results;
+    }
+
     public int getResponseCode() {
         return responseCode;
     }
@@ -18,22 +23,12 @@ public class QuestionAPIResponse {
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
-    public List<Question> getResults() {
+
+    public List<Question> getQuestions() {
         return results;
     }
 
-    public void setResults(List<Question> results) {
+    public void setQuestions(List<Question> results) {
         this.results = results;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        //TODO rename this string
-        String AAA = "";
-        for (int i=0; i<results.size(); i++) {
-            AAA+= results.get(i).toString()+"\n";
-        }
-        return AAA;
     }
 }
