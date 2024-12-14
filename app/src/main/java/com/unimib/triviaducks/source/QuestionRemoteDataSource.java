@@ -5,17 +5,24 @@ import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_VALUE;
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.service.QuestionAPIService;
+import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.util.ServiceLocator;
+
+import org.jsoup.Jsoup;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource{
+    private static final String TAG = QuestionRemoteDataSource.class.getSimpleName();
+
     private final QuestionAPIService questionAPIService;
 
     public QuestionRemoteDataSource() {
@@ -24,18 +31,17 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource{
 
     @Override
     public void getQuestions() {
-        Call<QuestionAPIResponse> newsResponseCall = questionAPIService.getQuestions(TRIVIA_AMOUNT_VALUE,
+        Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(TRIVIA_AMOUNT_VALUE,
                 TRIVIA_TYPE_VALUE);
 
-        newsResponseCall.enqueue(new Callback<QuestionAPIResponse>() {
+        questionResponseCall.enqueue(new Callback<QuestionAPIResponse>() {
             @Override
             public void onResponse(@NonNull Call<QuestionAPIResponse> call,
                                    @NonNull Response<QuestionAPIResponse> response) {
-
                 if (response.body() != null && response.isSuccessful() &&
                         response.body().getResponseCode() == 0) {
+                    //Log.d(TAG, "Questions: " + Jsoup.parse(response.body().getQuestions().toString()).text());
                     questionCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
-
                 } else {
                     //TODO Cambiare tipo di errore
                     questionCallback.onFailureFromRemote(new Exception(UNEXPECTED_ERROR));

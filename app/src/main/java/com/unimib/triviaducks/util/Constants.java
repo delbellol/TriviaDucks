@@ -79,4 +79,7 @@ public class Constants {
     public static final String UNEXPECTED_ERROR = "unexpected_error";
 
     public static final String BUNDLE_KEY_CURRENT_ARTICLE = "current_question";
+
+
+    public static final String SHARED_PREFERNECES_LAST_UPDATE = "last_update";
 }

@@ -147,6 +147,9 @@ public class GameFragment extends Fragment {
     private void loadNextQuestion() {
         currentQuestion = questionList.get(counter);
 
+        Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
+        Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
+
         List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
         allAnswers.add(currentQuestion.getCorrectAnswer());
         Collections.shuffle(allAnswers);

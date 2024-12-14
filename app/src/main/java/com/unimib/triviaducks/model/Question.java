@@ -98,6 +98,14 @@ public class Question implements Parcelable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionText='" + question + '\'' +
+                ", correctAnswer='" + correctAnswer +
+                "}";
+    }
+
     /*
      * Used to fill the shimmer list
      */

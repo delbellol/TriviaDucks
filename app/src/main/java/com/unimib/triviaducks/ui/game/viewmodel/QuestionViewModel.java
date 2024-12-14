@@ -12,23 +12,24 @@ public class QuestionViewModel extends ViewModel {
     private static final String TAG = QuestionViewModel.class.getSimpleName();
 
     private final QuestionRepository questionRepository;
-    private MutableLiveData<Result> questionsListLiveData;
+    private MutableLiveData<Result> questionListLiveData;
 
     public QuestionViewModel(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
     public MutableLiveData<Result> getQuestions(int amount, String type, long lastUpdate) {
-        if (questionsListLiveData == null)
+        if (questionListLiveData == null) {
             fetchQuestions(amount, type, lastUpdate);
-        return questionsListLiveData;
+        }
+        return questionListLiveData;
     }
 
     private void fetchQuestions(int amount, String type, long lastUpdate) {
-        questionsListLiveData = questionRepository.fetchQuestions(amount, type, lastUpdate);
+        questionListLiveData = questionRepository.fetchQuestions(amount, type, lastUpdate);
     }
 
     private void getQuestions() {
-        questionsListLiveData = questionRepository.getQuestions();
+        questionListLiveData = questionRepository.getQuestions();
     }
 }

@@ -95,8 +95,6 @@ public class ServiceLocator {
 
         questionLocalDataSource = new QuestionLocalDataSource(getQuestionsDB(application), sharedPreferencesUtil);
 
-        Log.d(TAG, questionRemoteDataSource+" "+ questionLocalDataSource);
-
         return new QuestionRepository(questionRemoteDataSource, questionLocalDataSource);
     }
 }

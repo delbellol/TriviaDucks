@@ -34,14 +34,16 @@ public class QuestionRepository implements QuestionCallback {
 
     public MutableLiveData<Result> fetchQuestions(int amount, String type, long lastUpdate) {
         long currentTime = System.currentTimeMillis();
-
         // It gets the news from the Web Service if the last download
         // of the news has been performed more than FRESH_TIMEOUT value ago
-        if (currentTime - lastUpdate > FRESH_TIMEOUT) {
+
+        //TODO sistemare if
+        //Log.d(TAG, String.valueOf((currentTime - lastUpdate > FRESH_TIMEOUT)));
+        //if (currentTime - lastUpdate > FRESH_TIMEOUT) {
             questionRemoteDataSource.getQuestions();
-        } else {
-            questionLocalDataSource.getQuestions();
-        }
+        //} else {
+        //    questionLocalDataSource.getQuestions();
+        //}
 
         return allQuestionsMutableLiveData;
     }
