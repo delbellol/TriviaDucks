@@ -38,9 +38,9 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource{
             @Override
             public void onResponse(@NonNull Call<QuestionAPIResponse> call,
                                    @NonNull Response<QuestionAPIResponse> response) {
-                if (response.body() != null && response.isSuccessful() &&
+                if (response.body() != null &&
+                        response.isSuccessful() &&
                         response.body().getResponseCode() == 0) {
-                    //Log.d(TAG, "Questions: " + Jsoup.parse(response.body().getQuestions().toString()).text());
                     questionCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
                 } else {
                     //TODO Cambiare tipo di errore

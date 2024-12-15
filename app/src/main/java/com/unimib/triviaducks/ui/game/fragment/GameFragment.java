@@ -1,15 +1,19 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
 
+import static java.lang.String.*;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,6 +25,7 @@ import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.QuestionRepository;
 import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModel;
 import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModelFactory;
+import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
@@ -43,10 +48,13 @@ public class GameFragment extends Fragment {
     private QuestionRepository questionRepository;
     private List<Question> questionList;
     private QuestionViewModel questionViewModel;
+
     private CircularProgressIndicator circularProgressIndicator;
+    private ConstraintLayout gameLayout;
 
     private TextView questionTextView, counterTextView;
     private Button answerButton1, answerButton2, answerButton3, answerButton4;
+    private ImageButton closeImageButton;
 
     public GameFragment() { }
 
@@ -82,14 +90,23 @@ public class GameFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
         circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
+        gameLayout = view.findViewById(R.id.gameLayout);
+
+        closeImageButton = view.findViewById(R.id.close_game);
 
         counterTextView = view.findViewById(R.id.counter);
 
         questionTextView = view.findViewById(R.id.question);
+
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
         answerButton4 = view.findViewById(R.id.answer4);
+
+        closeImageButton.setOnClickListener(v -> {
+            GameQuitFragment gameQuitDialog = new GameQuitFragment();
+            gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+        });
 
         View.OnClickListener answerClickListener = v -> {
             Button clickedButton = (Button) v;
@@ -101,28 +118,21 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        if (questionViewModel != null && questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()) != null) {
-            questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()).observe(getViewLifecycleOwner(),
-                    result -> {
-                        if (result.isSuccess()) {
-                            questionList.clear();
-                            questionList.addAll(((Result.Success) result).getData().getQuestions());
 
-                            circularProgressIndicator.setVisibility(View.GONE);
+        questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()).observe(getViewLifecycleOwner(),
+                result -> {
+                    if (result.isSuccess()) {
+                        questionList.clear();
+                        questionList.addAll(((Result.Success) result).getData().getQuestions());
 
-                            loadNextQuestion();
-                        } else {
-                            Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            if (questionViewModel == null){
-                Log.e(TAG, "ViewModel is null!");
-            }
-            if (questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()) == null){
-                Log.e(TAG, "LiveData is null!");
-            }
-        }
+                        circularProgressIndicator.setVisibility(View.GONE);
+                        gameLayout.setVisibility(View.VISIBLE);
+
+                        loadNextQuestion();
+                    } else {
+                        Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
 
         return view;
     }
@@ -154,7 +164,7 @@ public class GameFragment extends Fragment {
         allAnswers.add(currentQuestion.getCorrectAnswer());
         Collections.shuffle(allAnswers);
 
-        counterTextView.setText(String.format(" %d", counter + 1));
+        counterTextView.setText(format("Domanda N. %d", counter + 1));
 
 
         questionTextView.setText(Jsoup.parse(currentQuestion.getQuestion()).text());
@@ -165,55 +175,3 @@ public class GameFragment extends Fragment {
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
     }
 }
-
-
-
-/*
-
-questionTextView = view.findViewById(R.id.question);
-        button1 = view.findViewById(R.id.answer1);
-        button2 = view.findViewById(R.id.answer2);
-        button3 = view.findViewById(R.id.answer3);
-        button4 = view.findViewById(R.id.answer4);
-
-        // Visualizza la domanda
-        TextView questionTextView = view.findViewById(R.id.question);
-        questionTextView.setText(currentQuestion.getQuestion());
-
-        // Recupera le risposte corrette e sbagliate
-        List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-        allAnswers.add(currentQuestion.getCorrectAnswer()); // Aggiungi la risposta corretta
-
-        // Mescola le risposte (facoltativo, per randomizzarle)
-        Collections.shuffle(allAnswers);
-
-        // Visualizza le risposte
-        ((TextView) view.findViewById(R.id.answer1)).setText(allAnswers.get(0));
-        ((TextView) view.findViewById(R.id.answer2)).setText(allAnswers.get(1));
-        ((TextView) view.findViewById(R.id.answer3)).setText(allAnswers.get(2));
-        ((TextView) view.findViewById(R.id.answer4)).setText(allAnswers.get(3));
-
-
-
-
-if (currentQuestion != null) {
-
-            // Visualizza la domanda
-            TextView questionTextView = view.findViewById(R.id.question);
-            questionTextView.setText(currentQuestion.getQuestion());
-
-            // Recupera le risposte corrette e sbagliate
-            List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-            allAnswers.add(currentQuestion.getCorrectAnswer()); // Aggiungi la risposta corretta
-
-            // Mescola le risposte (facoltativo, per randomizzarle)
-            Collections.shuffle(allAnswers);
-
-            // Visualizza le risposte
-            ((TextView) view.findViewById(R.id.answer1)).setText(allAnswers.get(0));
-            ((TextView) view.findViewById(R.id.answer2)).setText(allAnswers.get(1));
-            ((TextView) view.findViewById(R.id.answer3)).setText(allAnswers.get(2));
-            ((TextView) view.findViewById(R.id.answer4)).setText(allAnswers.get(3));
-        }
-
- */

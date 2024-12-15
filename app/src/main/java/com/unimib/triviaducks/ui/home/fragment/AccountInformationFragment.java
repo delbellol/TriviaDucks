@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -26,7 +27,7 @@ import com.unimib.triviaducks.ui.home.MainActivity;
 public class AccountInformationFragment extends Fragment {
     private ImageButton importImageButton; //pulsante importa immagine dalla galleria
     private ImageButton changePfPBtn; //pulsante per cambiare immagine di profilo
-    private LinearLayout defaultImagesGallery; //layout contenente la scrollbar delle immagini di default
+    private CardView defaultImagesGallery; //layout contenente la scrollbar delle immagini di default
     private ImageView profileImageView;
 
     public AccountInformationFragment() {
@@ -82,7 +83,6 @@ public class AccountInformationFragment extends Fragment {
         defaultImagesGallery = view.findViewById(R.id.DefaultImagesGallery);
         changePfPBtn = view.findViewById(R.id.ChangePfPBtn);
 
-        defaultImagesGallery.setVisibility(View.GONE); //imposta di base la visibilità della barra di scelta dell'immagine di profilo a "GONE"
 
         changePfPBtn.setOnClickListener(new View.OnClickListener() {
             @Override

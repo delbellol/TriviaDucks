@@ -38,6 +38,7 @@ public class QuestionRepository implements QuestionCallback {
         // of the news has been performed more than FRESH_TIMEOUT value ago
 
         //TODO sistemare if
+        //TODO aggiungere passaggio parametri e quindi anche nelle prossime classi
         //Log.d(TAG, String.valueOf((currentTime - lastUpdate > FRESH_TIMEOUT)));
         //if (currentTime - lastUpdate > FRESH_TIMEOUT) {
             questionRemoteDataSource.getQuestions();
