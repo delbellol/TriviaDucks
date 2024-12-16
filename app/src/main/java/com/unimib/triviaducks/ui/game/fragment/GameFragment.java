@@ -154,7 +154,7 @@ public class GameFragment extends Fragment {
             }
         } else {
             Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
-            GameOverFragment gameOverDialog = new GameOverFragment();
+            GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.wrong_answer));
             gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
         }
     }
@@ -184,7 +184,7 @@ public class GameFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Fa in modo che schiacciando indietro anziché
+        //Fa in modo che schiacciando indietro anzichÃ©
         //chiudere brutalmente mostri il gameQuitDialog
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
