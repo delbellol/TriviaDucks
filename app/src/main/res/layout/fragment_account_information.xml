@@ -15,8 +15,7 @@
         android:visibility="gone"
         android:layout_gravity="center"
         app:cardCornerRadius="30dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/material_dynamic_primary90">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:text="Choose or Upload a new image:"
                 android:gravity="center"
-                android:textColor="@color/material_dynamic_neutral40"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginBottom="15dp" />
