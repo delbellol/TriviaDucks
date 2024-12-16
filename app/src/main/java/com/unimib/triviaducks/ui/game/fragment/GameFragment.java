@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -151,6 +154,8 @@ public class GameFragment extends Fragment {
             }
         } else {
             Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
+            GameOverFragment gameOverDialog = new GameOverFragment();
+            gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
         }
     }
 
@@ -173,5 +178,22 @@ public class GameFragment extends Fragment {
         answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //Fa in modo che schiacciando indietro anziché
+        //chiudere brutalmente mostri il gameQuitDialog
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // Mostra il DialogFragment di conferma
+                        GameQuitFragment gameQuitDialog = new GameQuitFragment();
+                        gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+                    }
+                });
     }
 }
