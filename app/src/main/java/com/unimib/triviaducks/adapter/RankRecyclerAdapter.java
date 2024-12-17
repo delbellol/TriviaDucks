@@ -17,12 +17,14 @@ import java.util.List;
 public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapter.ViewHolder> {
     private List<Rank> rankList;
 
+    // La classe ViewHolder contiene la vista per ogni elemento in RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView positionText;
         private final ImageView profileImage;
         private final TextView nameText;
         private final TextView scoreText;
 
+        // Inizializza tutti i campi della vista
         public ViewHolder(@NonNull View view) {
             super(view);
             this.positionText = view.findViewById(R.id.rank_position);
@@ -31,6 +33,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
             this.scoreText = view.findViewById(R.id.rank_score);
         }
 
+        // metodi get
         public TextView getPositionText() {
             return positionText;
         }
@@ -48,6 +51,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         }
     }
 
+    // Costruttore per l'adapter
     public RankRecyclerAdapter(List<Rank> rankList) {
         this.rankList = rankList;
     }
@@ -70,6 +74,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         viewHolder.getScoreText().setText(String.valueOf(currentRankItem.getScore()));
     }
 
+    // Ritorna il numero di elementi contenuti nella RecyclerView
     @Override
     public int getItemCount() {
         return rankList.size();

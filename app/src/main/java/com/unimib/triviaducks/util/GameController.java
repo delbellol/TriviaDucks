@@ -1,7 +1,7 @@
 package com.unimib.triviaducks.util;
 
-import static com.unimib.triviaducks.util.Constants.countDownInterval;
-import static com.unimib.triviaducks.util.Constants.timerTime;
+import static com.unimib.triviaducks.util.Constants.COUNTDOWN_INTERVAL;
+import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -131,7 +131,7 @@ public class GameController extends ViewModel {
         mutableCurrentQuestion.postValue(currentResult.getQuestion());
         mutableCurrentAnswers.postValue(answers);
 
-        startCountdown(timerTime);
+        startCountdown(TIMER_TIME);
 
         counter++;
     }
@@ -155,10 +155,10 @@ public class GameController extends ViewModel {
             timer = null;
         }
 
-        timer = new CountDownTimer(duration, countDownInterval) {
+        timer = new CountDownTimer(duration, COUNTDOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
+                mutableSecondsRemaining.postValue(millisUntilFinished / COUNTDOWN_INTERVAL);
             }
 
             @Override
