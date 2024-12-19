@@ -37,6 +37,7 @@ import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
+import com.unimib.triviaducks.util.TimerUtils;
 
 import org.jsoup.Jsoup;
 
@@ -72,6 +73,7 @@ public class GameFragment extends Fragment {
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
 
     private CountDownTimer timer;
+    private TimerUtils t;
 
     public GameFragment() {
     }
@@ -100,6 +102,7 @@ public class GameFragment extends Fragment {
         }
 
         questionList = new ArrayList<>();
+        t = new TimerUtils(this,this.getContext(),mutableSecondsRemaining);
     }
 
     @Override
@@ -202,7 +205,9 @@ public class GameFragment extends Fragment {
         answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
-        startCountdown(timerTime);
+
+
+        t.startCountdown(timerTime);
 
         counter++;
     }
@@ -223,32 +228,4 @@ public class GameFragment extends Fragment {
                     }
                 });
     }
-
-    //TODO sistemare nomi e sistemarlo
-    //metodo countdown
-    private void startCountdown(long duration) {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-
-        timer = new CountDownTimer(duration, countDownInterval) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
-                Log.d("Timer",""+millisUntilFinished / countDownInterval);
-            }
-
-            @Override
-            public void onFinish() {
-                endTimer();
-            }
-        }.start();
-    }
-
-    private void endTimer() {
-        GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.time_expired));
-        gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
-    }
-
 }
