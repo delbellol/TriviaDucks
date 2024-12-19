@@ -14,10 +14,16 @@ import java.util.List;
 
 public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRecyclerAdapter.ViewHolder> {
 
-    private List<String> lottieFiles;
+    private final List<Integer> lottieFiles;
+
+    public CategoriesRecyclerAdapter(List<Integer> lottieFiles) {
+        this.lottieFiles = lottieFiles;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final LottieAnimationView lottieAnimationView;
+
+
 
         public ViewHolder(@NonNull View view) {
             super(view);
@@ -29,9 +35,6 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
         }
     }
 
-    public CategoriesRecyclerAdapter(List<String> lottieFiles) {
-        this.lottieFiles = lottieFiles;
-    }
 
     @NonNull
     @Override

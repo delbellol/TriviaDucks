@@ -32,21 +32,6 @@
             app:layout_constraintWidth_percent="1"
             app:srcCompat="@drawable/title" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/default_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/marginTop"
-            app:layout_constraintBottom_toTopOf="@+id/categoryViewPager"
-            app:layout_constraintHeight_percent="0.25"
-            app:layout_constraintWidth_percent="1"
-            app:lottie_fileName="category_history.json"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true" />
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/categoryViewPager"
             android:layout_width="0dp"
