@@ -8,10 +8,18 @@
     android:orientation="vertical"
     android:layout_marginTop="30dp"
     tools:context=".ui.home.fragment.SettingsFragment">
-    <TextView
-        android:id="@+id/monete"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationTool"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:text="@string/settings" />
+        android:layout_height="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/marginTop"
+        app:layout_constraintBottom_toTopOf="@+id/rankTitle"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintWidth_percent="1"
+        android:contentDescription="@string/default_title"
+        app:lottie_rawRes="@raw/settings"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 </LinearLayout>

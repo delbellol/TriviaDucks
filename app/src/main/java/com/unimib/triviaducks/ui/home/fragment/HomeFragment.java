@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         List<Integer> lottieAnimations = Arrays.asList(
-                R.raw.category_history,
+                R.raw.category_all,
                 R.raw.category_science,
                 R.raw.category_geography,
                 R.raw.category_history,

@@ -12,12 +12,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/rankImageView"
+        app:layout_constraintBottom_toTopOf="@+id/lottieAnimationFirstPlace"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="1" />
 
-    <ImageView
-        android:id="@+id/rankImageView"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationFirstPlace"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,10 @@
         app:layout_constraintBottom_toTopOf="@+id/rankTitle"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintWidth_percent="1"
-        app:srcCompat="@drawable/title" />
+        android:contentDescription="@string/default_title"
+        app:lottie_rawRes="@raw/first_place"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/rankTitle"
@@ -37,7 +40,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/rankImageView"
+        app:layout_constraintTop_toBottomOf="@id/lottieAnimationFirstPlace"
         app:layout_constraintBottom_toTopOf="@id/rankList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
