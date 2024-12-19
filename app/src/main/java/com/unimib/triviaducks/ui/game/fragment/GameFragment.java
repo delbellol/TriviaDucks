@@ -164,6 +164,13 @@ public class GameFragment extends Fragment {
             }
         });
 
+        mutableQuestionCounter.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String text) {
+                counterTextView.setText(text);
+            }
+        });
+
         return view;
     }
 
@@ -172,7 +179,7 @@ public class GameFragment extends Fragment {
             Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
 
             // Passa alla prossima domanda
-            counter++;
+            //counter++; ERA DI TROPPO, SI INCREMENTAVA 2 VOLTE
             if (counter < questionList.size()) {
                 loadNextQuestion();
             } else {
@@ -196,7 +203,10 @@ public class GameFragment extends Fragment {
         allAnswers.add(currentQuestion.getCorrectAnswer());
         Collections.shuffle(allAnswers);
 
-        counterTextView.setText(format("Domanda N. %d", counter + 1));
+        //Trasformato utilizzando i live data anziché l'assegnamento diretto,
+        //in modo da facilitare lo spostamento della logica al di fuori del fragment
+        //counterTextView.setText(format("Domanda N. %d", counter + 1));
+        mutableQuestionCounter.postValue(format("Domanda N. %d", counter + 1));
 
 
         questionTextView.setText(Jsoup.parse(currentQuestion.getQuestion()).text());
