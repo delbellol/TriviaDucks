@@ -5,58 +5,44 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private Button oneShot;
-    private Button trials;
+    private static final String TAG = HomeFragment.class.getSimpleName();
+
+    private int selectedCategory;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        return fragment;
+        return new HomeFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*if(requireActivity().getResources().getBoolean(R.bool.debug_mode)){
-            questionRepository = new QuestionMockRepository();
-        } else{
-            questionRepository = new QuestionRepositoryAPI();
-        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        //questionRepository.fetchQuestion();
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        // Inflate the layout for this fragment
-        return view;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -78,25 +64,41 @@ public class HomeFragment extends Fragment {
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-
         }).attach();
 
-        NavController navController = Navigation.findNavController(view);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                selectedCategory = getCategoryFromPosition(position);
+            }
+        });
 
-        oneShot = view.findViewById(R.id.oneShot);
+        Button oneShot = view.findViewById(R.id.oneShot);
         oneShot.setOnClickListener(v -> {
-            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
-            //sostituito con sotto
-            GameModeFragment gameModeDialog = new GameModeFragment();
-            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
+            GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
+            gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
         });
 
-        trials = view.findViewById(R.id.trials);
+        Button trials = view.findViewById(R.id.trials);
         trials.setOnClickListener(v -> {
-            //navController.navigate(R.id.action_homeFragment_to_gameModeFragment);
-            //sostituito con sotto
-            GameModeFragment gameModeDialog = new GameModeFragment();
-            gameModeDialog.show(getParentFragmentManager(), "gameOverDialog");
+            GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
+            gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
         });
+    }
+
+    private int getCategoryFromPosition(int position) {
+        switch (position) {
+            default:
+                return Constants.ANY_CATEGORIES_CODE;
+            case 1:
+                return Constants.SCIENCE_NATURE_CODE;
+            case 2:
+                return Constants.GEOGRAPHY_CODE;
+            case 3:
+                return Constants.HISTORY_CODE;
+            case 4:
+                return Constants.SPORTS_CODE;
+        }
     }
 }

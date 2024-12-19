@@ -39,6 +39,15 @@ public class Constants {
     public static final String ANIME_MANGA = "Entertainment: Japanese Anime & Manga";
     public static final String CARTOON = "Entertainment: Cartoon & Animations";
 
+    public static final String CATEGORY = "category";
+
+    //Codice per le categorie dell'API
+    public static final int ANY_CATEGORIES_CODE = 0;
+    public static final int HISTORY_CODE = 23;
+    public static final int SCIENCE_NATURE_CODE = 17;
+    public static final int GEOGRAPHY_CODE = 22;
+    public static final int SPORTS_CODE = 21;
+
     // Liste di difficoltà e categorie
     public static final List<String> DIFFICULTY = Arrays.asList(
             EASY_DIFFICULTY, MEDIUM_DIFFICULTY, HARD_DIFFICULTY
@@ -89,8 +98,4 @@ public class Constants {
     public static final String REMOVED_QUESTION = "[Removed]";
     public static final String RETROFIT_ERROR = "retrofit_error";
     public static final String UNEXPECTED_ERROR = "unexpected_error";
-
-    // Chiave per il bundle
-    public static final String BUNDLE_KEY_CURRENT_ARTICLE = "current_question";
-
 }

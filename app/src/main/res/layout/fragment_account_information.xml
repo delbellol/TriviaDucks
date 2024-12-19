@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_theme_tertiaryContainer"
@@ -12,11 +11,11 @@
         android:id="@+id/marginTop"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/accountInformationCardView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="1" />
 
     <androidx.cardview.widget.CardView
@@ -45,21 +44,21 @@
                     android:id="@+id/profilePictureCardView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:cardCornerRadius="25dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:cardCornerRadius="25dp">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
                         android:id="@+id/profilePicture"
                         style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="#ADD8E6"
                         android:contentDescription="@string/close_description"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/cover"
-                        android:background="#ADD8E6" />
+                        android:src="@drawable/cover" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <ImageButton
@@ -98,54 +97,59 @@
         android:id="@+id/midMargin"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accountInformationCardView"
         app:layout_constraintBottom_toTopOf="@id/accountStatisticsCardView"
-        app:layout_constraintHeight_percent="0.05" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/accountInformationCardView" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/accountStatisticsCardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/midMargin"
+        app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomMargin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.45"
-        app:layout_constraintWidth_percent="0.9"
-        app:cardCornerRadius="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/midMargin"
+        app:layout_constraintWidth_percent="0.9">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="25dp"
                 android:text="Statistiche Account"
-                android:layout_margin="25dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="25dp"
                 android:text="Categorie preferite"
-                android:layout_margin="25dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Record Risposte corrette"
                 android:layout_margin="25dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:text="Record Risposte corrette"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/bottomMargin"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accountStatisticsCardView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.05" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/accountStatisticsCardView" />
+</androidx.constraintlayout.widget.ConstraintLayout>
