@@ -1,9 +1,12 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
 
+import static com.unimib.triviaducks.util.Constants.countDownInterval;
+import static com.unimib.triviaducks.util.Constants.timerTime;
 import static java.lang.String.*;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -39,6 +44,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 public class GameFragment extends Fragment {
     private static final String TAG = GameFragment.class.getSimpleName();
 
@@ -55,11 +64,17 @@ public class GameFragment extends Fragment {
     private CircularProgressIndicator circularProgressIndicator;
     private ConstraintLayout gameLayout;
 
-    private TextView questionTextView, counterTextView;
+    private TextView questionTextView, counterTextView, countdownTextView;
     private Button answerButton1, answerButton2, answerButton3, answerButton4;
     private ImageButton closeImageButton;
 
-    public GameFragment() { }
+    private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
+    private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
+
+    private CountDownTimer timer;
+
+    public GameFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +116,8 @@ public class GameFragment extends Fragment {
 
         questionTextView = view.findViewById(R.id.question);
 
+        countdownTextView = view.findViewById(R.id.countdown);
+
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
@@ -136,6 +153,13 @@ public class GameFragment extends Fragment {
                         Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
                     }
                 });
+
+        mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
+            @Override
+            public void onChanged(Long seconds) {
+                countdownTextView.setText(String.valueOf(seconds));
+            }
+        });
 
         return view;
     }
@@ -178,13 +202,16 @@ public class GameFragment extends Fragment {
         answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
+        startCountdown(timerTime);
+
+        counter++;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Fa in modo che schiacciando indietro anzichÃ©
+        //Fa in modo che schiacciando indietro anziché
         //chiudere brutalmente mostri il gameQuitDialog
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
@@ -196,4 +223,32 @@ public class GameFragment extends Fragment {
                     }
                 });
     }
+
+    //TODO sistemare nomi e sistemarlo
+    //metodo countdown
+    private void startCountdown(long duration) {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
+        timer = new CountDownTimer(duration, countDownInterval) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
+                Log.d("Timer",""+millisUntilFinished / countDownInterval);
+            }
+
+            @Override
+            public void onFinish() {
+                endTimer();
+            }
+        }.start();
+    }
+
+    private void endTimer() {
+        GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.time_expired));
+        gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
+    }
+
 }
