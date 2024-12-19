@@ -44,7 +44,8 @@
             app:layout_constraintWidth_percent="1"
             app:tabIndicatorColor="@android:color/holo_blue_bright"
             app:tabIndicatorGravity="center"
-            app:tabIndicatorFullWidth="false" />
+            app:tabIndicatorFullWidth="false"
+            />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/categoryTabLayout"

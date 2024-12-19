@@ -49,18 +49,18 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Integer> images = Arrays.asList(
-                R.drawable.category_all,
-                R.drawable.category_science,
-                R.drawable.category_geography,
-                R.drawable.category_history,
-                R.drawable.category_sports
+        List<Integer> lottieAnimations = Arrays.asList(
+                R.raw.category_history,
+                R.raw.category_science,
+                R.raw.category_geography,
+                R.raw.category_history,
+                R.raw.category_sport
         );
 
         ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
         TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
 
-        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(images);
+        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(lottieAnimations);
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
