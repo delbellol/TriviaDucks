@@ -1,7 +1,5 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-
-import static com.unimib.triviaducks.util.Constants.countDownInterval;
 import static com.unimib.triviaducks.util.Constants.timerTime;
 import static java.lang.String.*;
 
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
@@ -44,9 +41,6 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class GameFragment extends Fragment {
@@ -179,7 +173,6 @@ public class GameFragment extends Fragment {
             Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
 
             // Passa alla prossima domanda
-            //counter++; ERA DI TROPPO, SI INCREMENTAVA 2 VOLTE
             if (counter < questionList.size()) {
                 loadNextQuestion();
             } else {
@@ -205,7 +198,6 @@ public class GameFragment extends Fragment {
 
         //Trasformato utilizzando i live data anziché l'assegnamento diretto,
         //in modo da facilitare lo spostamento della logica al di fuori del fragment
-        //counterTextView.setText(format("Domanda N. %d", counter + 1));
         mutableQuestionCounter.postValue(format("Domanda N. %d", counter + 1));
 
 
