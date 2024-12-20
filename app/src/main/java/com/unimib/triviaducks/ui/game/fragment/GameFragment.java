@@ -70,6 +70,7 @@ public class GameFragment extends Fragment {
     private CountDownTimer timer;
     private TimerUtils t;
 
+
     public GameFragment() {
     }
 
@@ -176,7 +177,8 @@ public class GameFragment extends Fragment {
 
             // Passa alla prossima domanda
             if (counter < questionList.size()) {
-                loadNextQuestion();
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(this);
+                nextQstDialog.show(getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 // Fine delle domande
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
@@ -232,5 +234,10 @@ public class GameFragment extends Fragment {
                         gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
                     }
                 });
+    }
+
+
+    public void nextBtnPressed(){
+        loadNextQuestion();
     }
 }
