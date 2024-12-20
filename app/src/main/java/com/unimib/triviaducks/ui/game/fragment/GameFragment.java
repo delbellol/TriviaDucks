@@ -41,6 +41,7 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
 
 
 public class GameFragment extends Fragment {
@@ -90,11 +91,12 @@ public class GameFragment extends Fragment {
                     new QuestionViewModelFactory(questionRepository)
             ).get(QuestionViewModel.class);
 
-            if (questionViewModel == null) {
-                Log.e(TAG, "questionViewModel is null!");
-            }
+//            if (questionViewModel == null) {
+//                Log.e(TAG, "questionViewModel is null!");
+//            }
         }
 
+        counter = 0;
         questionList = new ArrayList<>();
         t = new TimerUtils(this,this.getContext(),mutableSecondsRemaining);
     }
@@ -181,6 +183,7 @@ public class GameFragment extends Fragment {
             }
         } else {
             Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
+            t.endTimer();
             GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.wrong_answer));
             gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
         }

@@ -48,11 +48,20 @@ public class TimerUtils {
             @Override
             public void onFinish() {
                 endTimer();
+                showGameOver();
             }
         }.start();
     }
 
-    private void endTimer() {
+    public void endTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
+    }
+
+    private void showGameOver(){
         GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired));
         gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
     }
