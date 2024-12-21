@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.R;
@@ -57,20 +58,35 @@ public class HomeFragment extends Fragment {
                 R.raw.category_sport
         );
 
+        List<String> categoryDescriptions = Arrays.asList(
+                "Tutte le categorie",
+                "Scienza e Natura",
+                "Geografia",
+                "Storia",
+                "Sport"
+        );
+
         ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
         TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
+        TextView categoryDescription = view.findViewById(R.id.categoryDescription);
 
-        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(lottieAnimations);
+        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(lottieAnimations, categoryDescriptions);
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
         }).attach();
+
+        // Imposta il testo iniziale
+        categoryDescription.setSelected(true); // Necessario per il marquee
+        categoryDescription.setText(categoryDescriptions.get(0));
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 selectedCategory = getCategoryFromPosition(position);
+                // Aggiorna il testo in base alla categoria selezionata
+                categoryDescription.setText(categoryDescriptions.get(position));
             }
         });
 
