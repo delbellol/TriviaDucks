@@ -18,10 +18,10 @@ import java.util.List;
 public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRecyclerAdapter.ViewHolder> {
 
     private final List<Integer> lottieFiles;
-    private final List<String> categoryDescriptions; // Lista per i testi
+    private final List<String> itemCategoryDescription; // Lista per i testi
     public CategoriesRecyclerAdapter(List<Integer> lottieFiles, List<String> categoryDescriptions) {
         this.lottieFiles = lottieFiles;
-        this.categoryDescriptions = categoryDescriptions;
+        this.itemCategoryDescription = categoryDescriptions;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +33,7 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
         public ViewHolder(@NonNull View view) {
             super(view);
             this.lottieAnimationView = view.findViewById(R.id.lottieAnimationView);
-            this.descriptionTextView = view.findViewById(R.id.categoryDescription);
+            this.descriptionTextView = view.findViewById(R.id.itemCategoryDescription);
         }
 
         public LottieAnimationView getLottieAnimationView() {
@@ -60,7 +60,7 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
         viewHolder.getLottieAnimationView().setAnimation(lottieFiles.get(position));
         viewHolder.getLottieAnimationView().playAnimation();
         // Imposta il testo descrittivo
-        viewHolder.getDescriptionTextView().setText(categoryDescriptions.get(position));
+        viewHolder.getDescriptionTextView().setText(itemCategoryDescription.get(position));
     }
 
     @Override

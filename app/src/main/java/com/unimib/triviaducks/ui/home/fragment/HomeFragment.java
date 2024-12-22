@@ -50,6 +50,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Inizializza il TextView
+        TextView descriptionTextView = view.findViewById(R.id.categoryDescription);
+
+        // Imposta una descrizione iniziale
+        descriptionTextView.setText("Descrizione iniziale della categoria");
+
         List<Integer> lottieAnimations = Arrays.asList(
                 R.raw.category_all,
                 R.raw.category_science,
@@ -59,10 +65,10 @@ public class HomeFragment extends Fragment {
         );
 
         List<String> categoryDescriptions = Arrays.asList(
-                "Tutte le categorie",
-                "Scienza e Natura",
-                "Geografia",
-                "Storia",
+                "All category",
+                "Science",
+                "Geography",
+                "History",
                 "Sport"
         );
 
@@ -77,7 +83,7 @@ public class HomeFragment extends Fragment {
         }).attach();
 
         // Imposta il testo iniziale
-        categoryDescription.setSelected(true); // Necessario per il marquee
+        categoryDescription.setSelected(true); // Necessario per il marquee (scorrimento del testo)
         categoryDescription.setText(categoryDescriptions.get(0));
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
