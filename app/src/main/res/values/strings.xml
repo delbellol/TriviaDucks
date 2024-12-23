@@ -71,4 +71,6 @@
     <string name="home">Home</string>
     <string name="home_swipe_warning">Swipe per cambiare categoria</string>
     <string name="error_retrieving_news">There was an error retrieving the questions</string>
+    <string name="wrong_answer">Wrong answer</string>
+    <string name="time_expired">Time expired</string>
 </resources>

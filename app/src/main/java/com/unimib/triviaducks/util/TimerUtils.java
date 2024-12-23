@@ -1,0 +1,68 @@
+package com.unimib.triviaducks.util;
+import static com.unimib.triviaducks.util.Constants.countDownInterval;
+
+import android.content.Context;
+import android.os.CountDownTimer;
+import android.util.Log;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+
+import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class TimerUtils {
+
+    private CountDownTimer timer;
+    private Fragment fragment;
+    private Context context;
+    private MutableLiveData<Long> mutableSecondsRemaining;
+
+
+    public TimerUtils() {
+        //required empty public constructor
+    }
+    public TimerUtils(Fragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining) {
+        this.fragment = fragment;
+        this.context = context;
+        this.mutableSecondsRemaining = mutableSecondsRemaining;
+    }
+
+    //metodo countdown
+    public void startCountdown(long duration) {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
+        timer = new CountDownTimer(duration, countDownInterval) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
+                Log.d("Timer",""+millisUntilFinished / countDownInterval);
+            }
+
+            @Override
+            public void onFinish() {
+                endTimer();
+                showGameOver();
+            }
+        }.start();
+    }
+
+    public void endTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
+    }
+
+    private void showGameOver(){
+        GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired));
+        gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+    }
+}

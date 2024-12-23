@@ -38,6 +38,7 @@ public class GameModeFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setCancelable(false);
     }
 
     @NonNull
