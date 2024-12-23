@@ -70,6 +70,7 @@ public class GameFragment extends Fragment {
     private CountDownTimer timer;
     private TimerUtils t;
 
+
     public GameFragment() {
     }
 
@@ -129,6 +130,7 @@ public class GameFragment extends Fragment {
 
         View.OnClickListener answerClickListener = v -> {
             Button clickedButton = (Button) v;
+            disableAnswerButtons();
             checkAnswer(clickedButton.getText().toString(), view);
         };
 
@@ -176,7 +178,8 @@ public class GameFragment extends Fragment {
 
             // Passa alla prossima domanda
             if (counter < questionList.size()) {
-                loadNextQuestion();
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(this);
+                nextQstDialog.show(getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 // Fine delle domande
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
@@ -211,10 +214,11 @@ public class GameFragment extends Fragment {
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
 
+        counter++;
 
         t.startCountdown(timerTime);
 
-        counter++;
+        enableAnswerButtons();
     }
 
     @Override
@@ -233,4 +237,23 @@ public class GameFragment extends Fragment {
                     }
                 });
     }
+
+    public void nextBtnPressed(){
+        loadNextQuestion();
+    }
+
+    private void disableAnswerButtons() {
+        answerButton1.setEnabled(false);
+        answerButton2.setEnabled(false);
+        answerButton3.setEnabled(false);
+        answerButton4.setEnabled(false);
+    }
+
+    private void enableAnswerButtons() {
+        answerButton1.setEnabled(true);
+        answerButton2.setEnabled(true);
+        answerButton3.setEnabled(true);
+        answerButton4.setEnabled(true);
+    }
+
 }
