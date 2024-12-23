@@ -1,5 +1,5 @@
 package com.unimib.triviaducks.util;
-import static com.unimib.triviaducks.util.Constants.countDownInterval;
+import static com.unimib.triviaducks.util.Constants.COUNTDOWN_INTERVAL;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -38,11 +38,11 @@ public class TimerUtils {
             timer = null;
         }
 
-        timer = new CountDownTimer(duration, countDownInterval) {
+        timer = new CountDownTimer(duration, COUNTDOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mutableSecondsRemaining.postValue(millisUntilFinished / countDownInterval);
-                Log.d("Timer",""+millisUntilFinished / countDownInterval);
+                mutableSecondsRemaining.postValue(millisUntilFinished / COUNTDOWN_INTERVAL);
+                Log.d("Timer",""+millisUntilFinished / COUNTDOWN_INTERVAL);
             }
 
             @Override

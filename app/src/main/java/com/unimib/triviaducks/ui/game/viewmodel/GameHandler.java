@@ -1,6 +1,6 @@
 package com.unimib.triviaducks.ui.game.viewmodel;
 
-import static com.unimib.triviaducks.util.Constants.timerTime;
+import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -76,7 +76,6 @@ public class GameHandler {
                 questionList.clear();
                 questionList.addAll(((Result.Success) result).getData().getQuestions());
                 fragment.hideLoadingScreen();
-                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
                 loadNextQuestion();
             } else {
                 View view = fragment.getView();
@@ -89,6 +88,8 @@ public class GameHandler {
 
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
+            mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
+
             currentQuestion = questionList.get(counter);
             Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
             Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
@@ -102,7 +103,7 @@ public class GameHandler {
             fragment.enableAnswerButtons();
 
             counter++;
-            timerUtils.startCountdown(timerTime);
+            timerUtils.startCountdown(TIMER_TIME);
         }
     }
 
