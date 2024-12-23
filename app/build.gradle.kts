@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.google.gson)
     implementation(libs.jackson.databind)
     implementation(libs.jsoup)
+    implementation(libs.lottie)
     implementation(libs.material)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.fragment.ktx)

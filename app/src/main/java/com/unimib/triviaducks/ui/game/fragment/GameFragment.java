@@ -1,79 +1,55 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.repository.QuestionRepository;
-import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModel;
-import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModelFactory;
+import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
 import com.unimib.triviaducks.util.Constants;
-import com.unimib.triviaducks.util.ServiceLocator;
-import com.unimib.triviaducks.util.SharedPreferencesUtils;
+import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
 
 import org.jsoup.Jsoup;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GameFragment extends Fragment {
     private static final String TAG = GameFragment.class.getSimpleName();
 
-    private int counter = 0;
-
-    private SharedPreferencesUtils sharedPreferencesUtils;
-
-    private Question currentQuestion;
-
-    private QuestionRepository questionRepository;
-    private List<Question> questionList;
-    private QuestionViewModel questionViewModel;
     private CircularProgressIndicator circularProgressIndicator;
+    private ConstraintLayout gameLayout;
 
-    private TextView questionTextView, counterTextView;
+    private TextView questionTextView, counterTextView, countdownTextView;
     private Button answerButton1, answerButton2, answerButton3, answerButton4;
+    private ImageButton closeImageButton;
 
-    public GameFragment() { }
+    private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
+    private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
+
+    private GameHandler gameHandler;
+
+    public GameFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        QuestionRepository questionRepository =
-                ServiceLocator.getInstance().getQuestionsRepository(
-                        requireActivity().getApplication(),
-                        requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
-                );
-
-        if (questionRepository == null) {
-            Log.e(TAG, "QuestionRepository is null!");
-        } else {
-            questionViewModel = new ViewModelProvider(
-                    requireActivity(),
-                    new QuestionViewModelFactory(questionRepository)
-            ).get(QuestionViewModel.class);
-
-            if (questionViewModel == null) {
-                Log.e(TAG, "questionViewModel is null!");
-            }
-        }
-
-        questionList = new ArrayList<>();
+        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter);
     }
 
     @Override
@@ -81,139 +57,106 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
+        // Inizializza gli elementi della vista
         circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
+        gameLayout = view.findViewById(R.id.gameLayout);
+
+        closeImageButton = view.findViewById(R.id.close_game);
 
         counterTextView = view.findViewById(R.id.counter);
 
         questionTextView = view.findViewById(R.id.question);
+
+        countdownTextView = view.findViewById(R.id.countdown);
+
+        //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
         answerButton4 = view.findViewById(R.id.answer4);
 
+        // Gestisce l'evento di clic sul bottone per chiudere il gioco
+        closeImageButton.setOnClickListener(v -> {
+            GameQuitFragment gameQuitDialog = new GameQuitFragment();
+            gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+        });
+
+        // Gestisce l'evento di clic sui bottoni di risposta
         View.OnClickListener answerClickListener = v -> {
             Button clickedButton = (Button) v;
-            checkAnswer(clickedButton.getText().toString(), view);
+            disableAnswerButtons();
+            gameHandler.checkAnswer(clickedButton.getText().toString(), view);
         };
 
+        // Assegna l'ascoltatore agli altri bottoni di risposta
         answerButton1.setOnClickListener(answerClickListener);
         answerButton2.setOnClickListener(answerClickListener);
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        if (questionViewModel != null && questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()) != null) {
-            questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()).observe(getViewLifecycleOwner(),
-                    result -> {
-                        if (result.isSuccess()) {
-                            questionList.clear();
-                            questionList.addAll(((Result.Success) result).getData().getQuestions());
+        gameHandler.loadQuestions(10, "multiple", System.currentTimeMillis());
 
-                            circularProgressIndicator.setVisibility(View.GONE);
+        mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
+            @Override
+            public void onChanged(Long seconds) {
+                countdownTextView.setText(String.valueOf(seconds));
+            }
+        });
 
-                            loadNextQuestion();
-                        } else {
-                            Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            if (questionViewModel == null){
-                Log.e(TAG, "ViewModel is null!");
+        mutableQuestionCounter.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String text) {
+                counterTextView.setText(text);
             }
-            if (questionViewModel.getQuestions(10, "multiple", System.currentTimeMillis()) == null){
-                Log.e(TAG, "LiveData is null!");
-            }
-        }
+        });
 
         return view;
     }
 
-    private void checkAnswer(String selectedAnswer, View view) {
-        if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
-            Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-            // Passa alla prossima domanda
-            counter++;
-            if (counter < questionList.size()) {
-                loadNextQuestion();
-            } else {
-                // Fine delle domande
-                Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
-            }
-        } else {
-            Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
-        }
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        GameQuitFragment gameQuitDialog = new GameQuitFragment();
+                        gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+                    }
+                });
     }
 
-    private void loadNextQuestion() {
-        currentQuestion = questionList.get(counter);
+    public void nextBtnPressed() {
+        gameHandler.loadNextQuestion();
+    }
 
-        Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
-        Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
+    private void disableAnswerButtons() {
+        answerButton1.setEnabled(false);
+        answerButton2.setEnabled(false);
+        answerButton3.setEnabled(false);
+        answerButton4.setEnabled(false);
+    }
 
-        List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-        allAnswers.add(currentQuestion.getCorrectAnswer());
-        Collections.shuffle(allAnswers);
+    public void enableAnswerButtons() {
+        answerButton1.setEnabled(true);
+        answerButton2.setEnabled(true);
+        answerButton3.setEnabled(true);
+        answerButton4.setEnabled(true);
+    }
 
-        counterTextView.setText(String.format(" %d", counter + 1));
+    public void hideLoadingScreen(){
+        circularProgressIndicator.setVisibility(View.GONE);
+        gameLayout.setVisibility(View.VISIBLE);
+    }
 
-
+    public void setAnswerText(Question currentQuestion, List<String> allAnswers){
         questionTextView.setText(Jsoup.parse(currentQuestion.getQuestion()).text());
 
+        // Imposta il testo per i bottoni delle risposte
         answerButton1.setText(Jsoup.parse(allAnswers.get(0)).text());
         answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
     }
 }
-
-
-
-/*
-
-questionTextView = view.findViewById(R.id.question);
-        button1 = view.findViewById(R.id.answer1);
-        button2 = view.findViewById(R.id.answer2);
-        button3 = view.findViewById(R.id.answer3);
-        button4 = view.findViewById(R.id.answer4);
-
-        // Visualizza la domanda
-        TextView questionTextView = view.findViewById(R.id.question);
-        questionTextView.setText(currentQuestion.getQuestion());
-
-        // Recupera le risposte corrette e sbagliate
-        List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-        allAnswers.add(currentQuestion.getCorrectAnswer()); // Aggiungi la risposta corretta
-
-        // Mescola le risposte (facoltativo, per randomizzarle)
-        Collections.shuffle(allAnswers);
-
-        // Visualizza le risposte
-        ((TextView) view.findViewById(R.id.answer1)).setText(allAnswers.get(0));
-        ((TextView) view.findViewById(R.id.answer2)).setText(allAnswers.get(1));
-        ((TextView) view.findViewById(R.id.answer3)).setText(allAnswers.get(2));
-        ((TextView) view.findViewById(R.id.answer4)).setText(allAnswers.get(3));
-
-
-
-
-if (currentQuestion != null) {
-
-            // Visualizza la domanda
-            TextView questionTextView = view.findViewById(R.id.question);
-            questionTextView.setText(currentQuestion.getQuestion());
-
-            // Recupera le risposte corrette e sbagliate
-            List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-            allAnswers.add(currentQuestion.getCorrectAnswer()); // Aggiungi la risposta corretta
-
-            // Mescola le risposte (facoltativo, per randomizzarle)
-            Collections.shuffle(allAnswers);
-
-            // Visualizza le risposte
-            ((TextView) view.findViewById(R.id.answer1)).setText(allAnswers.get(0));
-            ((TextView) view.findViewById(R.id.answer2)).setText(allAnswers.get(1));
-            ((TextView) view.findViewById(R.id.answer3)).setText(allAnswers.get(2));
-            ((TextView) view.findViewById(R.id.answer4)).setText(allAnswers.get(3));
-        }
-
- */

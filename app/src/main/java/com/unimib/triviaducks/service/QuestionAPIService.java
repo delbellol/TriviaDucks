@@ -11,10 +11,12 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface QuestionAPIService {
+    // Annota il metodo come una richiesta GET all'endpoint specificato.
     @GET(TRIVIA_ENDPOINT)
-    Call<QuestionAPIResponse> getQuestions(
-            @Query(TRIVIA_AMOUNT_PARAMETER) int amount,
-            @Query(TRIVIA_TYPE_PARAMETER) String type
+    Call<QuestionAPIResponse> getQuestions( // Restituisce un oggetto Call con la risposta dell'API.
+                                            @Query(TRIVIA_AMOUNT_PARAMETER) int amount, // Parametro "amount" per specificare il numero di domande.
+                                            @Query(TRIVIA_TYPE_PARAMETER) String type  // Parametro "type" per specificare il tipo di domande.
+                                            //TODO aggiunngere category
     );
 }
 

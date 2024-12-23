@@ -4,37 +4,36 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.home.MainActivity;
 
-public class GameOverFragment extends DialogFragment {
+public class GameNextQuestionFragment extends DialogFragment {
 
-    Button home;
+    Button nextBtn;
+
+    GameFragment fragment;
     TextView dialog_title;
-    String reason;
 
-    public GameOverFragment() {
+    public GameNextQuestionFragment() {
         // Costruttore vuoto
-        reason = getString(R.string.wrong_answer);
-    }
-    public GameOverFragment(String reason) {
-        this.reason = reason;
     }
 
+    public GameNextQuestionFragment(GameFragment fragment) {
+        this.fragment = fragment;
+    }
 
-    public static GameOverFragment newInstance() {
-        return new GameOverFragment();
+    public static GameNextQuestionFragment newInstance() {
+        return new GameNextQuestionFragment();
     }
 
     @Override
@@ -47,20 +46,17 @@ public class GameOverFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_game_over, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_game_next_question, null);
         builder.setView(view);
-        home = view.findViewById(R.id.home);
+        nextBtn = view.findViewById(R.id.next);
 
-        home.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
-            //Per spostarsi tra tra activity diverse a quanto pare bisogna usare questi intent maledetti
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
+        nextBtn.setOnClickListener(v -> {
+            fragment.nextBtnPressed();
             dismiss(); //chiude la finestra di dialogo
         });
 
         dialog_title = view.findViewById(R.id.dialog_title);
-        dialog_title.setText(reason);
+
 
 
         return builder.create();
