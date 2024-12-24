@@ -50,10 +50,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Switch
-        android:id="@+id/switchOnOff"
+        android:id="@+id/music_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ON/OFF "
+        android:text="OFF/ON"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
