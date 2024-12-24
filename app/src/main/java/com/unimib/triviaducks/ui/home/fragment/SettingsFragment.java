@@ -50,19 +50,20 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         musicSwitch = view.findViewById(R.id.music_switch);
-        musicSwitch.setChecked(isMusicPlaying()); // Imposta lo stato iniziale dell'interruttore
+        // Imposta lo stato iniziale dello switch
+        boolean isMusicEnabled = isMusicPlaying();
+        musicSwitch.setChecked(isMusicEnabled);
+
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Intent intent = new Intent(requireContext(), MusicService.class);
             if (isChecked) {
                 // Avvia il servizio musicale
-                Intent intent = new Intent(requireContext(), MusicService.class);
                 intent.setAction("ON");
-                requireContext().startService(intent);
             } else {
                 // Ferma il servizio musicale
-                Intent intent = new Intent(requireContext(), MusicService.class);
                 intent.setAction("OFF");
-                requireContext().startService(intent);
             }
+            requireContext().startService(intent);
             // Salva lo stato dell'interruttore
             SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -74,6 +75,6 @@ public class SettingsFragment extends Fragment {
     // Metodo per verificare se la musica è in riproduzione (da personalizzare in base alla tua implementazione)
     private boolean isMusicPlaying() {
         SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        return preferences.getBoolean("MusicEnabled", false);
+        return preferences.getBoolean("MusicEnabled", true);
     }
 }

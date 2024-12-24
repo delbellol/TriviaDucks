@@ -1,7 +1,9 @@
 package com.unimib.triviaducks.ui.home;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
@@ -27,8 +29,15 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, MusicService.class);
-        startService(intent);
+        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
+
+        if (isMusicEnabled) {
+            Intent intent = new Intent(this, MusicService.class);
+            intent.setAction("ON"); // Usa l'azione ON per avviare la musica
+            startService(intent);
+        }
+
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
