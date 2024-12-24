@@ -8,12 +8,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
 
 import com.unimib.triviaducks.R;
@@ -49,26 +48,56 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         musicSwitch = view.findViewById(R.id.music_switch);
+        SeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
+
         // Imposta lo stato iniziale dello switch
         boolean isMusicEnabled = isMusicPlaying();
         musicSwitch.setChecked(isMusicEnabled);
 
+        // Imposta il volume iniziale
+        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        int volume = preferences.getInt("Volume", 50);  // Default volume: 50
+        volumeSeekBar.setProgress(volume);
+
+        // Gestione del cambio stato dello switch
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Intent intent = new Intent(requireContext(), MusicService.class);
             if (isChecked) {
-                // Avvia il servizio musicale
                 intent.setAction("ON");
             } else {
-                // Ferma il servizio musicale
                 intent.setAction("OFF");
             }
             requireContext().startService(intent);
+
             // Salva lo stato dell'interruttore
-            SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("MusicEnabled", isChecked);
             editor.apply();
+        });
+
+        // Gestione del cambiamento del volume tramite SeekBar
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Salva il volume in SharedPreferences
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("Volume", progress);
+                editor.apply();
+
+                // Invia il volume al MusicService
+                Intent intent = new Intent(requireContext(), MusicService.class);
+                intent.setAction("VOLUME");
+                intent.putExtra("Volume", progress); // Passa il volume tramite Intent
+                requireContext().startService(intent);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
