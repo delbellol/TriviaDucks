@@ -124,4 +124,8 @@ public class GameHandler {
         }
     }
 
+    public void endGame() {
+        timerUtils.endTimer();
+    }
+
 }

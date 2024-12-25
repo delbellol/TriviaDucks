@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
 import com.unimib.triviaducks.ui.home.MainActivity;
 
 
@@ -24,8 +25,14 @@ public class GameQuitFragment extends DialogFragment {
     Button close;
     Button cancel;
 
+    GameHandler gameHandler;
+
     public GameQuitFragment() {
         // Required empty public constructor
+    }
+
+    public GameQuitFragment(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
     }
 
     public static GameQuitFragment newInstance() {
@@ -57,6 +64,7 @@ public class GameQuitFragment extends DialogFragment {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
+            gameHandler.endGame();
             this.dismiss();
             }
         );

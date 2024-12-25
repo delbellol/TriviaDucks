@@ -77,7 +77,7 @@ public class GameFragment extends Fragment {
 
         // Gestisce l'evento di clic sul bottone per chiudere il gioco
         closeImageButton.setOnClickListener(v -> {
-            GameQuitFragment gameQuitDialog = new GameQuitFragment();
+            GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
             gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
         });
 
@@ -121,7 +121,7 @@ public class GameFragment extends Fragment {
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {
-                        GameQuitFragment gameQuitDialog = new GameQuitFragment();
+                        GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
                         gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
                     }
                 });
