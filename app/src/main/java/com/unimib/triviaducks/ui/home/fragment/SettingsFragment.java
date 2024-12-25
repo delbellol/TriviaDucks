@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.unimib.triviaducks.util.MusicService;
 public class SettingsFragment extends Fragment {
 
     private Switch musicSwitch;
+
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -50,6 +52,7 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         musicSwitch = view.findViewById(R.id.music_switch);
+        Switch themeSwitch = view.findViewById(R.id.theme_switch);
         SeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
 
         // Imposta lo stato iniziale dello switch
@@ -60,6 +63,10 @@ public class SettingsFragment extends Fragment {
         SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         int volume = preferences.getInt("Volume", 50);  // Default volume: 50
         volumeSeekBar.setProgress(volume);
+
+        // Imposta lo stato iniziale dello switch del tema
+        boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
+        themeSwitch.setChecked(isNightMode);
 
         // Gestione del cambio stato dello switch
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -74,6 +81,19 @@ public class SettingsFragment extends Fragment {
             // Salva lo stato dell'interruttore
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("MusicEnabled", isChecked);
+            editor.apply();
+        });
+
+        // Gestione del cambio di tema tramite Switch
+        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putBoolean("ThemeNightMode", true);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putBoolean("ThemeNightMode", false);
+            }
             editor.apply();
         });
 

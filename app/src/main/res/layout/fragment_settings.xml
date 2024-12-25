@@ -67,7 +67,7 @@
         android:text="@string/mode"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     <Switch
-        android:id="@+id/switch_toggle"
+        android:id="@+id/theme_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Day/Night "
