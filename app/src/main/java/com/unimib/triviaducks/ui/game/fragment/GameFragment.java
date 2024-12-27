@@ -72,7 +72,7 @@ public class GameFragment extends Fragment {
 
         countdownTextView = view.findViewById(R.id.countdown);
 
-        //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
+        //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
