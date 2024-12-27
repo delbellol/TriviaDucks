@@ -23,6 +23,7 @@ import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import org.jsoup.Jsoup;
 
@@ -41,10 +42,8 @@ public class GameFragment extends Fragment {
     private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
 
-    private final MutableLiveData<String> questionLiveData = new MutableLiveData<>();
-    private final MutableLiveData<List<String>> answersLiveData = new MutableLiveData<>();
-
     private GameHandler gameHandler;
+    private int category; //categoria delle domande da passare al GameHandler
 
     public GameFragment() {
     }
@@ -113,6 +112,8 @@ public class GameFragment extends Fragment {
             }
         });
 
+        //Log.d("GameFragment","Categoria: "+SharedPreferencesUtils.getCategory());
+
         return view;
     }
 
@@ -162,4 +163,5 @@ public class GameFragment extends Fragment {
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
     }
+
 }

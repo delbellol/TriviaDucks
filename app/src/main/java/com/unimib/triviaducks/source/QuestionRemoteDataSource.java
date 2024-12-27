@@ -13,6 +13,7 @@ import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.service.QuestionAPIService;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.util.ServiceLocator;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import org.jsoup.Jsoup;
 
@@ -43,7 +44,8 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
         // Crea una chiamata Retrofit per ottenere le domande.
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
                 TRIVIA_AMOUNT_VALUE, // Quantità di domande.
-                TRIVIA_TYPE_VALUE    // Tipo di domande.
+                TRIVIA_TYPE_VALUE,    // Tipo di domande.
+                SharedPreferencesUtils.getCategory() //TODO capire come togliere quando è 0
         );
 
         // Esegue la chiamata in modo asincrono.

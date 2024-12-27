@@ -8,6 +8,16 @@ import java.util.Set;
 public class SharedPreferencesUtils {
     private final Context context; // Variabile di contesto per accedere alle SharedPreferences.
 
+    public static int getCategory() {
+        return category;
+    }
+
+    public static void setCategory(int category) {
+        SharedPreferencesUtils.category = category;
+    }
+
+    private static int category;
+
     // Costruttore che prende il contesto dell'applicazione per accedere alle SharedPreferences.
     public SharedPreferencesUtils(Context context) {
         this.context = context;
@@ -30,6 +40,8 @@ public class SharedPreferencesUtils {
         // Applica le modifiche in modo asincrono (senza bloccare il thread).
         editor.apply();
     }
+
+
 
     /**
      * Scrive un insieme di stringhe nelle SharedPreferences.
