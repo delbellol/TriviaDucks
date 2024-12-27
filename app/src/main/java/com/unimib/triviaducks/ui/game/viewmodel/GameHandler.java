@@ -115,15 +115,16 @@ public class GameHandler {
 
     public void checkAnswer(String selectedAnswer, View view) {
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
-            Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
+                timerUtils.endTimer();
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
             }
         } else {
-            Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             endGame();
             GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
