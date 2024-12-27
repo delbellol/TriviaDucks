@@ -4,6 +4,7 @@ import static com.unimib.triviaducks.util.Constants.RETROFIT_ERROR;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_VALUE;
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
+import static com.unimib.triviaducks.util.SharedPreferencesUtils.getCategory;
 
 import android.util.Log;
 
@@ -45,7 +46,7 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
                 TRIVIA_AMOUNT_VALUE, // Quantità di domande.
                 TRIVIA_TYPE_VALUE,    // Tipo di domande.
-                SharedPreferencesUtils.getCategory() //TODO capire come togliere quando è 0
+                getCategory()
         );
 
         // Esegue la chiamata in modo asincrono.
