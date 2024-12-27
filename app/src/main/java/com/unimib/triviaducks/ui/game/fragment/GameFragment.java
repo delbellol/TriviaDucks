@@ -41,6 +41,9 @@ public class GameFragment extends Fragment {
     private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
 
+    private final MutableLiveData<String> questionLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<String>> answersLiveData = new MutableLiveData<>();
+
     private GameHandler gameHandler;
 
     public GameFragment() {

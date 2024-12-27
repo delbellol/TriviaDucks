@@ -3,7 +3,9 @@ package com.unimib.triviaducks.ui.game.viewmodel;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,8 +77,9 @@ public class GameHandler {
             if (result.isSuccess()) {
                 questionList.clear();
                 questionList.addAll(((Result.Success) result).getData().getQuestions());
-                fragment.hideLoadingScreen();
+
                 loadNextQuestion();
+                fragment.hideLoadingScreen();
             } else {
                 View view = fragment.getView();
                 if (view != null) {
@@ -88,22 +91,25 @@ public class GameHandler {
 
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
-            mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
+            new Thread(() -> {
+                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
 
-            currentQuestion = questionList.get(counter);
-            Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
-            Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
+                currentQuestion = questionList.get(counter);
+                Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
+                Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
 
-            List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-            allAnswers.add(currentQuestion.getCorrectAnswer());
-            Collections.shuffle(allAnswers);
+                List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
+                allAnswers.add(currentQuestion.getCorrectAnswer());
+                Collections.shuffle(allAnswers);
 
-            fragment.setAnswerText(currentQuestion, allAnswers);
-
-            fragment.enableAnswerButtons();
-
-            counter++;
-            timerUtils.startCountdown(TIMER_TIME);
+                Looper.prepare();
+                fragment.getActivity().runOnUiThread(() -> {
+                    fragment.setAnswerText(currentQuestion, allAnswers);
+                    fragment.enableAnswerButtons();
+                    counter++;
+                    timerUtils.startCountdown(TIMER_TIME);
+                });
+            }).start();
         }
     }
 
