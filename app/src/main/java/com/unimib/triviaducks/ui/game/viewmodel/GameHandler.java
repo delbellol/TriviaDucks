@@ -118,7 +118,7 @@ public class GameHandler {
             }
         } else {
             Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
-            timerUtils.endTimer();
+            endGame();
             GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         }
