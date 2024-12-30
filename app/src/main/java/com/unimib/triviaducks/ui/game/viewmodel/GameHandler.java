@@ -3,7 +3,9 @@ package com.unimib.triviaducks.ui.game.viewmodel;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,8 +77,9 @@ public class GameHandler {
             if (result.isSuccess()) {
                 questionList.clear();
                 questionList.addAll(((Result.Success) result).getData().getQuestions());
-                fragment.hideLoadingScreen();
+
                 loadNextQuestion();
+                fragment.hideLoadingScreen();
             } else {
                 View view = fragment.getView();
                 if (view != null) {
@@ -88,40 +91,48 @@ public class GameHandler {
 
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
-            mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
+            new Thread(() -> {
+                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
 
-            currentQuestion = questionList.get(counter);
-            Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
-            Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
+                currentQuestion = questionList.get(counter);
+                Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
+                Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
 
-            List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-            allAnswers.add(currentQuestion.getCorrectAnswer());
-            Collections.shuffle(allAnswers);
+                List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
+                allAnswers.add(currentQuestion.getCorrectAnswer());
+                Collections.shuffle(allAnswers);
 
-            fragment.setAnswerText(currentQuestion, allAnswers);
-
-            fragment.enableAnswerButtons();
-
-            counter++;
-            timerUtils.startCountdown(TIMER_TIME);
+                Looper.prepare();
+                fragment.getActivity().runOnUiThread(() -> {
+                    fragment.setAnswerText(currentQuestion, allAnswers);
+                    fragment.enableAnswerButtons();
+                    counter++;
+                    timerUtils.startCountdown(TIMER_TIME);
+                });
+            }).start();
         }
     }
 
     public void checkAnswer(String selectedAnswer, View view) {
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
-            Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
+                timerUtils.endTimer();
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
             }
         } else {
-            Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
-            timerUtils.endTimer();
+            //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
+            endGame();
             GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         }
+    }
+
+    public void endGame() {
+        timerUtils.endTimer();
     }
 
 }
