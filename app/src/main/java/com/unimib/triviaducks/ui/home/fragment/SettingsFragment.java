@@ -22,13 +22,14 @@ import com.unimib.triviaducks.util.MusicService;
 public class SettingsFragment extends Fragment {
 
     private Switch musicSwitch;
+    private Switch themeSwitch;
+    private SeekBar volumeSeekBar;
 
 
     public SettingsFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
@@ -52,10 +53,10 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         musicSwitch = view.findViewById(R.id.music_switch);
-        Switch themeSwitch = view.findViewById(R.id.theme_switch);
-        SeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
+        themeSwitch = view.findViewById(R.id.theme_switch);
+        volumeSeekBar = view.findViewById(R.id.volume_seekbar);
 
-        // Imposta lo stato iniziale dello switch
+        // Imposta lo stato iniziale dello switch music
         boolean isMusicEnabled = isMusicPlaying();
         musicSwitch.setChecked(isMusicEnabled);
 
@@ -68,7 +69,7 @@ public class SettingsFragment extends Fragment {
         boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
         themeSwitch.setChecked(isNightMode);
 
-        // Gestione del cambio stato dello switch
+        // Gestione del cambio stato dello switch muisc
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Intent intent = new Intent(requireContext(), MusicService.class);
             if (isChecked) {
@@ -121,9 +122,9 @@ public class SettingsFragment extends Fragment {
         });
     }
 
-    // Metodo per verificare se la musica è in riproduzione (da personalizzare in base alla tua implementazione)
+    // Metodo per verificare se la musica è in riproduzione
     private boolean isMusicPlaying() {
         SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        return preferences.getBoolean("MusicEnabled", true);
+        return preferences.getBoolean("MusicEnabled", true); // Se non esiste, restituisce "true" di default
     }
 }

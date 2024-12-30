@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -27,17 +28,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+
 
         SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
+        boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
 
         if (isMusicEnabled) {
             Intent intent = new Intent(this, MusicService.class);
             intent.setAction("ON"); // Usa l'azione ON per avviare la musica
             startService(intent);
         }
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
+        setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
