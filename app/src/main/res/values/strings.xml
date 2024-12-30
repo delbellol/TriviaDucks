@@ -70,7 +70,17 @@
     <string name="default_counter">Domanda 1</string>
     <string name="home">Home</string>
     <string name="home_swipe_warning">Swipe per cambiare categoria</string>
-    <string name="error_retrieving_news">There was an error retrieving the questions</string>
     <string name="wrong_answer">Wrong answer</string>
     <string name="time_expired">Time expired</string>
+    <string name="create_a_new_account">Create a new account</string>
+    <string name="signup">Signup</string>
+
+    <!-- Errors -->
+    <string name="error_email_login">Check the email address</string>
+    <string name="error_password_login">The password must have at least 8 characters</string>
+    <string name="error_retrieving_questions">There was an error retrieving the questions</string>
+    <string name="error_no_internet">No internet connection</string>
+    <string name="error_collision_user">This email is already registered</string>
+    <string name="error_unexpected">Unexpected error</string>
+    <string name="already_registered">Already registered</string>
 </resources>

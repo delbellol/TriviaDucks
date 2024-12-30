@@ -4,20 +4,30 @@ public abstract class Result {
     private Result() {}
 
     public boolean isSuccess() {
-        return this instanceof Success;
+        return !(this instanceof Error);
     }
 
     /**
      * Class that represents a successful action during the interaction
      * with a Web Service or a local database.
      */
-    public static final class Success extends Result {
+    public static final class QuestionSuccess extends Result {
         private final QuestionAPIResponse questionAPIResponse;
-        public Success(QuestionAPIResponse questionAPIResponse) {
+        public QuestionSuccess(QuestionAPIResponse questionAPIResponse) {
             this.questionAPIResponse = questionAPIResponse;
         }
         public QuestionAPIResponse getData() {
             return questionAPIResponse;
+        }
+    }
+
+    public static final class UserSuccess extends Result {
+        private final User user;
+        public UserSuccess(User user) {
+            this.user = user;
+        }
+        public User getData() {
+            return user;
         }
     }
 

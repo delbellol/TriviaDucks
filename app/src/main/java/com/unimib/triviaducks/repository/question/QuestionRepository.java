@@ -1,21 +1,16 @@
-package com.unimib.triviaducks.repository;
-
-import static com.unimib.triviaducks.util.Constants.FRESH_TIMEOUT;
-
-import android.util.Log;
+package com.unimib.triviaducks.repository.question;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.source.BaseQuestionLocalDataSource;
-import com.unimib.triviaducks.source.BaseQuestionRemoteDataSource;
-import com.unimib.triviaducks.source.QuestionCallback;
+import com.unimib.triviaducks.source.question.BaseQuestionLocalDataSource;
+import com.unimib.triviaducks.source.question.BaseQuestionRemoteDataSource;
 
 import java.util.List;
 
-public class QuestionRepository implements QuestionCallback {
+public class QuestionRepository implements QuestionResponseCallback {
 
     private static final String TAG = QuestionRepository.class.getSimpleName();
 
@@ -99,7 +94,7 @@ public class QuestionRepository implements QuestionCallback {
     @Override
     public void onSuccessFromLocal(List<Question> questionList) {
         // Crea un risultato di successo e lo invia al LiveData
-        Result.Success result = new Result.Success(new QuestionAPIResponse(questionList));
+        Result.QuestionSuccess result = new Result.QuestionSuccess(new QuestionAPIResponse(questionList));
         allQuestionsMutableLiveData.postValue(result);
     }
 

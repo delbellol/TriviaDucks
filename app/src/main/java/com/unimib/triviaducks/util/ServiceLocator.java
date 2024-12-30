@@ -1,17 +1,21 @@
 package com.unimib.triviaducks.util;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.unimib.triviaducks.database.QuestionRoomDatabase;
-import com.unimib.triviaducks.repository.QuestionRepository;
+import com.unimib.triviaducks.repository.question.QuestionRepository;
+import com.unimib.triviaducks.repository.user.IUserRepository;
+import com.unimib.triviaducks.repository.user.UserRepository;
 import com.unimib.triviaducks.service.QuestionAPIService;
-import com.unimib.triviaducks.source.BaseQuestionLocalDataSource;
-import com.unimib.triviaducks.source.BaseQuestionRemoteDataSource;
-import com.unimib.triviaducks.source.QuestionLocalDataSource;
-import com.unimib.triviaducks.source.QuestionMockDataSource;
-import com.unimib.triviaducks.source.QuestionRemoteDataSource;
-import com.unimib.triviaducks.ui.game.fragment.GameFragment;
+import com.unimib.triviaducks.source.question.BaseQuestionLocalDataSource;
+import com.unimib.triviaducks.source.question.BaseQuestionRemoteDataSource;
+import com.unimib.triviaducks.source.question.QuestionLocalDataSource;
+import com.unimib.triviaducks.source.question.QuestionMockDataSource;
+import com.unimib.triviaducks.source.question.QuestionRemoteDataSource;
+import com.unimib.triviaducks.source.user.BaseUserAuthenticationRemoteDataSource;
+import com.unimib.triviaducks.source.user.BaseUserDataRemoteDataSource;
+import com.unimib.triviaducks.source.user.UserAuthenticationFirebaseDataSource;
+import com.unimib.triviaducks.source.user.UserFirebaseDataSource;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -99,5 +103,21 @@ public class ServiceLocator {
 
         // Restituisce un'istanza di QuestionRepository con le sorgenti remote e locali.
         return new QuestionRepository(questionRemoteDataSource, questionLocalDataSource);
+    }
+
+    public IUserRepository getUserRepository(Application application) {
+        SharedPreferencesUtils sharedPreferencesUtil = new SharedPreferencesUtils(application);
+
+        BaseUserAuthenticationRemoteDataSource userRemoteAuthenticationDataSource =
+                new UserAuthenticationFirebaseDataSource();
+
+        BaseUserDataRemoteDataSource userDataRemoteDataSource =
+                new UserFirebaseDataSource(sharedPreferencesUtil);
+
+        BaseQuestionLocalDataSource newsLocalDataSource =
+                new QuestionLocalDataSource(getQuestionsDB(application), sharedPreferencesUtil);
+
+        return new UserRepository(userRemoteAuthenticationDataSource,
+                userDataRemoteDataSource, newsLocalDataSource);
     }
 }

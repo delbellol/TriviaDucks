@@ -3,13 +3,9 @@ package com.unimib.triviaducks.ui.game.viewmodel;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,12 +13,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.repository.QuestionRepository;
+import com.unimib.triviaducks.repository.question.QuestionRepository;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameNextQuestionFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
-import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModel;
-import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModelFactory;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.TimerUtils;
 
@@ -74,7 +68,7 @@ public class GameHandler {
         questionViewModel.getQuestions(numberOfQuestions, type, seed).observe(fragment.getViewLifecycleOwner(), result -> {
             if (result.isSuccess()) {
                 questionList.clear();
-                questionList.addAll(((Result.Success) result).getData().getQuestions());
+                questionList.addAll(((Result.QuestionSuccess) result).getData().getQuestions());
                 fragment.hideLoadingScreen();
                 loadNextQuestion();
             } else {

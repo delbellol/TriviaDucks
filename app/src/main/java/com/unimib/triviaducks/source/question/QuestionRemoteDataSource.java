@@ -1,20 +1,15 @@
-package com.unimib.triviaducks.source;
+package com.unimib.triviaducks.source.question;
 
 import static com.unimib.triviaducks.util.Constants.RETROFIT_ERROR;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_VALUE;
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.service.QuestionAPIService;
-import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.util.ServiceLocator;
-
-import org.jsoup.Jsoup;
 
 import retrofit2.Call;
 import retrofit2.Callback;

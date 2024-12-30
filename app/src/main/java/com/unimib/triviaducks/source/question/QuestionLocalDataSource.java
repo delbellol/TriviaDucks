@@ -1,4 +1,4 @@
-package com.unimib.triviaducks.source;
+package com.unimib.triviaducks.source.question;
 
 import com.unimib.triviaducks.database.QuestionDAO;
 import com.unimib.triviaducks.database.QuestionRoomDatabase;
