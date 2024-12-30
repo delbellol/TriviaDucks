@@ -16,13 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
+import com.unimib.triviaducks.util.Constants;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class AccountInformationFragment extends Fragment {
     private ImageButton changePfPBtn; // Pulsante per cambiare immagine di profilo
     private ImageButton profilePicture;
     private ImageView profileImageView;
+    private TextView usernameTextView;
+    private UserViewModel userViewModel;
 
     private ActivityResultLauncher<String> mGetContent; // Launcher per ottenere immagine dalla galleria
 
@@ -48,6 +54,16 @@ public class AccountInformationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        usernameTextView = view.findViewById(R.id.username);
+
+        SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+
+        usernameTextView.setText(sharedPreferencesUtils.readStringData(Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_USERNAME));
+
+
+
 
         profileImageView = view.findViewById(R.id.profilePicture); // Trova immagine di profilo
 

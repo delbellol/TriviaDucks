@@ -59,6 +59,9 @@ public class PickUsernameFragment extends Fragment {
 
             if (username.isEmpty()) {
                 Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
+            }
+            else if(username.length() > 15) {
+                Toast.makeText(getContext(), "Please enter a shorter username", Toast.LENGTH_SHORT).show();
             } else {
                 SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
