@@ -4,12 +4,14 @@ import static com.unimib.triviaducks.util.Constants.RETROFIT_ERROR;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_VALUE;
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
+import static com.unimib.triviaducks.util.SharedPreferencesUtils.getCategory;
 
 import androidx.annotation.NonNull;
 
 import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.service.QuestionAPIService;
 import com.unimib.triviaducks.util.ServiceLocator;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +40,8 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
         // Crea una chiamata Retrofit per ottenere le domande.
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
                 TRIVIA_AMOUNT_VALUE, // Quantità di domande.
-                TRIVIA_TYPE_VALUE    // Tipo di domande.
+                TRIVIA_TYPE_VALUE,    // Tipo di domande.
+                getCategory()
         );
 
         // Esegue la chiamata in modo asincrono.
