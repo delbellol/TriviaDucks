@@ -12,6 +12,7 @@ public class UserViewModel extends ViewModel {
 
     private final IUserRepository userRepository;
     private MutableLiveData<Result> userMutableLiveData;
+    private MutableLiveData<Result> userPreferencesMutableLiveData;
     private boolean authenticationError;
 
     public UserViewModel(IUserRepository userRepository) {
@@ -32,6 +33,19 @@ public class UserViewModel extends ViewModel {
             getUserData(token);
         }
         return userMutableLiveData;
+    }
+
+    public void saveUserPreferences(String username, String idToken) {
+        if (idToken != null) {
+            userRepository.saveUserPreferences(username, idToken);
+        }
+    }
+
+    public MutableLiveData<Result> getUserPreferences(String idToken) {
+        if (idToken != null) {
+            userPreferencesMutableLiveData = userRepository.getUserPreferences(idToken);
+        }
+        return userPreferencesMutableLiveData;
     }
 
     public User getLoggedUser() {

@@ -21,7 +21,9 @@ import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
+import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.ServiceLocator;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class PickUsernameFragment extends Fragment {
     public static final String TAG = PickUsernameFragment.class.getName();
@@ -58,7 +60,17 @@ public class PickUsernameFragment extends Fragment {
             if (username.isEmpty()) {
                 Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
             } else {
-                //userViewModel.setUsername(username);
+                SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+
+                sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME,
+                        Constants.SHARED_PREFERENCES_USERNAME,
+                        username);
+
+                userViewModel.saveUserPreferences(
+                        username,
+                        userViewModel.getLoggedUser().getIdToken()
+                );
+
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 startActivity(intent);
             }

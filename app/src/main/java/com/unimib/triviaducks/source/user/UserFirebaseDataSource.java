@@ -70,4 +70,31 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
             }
         });
     }
+
+    @Override
+    public void getUserPreferences(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_USERNAME).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String username = task.getResult().getValue(String.class);
+                        sharedPreferencesUtil.writeStringData(
+                                SHARED_PREFERENCES_FILENAME,
+                                SHARED_PREFERENCES_USERNAME,
+                                username);
+                        userResponseCallback.onSuccessFromGettingUserPreferences();
+                    }
+                });
+    }
+
+    @Override
+    public void saveUserPreferences(String username, String idToken) {
+
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.i(TAG, "fattoooo");
+                    }
+                });
+    }
 }

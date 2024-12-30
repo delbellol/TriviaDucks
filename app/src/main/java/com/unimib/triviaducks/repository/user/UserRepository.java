@@ -22,6 +22,8 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     private final BaseUserDataRemoteDataSource userDataRemoteDataSource;
     private final BaseQuestionLocalDataSource questionLocalDataSource;
     private final MutableLiveData<Result> userMutableLiveData;
+    private final MutableLiveData<Result> userPreferencesMutableLiveData;
+
     public UserRepository(BaseUserAuthenticationRemoteDataSource userRemoteDataSource,
                           BaseUserDataRemoteDataSource userDataRemoteDataSource,
                           BaseQuestionLocalDataSource questionLocalDataSource) {
@@ -29,10 +31,12 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
         this.userDataRemoteDataSource = userDataRemoteDataSource;
         this.questionLocalDataSource = questionLocalDataSource;
         this.userMutableLiveData = new MutableLiveData<>();
+        this.userPreferencesMutableLiveData = new MutableLiveData<>();
         this.userRemoteDataSource.setUserResponseCallback(this);
         this.userDataRemoteDataSource.setUserResponseCallback(this);
         this.questionLocalDataSource.setQuestionCallback(this);
     }
+
     @Override
     public MutableLiveData<Result> getUser(String email, String password, boolean isUserRegistered) {
         if (isUserRegistered) {
@@ -47,38 +51,57 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
         signInWithGoogle(idToken);
         return userMutableLiveData;
     }
+
+    @Override
+    public MutableLiveData<Result> getUserPreferences(String idToken) {
+        userDataRemoteDataSource.getUserPreferences(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
     @Override
     public User getLoggedUser() {
         return userRemoteDataSource.getLoggedUser();
     }
+
     @Override
     public MutableLiveData<Result> logout() {
         userRemoteDataSource.logout();
         return userMutableLiveData;
     }
+
     @Override
     public void signUp(String email, String password) {
         userRemoteDataSource.signUp(email, password);
     }
+
     @Override
     public void signIn(String email, String password) {
         userRemoteDataSource.signIn(email, password);
     }
+
     @Override
     public void signInWithGoogle(String token) {
         userRemoteDataSource.signInWithGoogle(token);
     }
+
+    @Override
+    public void saveUserPreferences(String username, String idToken) {
+        userDataRemoteDataSource.saveUserPreferences(username, idToken);
+    }
+
     @Override
     public void onSuccessFromAuthentication(User user) {
         if (user != null) {
             userDataRemoteDataSource.saveUserData(user);
         }
     }
+
     @Override
     public void onFailureFromAuthentication(String message) {
         Result.Error result = new Result.Error(message);
         userMutableLiveData.postValue(result);
     }
+
     @Override
     public void onSuccessFromRemoteDatabase(User user) {
         Result.UserSuccess result = new Result.UserSuccess(user);
@@ -88,32 +111,46 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     public void onSuccessFromRemoteDatabase(List<Question> questionList) {
         questionLocalDataSource.insertQuestions(questionList);
     }
+
+    @Override
+    public void onSuccessFromGettingUserPreferences() {
+        userPreferencesMutableLiveData.postValue(new Result.UserSuccess(null));
+    }
+
     @Override
     public void onFailureFromRemoteDatabase(String message) {
         Result.Error result = new Result.Error(message);
         userMutableLiveData.postValue(result);
     }
+
     @Override
     public void onSuccessLogout() {
     }
+
     @Override
     public void onSuccessFromRemote(QuestionAPIResponse questionAPIResponse, long lastUpdate) {
     }
+
     @Override
     public void onFailureFromRemote(Exception exception) {
     }
+
     @Override
     public void onSuccessFromLocal(List<Question> questionList) {
     }
+
     @Override
     public void onFailureFromLocal(Exception exception) {
     }
+
     //@Override
     public void onSuccessFromCloudReading(List<Question> questionList) {
     }
+
     //@Override
     public void onSuccessFromCloudWriting(Question question) {
     }
+
     //@Override
     public void onFailureFromCloud(Exception exception) {
     }

@@ -62,15 +62,12 @@ public class SignupFragment extends Fragment {
                 if (!userViewModel.isAuthenticationError()) {
                     userViewModel.getUserMutableLiveData(email, password, false).observe(
                             getViewLifecycleOwner(), result -> {
-                                Log.d(TAG, "65");
                                 if (result.isSuccess()) {
                                     User user = ((Result.UserSuccess) result).getData();
-                                    Log.d(TAG, "67");
                                     userViewModel.setAuthenticationError(false);
                                     Navigation.findNavController(view).navigate(
                                             R.id.action_signupFragment_to_pickUsernameFragment);
                                 } else {
-                                    Log.d(TAG, "72");
                                     userViewModel.setAuthenticationError(true);
                                     Snackbar.make(requireActivity().findViewById(android.R.id.content),
                                             getErrorMessage(((Result.Error) result).getMessage()),
