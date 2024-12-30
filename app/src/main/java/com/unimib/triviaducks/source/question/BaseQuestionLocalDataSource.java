@@ -1,13 +1,14 @@
-package com.unimib.triviaducks.source;
+package com.unimib.triviaducks.source.question;
 
 import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.repository.question.QuestionResponseCallback;
 
 import java.util.List;
 
 public abstract class BaseQuestionLocalDataSource {
-    protected QuestionCallback questionCallback;
+    protected QuestionResponseCallback questionCallback;
 
-    public void setQuestionCallback(QuestionCallback questionCallback) {
+    public void setQuestionCallback(QuestionResponseCallback questionCallback) {
         this.questionCallback = questionCallback;
     }
 

@@ -1,12 +1,10 @@
 package com.unimib.triviaducks.ui.game.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.repository.QuestionRepository;
+import com.unimib.triviaducks.repository.question.QuestionRepository;
 
 // ViewModel che gestisce la logica delle domande e comunica con il repository
 public class QuestionViewModel extends ViewModel {

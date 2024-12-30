@@ -19,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.repository.QuestionRepository;
+import com.unimib.triviaducks.repository.question.QuestionRepository;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameNextQuestionFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
@@ -76,8 +76,7 @@ public class GameHandler {
         questionViewModel.getQuestions(numberOfQuestions, type, seed).observe(fragment.getViewLifecycleOwner(), result -> {
             if (result.isSuccess()) {
                 questionList.clear();
-                questionList.addAll(((Result.Success) result).getData().getQuestions());
-
+                questionList.addAll(((Result.QuestionSuccess) result).getData().getQuestions());
                 loadNextQuestion();
                 fragment.hideLoadingScreen();
             } else {

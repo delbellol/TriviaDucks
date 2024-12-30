@@ -22,7 +22,7 @@ import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.game.QuestionActivity;
 import com.unimib.triviaducks.util.MusicService;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

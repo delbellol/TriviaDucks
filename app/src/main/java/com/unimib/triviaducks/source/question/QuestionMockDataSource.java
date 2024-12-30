@@ -1,4 +1,4 @@
-package com.unimib.triviaducks.source;
+package com.unimib.triviaducks.source.question;
 
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
 

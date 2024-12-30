@@ -16,8 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
-import com.unimib.triviaducks.ui.home.MainActivity;
+import com.unimib.triviaducks.ui.home.HomeActivity;
 
 
 public class GameQuitFragment extends DialogFragment {
@@ -62,7 +63,7 @@ public class GameQuitFragment extends DialogFragment {
 
         close.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
             gameHandler.endGame();
             this.dismiss();
