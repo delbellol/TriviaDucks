@@ -113,7 +113,7 @@ public class GameHandler {
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
@@ -127,7 +127,7 @@ public class GameHandler {
                 GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, "Risposta sbagliata. Avanti con la prossima domanda.");
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer));
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
                 Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
             }

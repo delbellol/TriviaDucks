@@ -20,7 +20,6 @@ import com.unimib.triviaducks.ui.home.MainActivity;
 public class GameNextQuestionFragment extends DialogFragment {
 
     Button nextBtn;
-
     GameFragment fragment;
     TextView dialog_title;
     String reason;
@@ -62,7 +61,7 @@ public class GameNextQuestionFragment extends DialogFragment {
         });
 
         dialog_title = view.findViewById(R.id.dialog_title);
-
+        dialog_title.setText(reason);
 
 
         return builder.create();
