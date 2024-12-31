@@ -25,7 +25,6 @@ public class GameOverFragment extends DialogFragment {
     String reason;
 
     public GameOverFragment() {
-        // Costruttore vuoto
         reason = getString(R.string.wrong_answer);
     }
     public GameOverFragment(String reason) {

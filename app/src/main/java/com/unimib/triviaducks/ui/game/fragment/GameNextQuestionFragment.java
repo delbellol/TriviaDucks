@@ -23,9 +23,15 @@ public class GameNextQuestionFragment extends DialogFragment {
 
     GameFragment fragment;
     TextView dialog_title;
+    String reason;
 
     public GameNextQuestionFragment() {
         // Costruttore vuoto
+    }
+
+    public GameNextQuestionFragment(GameFragment fragment, String reason) {
+        this.fragment = fragment;
+        this.reason = reason;
     }
 
     public GameNextQuestionFragment(GameFragment fragment) {

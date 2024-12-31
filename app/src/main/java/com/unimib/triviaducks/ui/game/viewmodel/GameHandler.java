@@ -127,7 +127,7 @@ public class GameHandler {
                 GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, "Risposta sbagliata. Avanti con la prossima domanda.");
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
                 Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
             }
