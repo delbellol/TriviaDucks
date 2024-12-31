@@ -120,6 +120,7 @@ public class GameHandler {
             }
         } else {
             wrongAnswersCounter++;
+            fragment.handleWrongAnswer();
             Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
                 timerUtils.endTimer();
