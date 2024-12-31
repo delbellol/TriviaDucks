@@ -44,6 +44,7 @@ public class GameHandler {
     private int counter;
     private Question currentQuestion;
     private TimerUtils timerUtils;
+    private int wrongAnswersCounter;
 
     public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter) {
         this.fragment = fragment;
@@ -52,6 +53,7 @@ public class GameHandler {
         this.mutableQuestionCounter = mutableQuestionCounter;
         this.questionList = new ArrayList<>();
         this.counter = 0;
+        this.wrongAnswersCounter = 0;
 
         QuestionRepository questionRepository =
                 ServiceLocator.getInstance().getQuestionsRepository(
@@ -117,10 +119,17 @@ public class GameHandler {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
             }
         } else {
+            wrongAnswersCounter++;
             Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
-            timerUtils.endTimer();
-            GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
-            gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+            if (wrongAnswersCounter >= 3){
+                timerUtils.endTimer();
+                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
+                gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+            }else{
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
+                nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
+                Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 
