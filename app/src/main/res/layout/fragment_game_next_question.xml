@@ -10,7 +10,7 @@
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RISPOSTA CORRETTA !!!"
+        android:text="@string/correct_answer"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
@@ -21,6 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Prossima domanda -->"
+        android:text="@string/next_question"
         android:layout_gravity="center"/>
 </LinearLayout>
