@@ -41,12 +41,20 @@ public class UserViewModel extends ViewModel {
         }
     }
 
+    public void saveUserImage(String imageName, String idToken) {
+        if (idToken != null) {
+            userRepository.saveUserImage(imageName, idToken);
+        }
+    }
+
     public MutableLiveData<Result> getUserPreferences(String idToken) {
         if (idToken != null) {
             userPreferencesMutableLiveData = userRepository.getUserPreferences(idToken);
         }
         return userPreferencesMutableLiveData;
     }
+
+    //TODO getUserImage e cambiare i nomi
 
     public User getLoggedUser() {
         return userRepository.getLoggedUser();

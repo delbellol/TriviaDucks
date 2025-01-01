@@ -15,4 +15,5 @@ public interface IUserRepository {
     void signIn(String email, String password);
     void signInWithGoogle(String token);
     void saveUserPreferences(String username, String idToken);
+    void saveUserImage(String imageName, String idToken);
 }
