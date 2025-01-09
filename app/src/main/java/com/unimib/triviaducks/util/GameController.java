@@ -83,9 +83,11 @@ public class GameController extends ViewModel {
 
         String ur = "https://opentdb.com/api.php?amount=10&type=multiple";
 
+        //TODO probabilmente questa classe è da eliminare, apiCall ha 0 utilizzi
+        /*
         if (SharedPreferencesUtils.getCategory() != 0) {
             ur += "&category="+ currentResult.getCategory();
-        }
+        }*/
         Log.d("GameController",ur);
         URL url = new URL(ur);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
