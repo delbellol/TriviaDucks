@@ -1,5 +1,9 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import android.content.Intent;
+import static com.unimib.triviaducks.util.Constants.CATEGORY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,10 +52,14 @@ public class GameFragment extends Fragment {
     public GameFragment() {
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter);
+
+        category = getActivity().getIntent().getIntExtra(CATEGORY,0);
+        Log.d("GameFragment","Category " + category);
     }
 
     @Override
@@ -96,7 +104,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(10, "multiple", System.currentTimeMillis());
+        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
