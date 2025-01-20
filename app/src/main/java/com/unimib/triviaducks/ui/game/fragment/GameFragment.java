@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
@@ -43,6 +44,8 @@ public class GameFragment extends Fragment {
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
 
     private GameHandler gameHandler;
+    private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
+
     private int category; //categoria delle domande da passare al GameHandler
 
     public GameFragment() {
@@ -71,6 +74,11 @@ public class GameFragment extends Fragment {
 
         countdownTextView = view.findViewById(R.id.countdown);
 
+        lottieHeart1 = view.findViewById(R.id.lottie_heart1);
+        lottieHeart2 = view.findViewById(R.id.lottie_heart2);
+        lottieHeart3 = view.findViewById(R.id.lottie_heart3);
+
+        //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
         //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
@@ -162,6 +170,21 @@ public class GameFragment extends Fragment {
         answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
+    }
+    private int errorsCount = 0;
+
+    public void handleWrongAnswer() {
+        errorsCount++; // Incrementa il numero di errori
+        if (errorsCount == 1) {
+            lottieHeart3.setVisibility(View.GONE); // Nascondi il cuore 3
+        } else if (errorsCount == 2) {
+            lottieHeart2.setVisibility(View.GONE); // Nascondi il cuore 2
+        } else if (errorsCount == 3) {
+            lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
+            // Chiama il game over
+            GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.wrong_answer));
+            gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
+        }
     }
 
 }
