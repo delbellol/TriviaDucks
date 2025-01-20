@@ -4,7 +4,6 @@ import static com.unimib.triviaducks.util.Constants.RETROFIT_ERROR;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_VALUE;
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
-import static com.unimib.triviaducks.util.SharedPreferencesUtils.getCategory;
 
 import android.util.Log;
 
