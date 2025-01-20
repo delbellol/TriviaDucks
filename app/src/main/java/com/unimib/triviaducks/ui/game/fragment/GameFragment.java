@@ -41,6 +41,7 @@ public class GameFragment extends Fragment {
 
     private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
+    private final MutableLiveData<String> mutableScore = new MutableLiveData<>();
 
     private GameHandler gameHandler;
     private int category; //categoria delle domande da passare al GameHandler
@@ -51,7 +52,7 @@ public class GameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter);
+        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
     }
 
     @Override
