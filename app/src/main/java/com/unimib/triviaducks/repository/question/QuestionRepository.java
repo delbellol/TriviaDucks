@@ -37,7 +37,7 @@ public class QuestionRepository implements QuestionResponseCallback {
      * @param type Tipo di domande
      * @param lastUpdate Timestamp dell'ultimo aggiornamento
      */
-    public MutableLiveData<Result> fetchQuestions(int amount, String type, long lastUpdate) {
+    public MutableLiveData<Result> fetchQuestions(int amount, String type, int category, long lastUpdate) {
         long currentTime = System.currentTimeMillis(); // Ottiene il tempo corrente in millisecondi
 
         // Logica per determinare se prendere le domande dal server o dal locale
@@ -49,7 +49,7 @@ public class QuestionRepository implements QuestionResponseCallback {
         // Se il tempo trascorso supera un valore di timeout, scarica da remoto, altrimenti locale
         // TODO da sistemare la logica di questo if in modo che sia adeguata al nostro codice, oppoure toglierla direttamente
         //if (currentTime - lastUpdate > FRESH_TIMEOUT) {
-        questionRemoteDataSource.getQuestions(); // Recupera le domande dal data source remoto
+        questionRemoteDataSource.getQuestions(category); // Recupera le domande dal data source remoto
         //} else {
         //    questionLocalDataSource.getQuestions(); // Recupera le domande dal data source locale
         //}

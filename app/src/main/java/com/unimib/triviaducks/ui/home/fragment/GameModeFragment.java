@@ -62,6 +62,8 @@ public class GameModeFragment extends DialogFragment {
             dismiss();
         });
 
+
+
         Button close = view.findViewById(R.id.close);
         close.setOnClickListener(v ->
                 dismiss()

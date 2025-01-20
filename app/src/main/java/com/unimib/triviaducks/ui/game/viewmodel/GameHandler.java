@@ -81,8 +81,9 @@ public class GameHandler {
         timerUtils = new TimerUtils(fragment, context, mutableSecondsRemaining);
     }
 
-    public void loadQuestions(int numberOfQuestions, String type, long seed) {
-        questionViewModel.getQuestions(numberOfQuestions, type, seed).observe(fragment.getViewLifecycleOwner(), result -> {
+    public void loadQuestions(int numberOfQuestions, String type, int category, long seed) {
+        Log.d("GameHandler","Category: "+category);
+        questionViewModel.getQuestions(numberOfQuestions, type, category, seed).observe(fragment.getViewLifecycleOwner(), result -> {
             if (result.isSuccess()) {
                 questionList.clear();
                 questionList.addAll(((Result.QuestionSuccess) result).getData().getQuestions());

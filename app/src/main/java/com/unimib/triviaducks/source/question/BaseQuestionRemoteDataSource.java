@@ -9,5 +9,5 @@ public abstract class BaseQuestionRemoteDataSource {
         this.questionCallback = questionCallback;
     }
 
-    public abstract void getQuestions();
+    public abstract void getQuestions(int category);
 }

@@ -1,5 +1,9 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import android.content.Intent;
+import static com.unimib.triviaducks.util.Constants.CATEGORY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,13 +53,19 @@ public class GameFragment extends Fragment {
 
     private int category; //categoria delle domande da passare al GameHandler
 
+    private int errorsCount = 0;
+
     public GameFragment() {
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
+
+        category = getActivity().getIntent().getIntExtra(CATEGORY,0);
+        Log.d("GameFragment","Category " + category);
     }
 
     @Override
@@ -105,7 +115,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(10, "multiple", System.currentTimeMillis());
+        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -172,7 +182,6 @@ public class GameFragment extends Fragment {
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
     }
-    private int errorsCount = 0;
 
     public void handleWrongAnswer() {
         errorsCount++; // Incrementa il numero di errori
@@ -182,9 +191,6 @@ public class GameFragment extends Fragment {
             lottieHeart2.setVisibility(View.GONE); // Nascondi il cuore 2
         } else if (errorsCount == 3) {
             lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
-            // Chiama il game over
-            //GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.wrong_answer), gameHandler.getScore());
-            //gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
         }
     }
 

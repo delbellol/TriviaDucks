@@ -95,6 +95,7 @@ public class Constants {
     // File di SharedPreferences
     public static final String SHARED_PREFERENCES_FILENAME = "com.unimib.triviaducks.preferences";
     public static final String SHARED_PREFERENCES_USERNAME = "username";
+    public static final String SHARED_PREFERENCES_PROFILE_PICTURE = "profile_picture";
     public static final String SHARED_PREFERENCES_LAST_UPDATE = "last_update";
 
     // Costanti di errore

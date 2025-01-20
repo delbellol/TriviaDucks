@@ -90,6 +90,11 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     }
 
     @Override
+    public void saveUserImage(String imageName, String idToken) {
+        userDataRemoteDataSource.saveUserImage(imageName, idToken);
+    }
+
+    @Override
     public void onSuccessFromAuthentication(User user) {
         if (user != null) {
             userDataRemoteDataSource.saveUserData(user);

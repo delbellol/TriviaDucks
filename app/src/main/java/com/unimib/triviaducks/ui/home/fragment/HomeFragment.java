@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 selectedCategory = getCategoryFromPosition(position);
-                SharedPreferencesUtils.setCategory(getCategoryFromPosition(position));
+                //SharedPreferencesUtils.setCategory(getCategoryFromPosition(position));
                 // Aggiorna il testo in base alla categoria selezionata
                 categoryDescription.setText(categoryDescriptions.get(position));
             }
