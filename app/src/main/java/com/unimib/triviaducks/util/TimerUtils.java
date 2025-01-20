@@ -20,6 +20,7 @@ public class TimerUtils {
     private Fragment fragment;
     private Context context;
     private MutableLiveData<Long> mutableSecondsRemaining;
+    private int score;
 
 
     public TimerUtils() {
@@ -47,14 +48,15 @@ public class TimerUtils {
 
             @Override
             public void onFinish() {
-                endTimer();
+                endTimer(score);
                 showGameOver();
             }
         }.start();
     }
 
-    public void endTimer() {
+    public void endTimer(int score) {
         if (timer != null) {
+            this.score = score;
             timer.cancel();
             timer = null;
         }
@@ -62,7 +64,7 @@ public class TimerUtils {
     }
 
     private void showGameOver(){
-        GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired));
+        GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired),score);
         gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
     }
 }

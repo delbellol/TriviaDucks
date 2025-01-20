@@ -20,14 +20,17 @@ public class GameOverFragment extends DialogFragment {
 
     Button home;
     TextView dialog_title;
+    TextView scoreView;
     String reason;
+    int score;
 
     public GameOverFragment() {
         // Costruttore vuoto
         reason = getString(R.string.wrong_answer);
     }
-    public GameOverFragment(String reason) {
+    public GameOverFragment(String reason, int score) {
         this.reason = reason;
+        this.score = score;
     }
 
 
@@ -60,6 +63,8 @@ public class GameOverFragment extends DialogFragment {
         dialog_title = view.findViewById(R.id.dialog_title);
         dialog_title.setText(reason);
 
+        scoreView = view.findViewById(R.id.score);
+        scoreView.setText("Score: "+score);
 
         return builder.create();
     }

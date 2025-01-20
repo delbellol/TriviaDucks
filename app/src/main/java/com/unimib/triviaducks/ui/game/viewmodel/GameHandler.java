@@ -123,7 +123,7 @@ public class GameHandler {
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
-                timerUtils.endTimer();
+                timerUtils.endTimer(score);
                 AddScore();
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
@@ -133,7 +133,7 @@ public class GameHandler {
         } else {
             //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             endGame();
-            GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
+            GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer),score);
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         }
     }
@@ -158,7 +158,7 @@ public class GameHandler {
     }
 
     public void endGame() {
-        timerUtils.endTimer();
+        timerUtils.endTimer(score);
     }
 
 }
