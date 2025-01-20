@@ -3,7 +3,9 @@ package com.unimib.triviaducks.ui.game.viewmodel;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.repository.QuestionRepository;
+import com.unimib.triviaducks.repository.question.QuestionRepository;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameNextQuestionFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
@@ -76,9 +78,9 @@ public class GameHandler {
         questionViewModel.getQuestions(numberOfQuestions, type, seed).observe(fragment.getViewLifecycleOwner(), result -> {
             if (result.isSuccess()) {
                 questionList.clear();
-                questionList.addAll(((Result.Success) result).getData().getQuestions());
-                fragment.hideLoadingScreen();
+                questionList.addAll(((Result.QuestionSuccess) result).getData().getQuestions());
                 loadNextQuestion();
+                fragment.hideLoadingScreen();
             } else {
                 View view = fragment.getView();
                 if (view != null) {
@@ -90,30 +92,34 @@ public class GameHandler {
 
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
-            mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
+            new Thread(() -> {
+                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
 
-            currentQuestion = questionList.get(counter);
-            Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
-            Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
+                currentQuestion = questionList.get(counter);
+                Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
+                Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
 
-            List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
-            allAnswers.add(currentQuestion.getCorrectAnswer());
-            Collections.shuffle(allAnswers);
+                List<String> allAnswers = new ArrayList<>(currentQuestion.getIncorrectAnswers());
+                allAnswers.add(currentQuestion.getCorrectAnswer());
+                Collections.shuffle(allAnswers);
 
-            fragment.setAnswerText(currentQuestion, allAnswers);
-
-            fragment.enableAnswerButtons();
-
-            counter++;
-            timerUtils.startCountdown(TIMER_TIME);
+                Looper.prepare();
+                fragment.getActivity().runOnUiThread(() -> {
+                    fragment.setAnswerText(currentQuestion, allAnswers);
+                    fragment.enableAnswerButtons();
+                    counter++;
+                    timerUtils.startCountdown(TIMER_TIME);
+                });
+            }).start();
         }
     }
 
     public void checkAnswer(String selectedAnswer, View view) {
+        timerUtils.endTimer();
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
-            Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
@@ -121,17 +127,22 @@ public class GameHandler {
         } else {
             wrongAnswersCounter++;
             fragment.handleWrongAnswer();
-            Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
-                timerUtils.endTimer();
+
                 GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer));
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
-                Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
             }
+
         }
+    }
+
+    public void endGame() {
+        timerUtils.endTimer();
     }
 
 }

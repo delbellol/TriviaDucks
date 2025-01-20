@@ -19,6 +19,7 @@ import com.unimib.triviaducks.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,6 +92,7 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 selectedCategory = getCategoryFromPosition(position);
+                SharedPreferencesUtils.setCategory(getCategoryFromPosition(position));
                 // Aggiorna il testo in base alla categoria selezionata
                 categoryDescription.setText(categoryDescriptions.get(position));
             }

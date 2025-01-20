@@ -81,7 +81,13 @@ public class GameController extends ViewModel {
     private String apiCall() throws IOException {
         StringBuilder result = new StringBuilder();
 
-        URL url = new URL("https://opentdb.com/api.php?amount=10&type=multiple");
+        String ur = "https://opentdb.com/api.php?amount=10&type=multiple";
+
+        if (SharedPreferencesUtils.getCategory() != 0) {
+            ur += "&category="+ currentResult.getCategory();
+        }
+        Log.d("GameController",ur);
+        URL url = new URL(ur);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
 

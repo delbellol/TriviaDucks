@@ -66,6 +66,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:id = "@+id/resetPasswordButton"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,6 +122,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/loginGoogleButton"
         style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -132,6 +134,16 @@
         app:icon="@drawable/google_icon_svgrepo_com"
         app:iconGravity="textStart"
         app:iconTint="@null"
+        />
+
+    <Button
+        android:id="@+id/buttonNewAccount"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginStart="0dp"
+        android:text="@string/create_a_new_account"
         />
 
 </LinearLayout>

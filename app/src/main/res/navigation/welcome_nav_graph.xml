@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.unimib.triviaducks.ui.welcome.fragment.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_pickUsernameFragment"
+            app:destination="@id/pickUsernameFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.unimib.triviaducks.ui.home.HomeActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.unimib.triviaducks.ui.welcome.fragment.SignupFragment"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_pickUsernameFragment"
+            app:destination="@id/pickUsernameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pickUsernameFragment"
+        android:name="com.unimib.triviaducks.ui.welcome.fragment.PickUsernameFragment"
+        android:label="fragment_pick_username"
+        tools:layout="@layout/fragment_pick_username" >
+        <action
+            android:id="@+id/action_pickUsernameFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+</navigation>

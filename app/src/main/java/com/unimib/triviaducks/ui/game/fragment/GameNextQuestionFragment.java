@@ -2,7 +2,6 @@ package com.unimib.triviaducks.ui.game.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.home.MainActivity;
 
 public class GameNextQuestionFragment extends DialogFragment {
 

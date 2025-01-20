@@ -4,19 +4,17 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.home.MainActivity;
+import com.unimib.triviaducks.ui.home.HomeActivity;
 
 public class GameOverFragment extends DialogFragment {
 
@@ -53,7 +51,7 @@ public class GameOverFragment extends DialogFragment {
         home.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
             //Per spostarsi tra tra activity diverse a quanto pare bisogna usare questi intent maledetti
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
             dismiss(); //chiude la finestra di dialogo
         });

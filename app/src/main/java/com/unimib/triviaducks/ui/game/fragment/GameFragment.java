@@ -24,6 +24,7 @@ import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import org.jsoup.Jsoup;
 
@@ -45,6 +46,7 @@ public class GameFragment extends Fragment {
     private GameHandler gameHandler;
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
 
+    private int category; //categoria delle domande da passare al GameHandler
 
     public GameFragment() {
     }
@@ -77,6 +79,7 @@ public class GameFragment extends Fragment {
         lottieHeart3 = view.findViewById(R.id.lottie_heart3);
 
         //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
+        //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
@@ -84,7 +87,7 @@ public class GameFragment extends Fragment {
 
         // Gestisce l'evento di clic sul bottone per chiudere il gioco
         closeImageButton.setOnClickListener(v -> {
-            GameQuitFragment gameQuitDialog = new GameQuitFragment();
+            GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
             gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
         });
 
@@ -117,6 +120,8 @@ public class GameFragment extends Fragment {
             }
         });
 
+        //Log.d("GameFragment","Categoria: "+SharedPreferencesUtils.getCategory());
+
         return view;
     }
 
@@ -128,7 +133,7 @@ public class GameFragment extends Fragment {
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {
-                        GameQuitFragment gameQuitDialog = new GameQuitFragment();
+                        GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
                         gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
                     }
                 });
