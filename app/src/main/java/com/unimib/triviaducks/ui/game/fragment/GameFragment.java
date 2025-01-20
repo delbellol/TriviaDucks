@@ -42,6 +42,7 @@ public class GameFragment extends Fragment {
 
     private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
+    private final MutableLiveData<String> mutableScore = new MutableLiveData<>();
 
     private GameHandler gameHandler;
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
@@ -54,7 +55,7 @@ public class GameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter);
+        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
     }
 
     @Override
@@ -182,8 +183,8 @@ public class GameFragment extends Fragment {
         } else if (errorsCount == 3) {
             lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
             // Chiama il game over
-            GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.wrong_answer));
-            gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
+            //GameOverFragment gameOverDialog = new GameOverFragment(getString(R.string.wrong_answer), gameHandler.getScore());
+            //gameOverDialog.show(getParentFragmentManager(), "GameOverFragment");
         }
     }
 

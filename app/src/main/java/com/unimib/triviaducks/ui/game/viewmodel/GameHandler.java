@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.ui.game.viewmodel;
 
+import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 
 import android.content.Context;
@@ -25,6 +28,7 @@ import com.unimib.triviaducks.ui.game.fragment.GameNextQuestionFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModel;
 import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModelFactory;
+import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.TimerUtils;
 
@@ -41,18 +45,21 @@ public class GameHandler {
     private final Context context;
     private final MutableLiveData<Long> mutableSecondsRemaining;
     private final MutableLiveData<String> mutableQuestionCounter;
+    private final MutableLiveData<String> mutableScore;
     private QuestionViewModel questionViewModel;
     private List<Question> questionList;
     private int counter;
     private Question currentQuestion;
     private TimerUtils timerUtils;
     private int wrongAnswersCounter;
+    private int score;
 
-    public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter) {
+    public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter, MutableLiveData<String> mutableScore) {
         this.fragment = fragment;
         this.context = context;
         this.mutableSecondsRemaining = mutableSecondsRemaining;
         this.mutableQuestionCounter = mutableQuestionCounter;
+        this.mutableScore = mutableScore;
         this.questionList = new ArrayList<>();
         this.counter = 0;
         this.wrongAnswersCounter = 0;
@@ -115,11 +122,13 @@ public class GameHandler {
     }
 
     public void checkAnswer(String selectedAnswer, View view) {
-        timerUtils.endTimer();
+        timerUtils.endTimer(score);
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
+                timerUtils.endTimer(score);
+                AddScore();
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
@@ -130,7 +139,7 @@ public class GameHandler {
             //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
 
-                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer));
+                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer), score);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer));
@@ -138,11 +147,32 @@ public class GameHandler {
                 //Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
             }
 
+            //GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer),score);
+            //gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         }
     }
 
+    private void AddScore() {
+        String difficulty = currentQuestion.getDifficulty();
+        switch (difficulty) {
+            case "easy":
+                score += EASY_QUESTION_POINTS;
+                break;
+            case "medium":
+                score += MEDIUM_QUESTION_POINTS;
+                break;
+            case "hard":
+                score += HARD_QUESTION_POINTS;
+                break;
+            default:
+                Log.e("GameHandler","Errore nell'ottenere la difficoltà della domanda");
+                break;
+        }
+        Log.d("GameHandler", "Punteggio: "+score);
+    }
+
     public void endGame() {
-        timerUtils.endTimer();
+        timerUtils.endTimer(score);
     }
 
 }

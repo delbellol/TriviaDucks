@@ -108,4 +108,9 @@ public class Constants {
 
     public static final String FIREBASE_REALTIME_DATABASE = "https://triviaducks-d160a-default-rtdb.europe-west1.firebasedatabase.app/";
     public static final String FIREBASE_USERS_COLLECTION = "users";
+
+
+    public static final int EASY_QUESTION_POINTS = 10;
+    public static final int MEDIUM_QUESTION_POINTS = 25;
+    public static final int HARD_QUESTION_POINTS = 50;
 }
