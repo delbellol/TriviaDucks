@@ -42,7 +42,7 @@ public class TimerUtils {
             @Override
             public void onTick(long millisUntilFinished) {
                 mutableSecondsRemaining.postValue(millisUntilFinished / COUNTDOWN_INTERVAL);
-                Log.d("Timer",""+millisUntilFinished / COUNTDOWN_INTERVAL);
+                //Log.d("Timer",""+millisUntilFinished / COUNTDOWN_INTERVAL);
             }
 
             @Override
