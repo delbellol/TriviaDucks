@@ -119,7 +119,7 @@ public class GameHandler {
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment);
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
