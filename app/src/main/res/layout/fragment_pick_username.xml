@@ -10,16 +10,36 @@
         android:id="@+id/usernameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter your username"
+        android:text="Choose your icon and your username"
         android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_margin="5dp"
+        android:layout_gravity="center"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/profilePictureCardView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp">
+
+        <ImageButton
+            android:id="@+id/profilePictureImageButton"
+            style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ADD8E6"
+            android:contentDescription="@string/close_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cover" />
+    </com.google.android.material.card.MaterialCardView>
 
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:layout_margin="5dp"/>
 
     <Button
         android:id="@+id/confirmUsernameButton"

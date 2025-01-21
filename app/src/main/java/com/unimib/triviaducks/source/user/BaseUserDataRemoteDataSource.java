@@ -14,6 +14,8 @@ public abstract class BaseUserDataRemoteDataSource {
 
     public abstract void getUserPreferences(String idToken);
 
+    public abstract void getUserImages(String idToken);
+
     public abstract void saveUserPreferences(String username, String idToken);
 
     public abstract void saveUserImage(String imageName, String idToken);

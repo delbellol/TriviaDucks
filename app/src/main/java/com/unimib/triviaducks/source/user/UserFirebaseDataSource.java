@@ -87,6 +87,25 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
+    public void getUserImages(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_PROFILE_PICTURE).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String image = task.getResult().getValue(String.class);
+                        if (image != null) {
+                            sharedPreferencesUtil.writeStringData(
+                                    SHARED_PREFERENCES_FILENAME,
+                                    SHARED_PREFERENCES_PROFILE_PICTURE,
+                                    image);
+                            userResponseCallback.onSuccessFromGettingUserPreferences();
+                        } else {
+                            Log.e(TAG, "Image data from Firebase is null!");
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void saveUserPreferences(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -103,7 +122,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                 child(SHARED_PREFERENCES_PROFILE_PICTURE).setValue(imageName).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.i(TAG, "TEST");
                     }
                 });
     }

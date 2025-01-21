@@ -23,16 +23,6 @@
         android:gravity="center">
 
         <ImageButton
-            android:id="@+id/ImportPfpFromDeviceBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/upload_icon"
-            android:background="@color/design_default_color_on_secondary"
-            android:contentDescription="@string/profile" />
-
-        <ImageButton
             android:id="@+id/defaultProfilePicture"
             android:layout_width="100dp"
             android:layout_height="100dp"

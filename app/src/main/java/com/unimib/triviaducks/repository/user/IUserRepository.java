@@ -9,6 +9,7 @@ public interface IUserRepository {
     MutableLiveData<Result> getUser(String email, String password, boolean isUserRegistered);
     MutableLiveData<Result> getGoogleUser(String idToken);
     MutableLiveData<Result> getUserPreferences(String idToken);
+    MutableLiveData<Result> getUserImages(String idToken);
     MutableLiveData<Result> logout();
     User getLoggedUser();
     void signUp(String email, String password);

@@ -59,6 +59,12 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     }
 
     @Override
+    public MutableLiveData<Result> getUserImages(String idToken) {
+        userDataRemoteDataSource.getUserImages(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
     public User getLoggedUser() {
         return userRemoteDataSource.getLoggedUser();
     }

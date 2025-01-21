@@ -22,7 +22,7 @@
     <string name="profile_description">bottone per accedere al proprio profilo</string>
     <string name="ranking_description">bottone per accedere alla sezione classifica</string>
     <string name="close_description">bottone per tornare alla schermata principale</string>
-    <string name="play">Gioca</string>
+    <string name="play">PLAY</string>
     <string name="default_description">Descrizione della modalità di gioco</string>
     <string name="default_title">Modalità</string>
     <string name="account">Account</string>
@@ -91,4 +91,5 @@
     <string name="volume">Volume:</string>
     <string name="day_night_mode">Day / Night mode</string>
     <string name="mode">Mode:</string>
+    <string name="all_categories">All Categories</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.welcome.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,6 +15,7 @@ public class UserViewModel extends ViewModel {
     private final IUserRepository userRepository;
     private MutableLiveData<Result> userMutableLiveData;
     private MutableLiveData<Result> userPreferencesMutableLiveData;
+    private MutableLiveData<Result> userImagesMutableLiveData;
     private boolean authenticationError;
 
     public UserViewModel(IUserRepository userRepository) {
@@ -52,6 +55,14 @@ public class UserViewModel extends ViewModel {
             userPreferencesMutableLiveData = userRepository.getUserPreferences(idToken);
         }
         return userPreferencesMutableLiveData;
+    }
+
+    public MutableLiveData<Result> getUserImages(String idToken) {
+        if (idToken != null) {
+            userImagesMutableLiveData = userRepository.getUserImages(idToken);
+        }
+        Log.d(TAG, userImagesMutableLiveData.toString());
+        return userImagesMutableLiveData;
     }
 
     //TODO getUserImage e cambiare i nomi
