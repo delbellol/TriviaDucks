@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
@@ -42,6 +44,8 @@ public class AccountInformationFragment extends Fragment {
     private UserViewModel userViewModel; // ViewModel per gestire i dati utente
     private Converter converter; // Classe per conversioni
     private SharedPreferencesUtils sharedPreferencesUtils; // Utility per SharedPreferences
+    private CircularProgressIndicator circularProgressIndicator;
+    private ConstraintLayout accountLayout;
 
     public AccountInformationFragment() {
     }
@@ -65,7 +69,9 @@ public class AccountInformationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_account_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_account_information, container, false);
+
+        return view;
     }
 
     @Override
@@ -82,7 +88,7 @@ public class AccountInformationFragment extends Fragment {
         profileImageView = view.findViewById(R.id.profilePicture);
 
         // Carico immagine profilo
-            loadInformation();
+        loadInformation();
 
         // Collegamento dei pulsanti per cambiare immagine
         changePfPBtn = view.findViewById(R.id.ChangePfPBtn);
@@ -165,6 +171,51 @@ public class AccountInformationFragment extends Fragment {
                 )
         );
     }
+
+    //TODO AAGGIUNGERE CIRCULAR INDICATOR
+/*
+    private void loadInformation(View view) {
+        circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
+        accountLayout = view.findViewById(R.id.accountLayout);
+
+        // Recupera le informazioni utente
+        userViewModel.getUserImages(userViewModel.getLoggedUser().getIdToken()).observe(getViewLifecycleOwner(), userImages -> {
+            if (userImages != null) {
+                String profilePictureName = sharedPreferencesUtils.readStringData(
+                        Constants.SHARED_PREFERENCES_FILENAME,
+                        Constants.SHARED_PREFERENCES_PROFILE_PICTURE
+                );
+                int resourceId = getResourceIdByName(profilePictureName);
+                if (resourceId != 0) {
+                    profileImageView.setImageResource(resourceId);
+                }
+            }
+
+            // Controlla se tutte le operazioni sono complete
+            checkIfLoadingComplete(circularProgressIndicator, view);
+        });
+
+        userViewModel.getUserPreferences(userViewModel.getLoggedUser().getIdToken()).observe(getViewLifecycleOwner(), userPreferences -> {
+            if (userPreferences != null) {
+                usernameTextView.setText(sharedPreferencesUtils.readStringData(
+                        Constants.SHARED_PREFERENCES_FILENAME,
+                        Constants.SHARED_PREFERENCES_USERNAME
+                ));
+            }
+
+            // Controlla se tutte le operazioni sono complete
+            checkIfLoadingComplete(circularProgressIndicator, view);
+        });
+    }
+
+    // Metodo per controllare se il caricamento è completato
+    private void checkIfLoadingComplete(CircularProgressIndicator circularProgressIndicator, ConstraintLayout accountLayout) {
+        if (!userViewModel.getUserImages(userViewModel.getLoggedUser().getIdToken()).hasActiveObservers() && !userViewModel.getUserPreferences(userViewModel.getLoggedUser().getIdToken()).hasActiveObservers()) {
+            circularProgressIndicator.setVisibility(View.GONE); // Nasconde il progress indicator
+            accountLayout.setVisibility(View.VISIBLE); // Mostra la RecyclerView o altri elementi
+        }
+    }
+*/
 
     // Metodo per ottenere l'ID della risorsa dal nome
     private int getResourceIdByName(String resourceName) {
