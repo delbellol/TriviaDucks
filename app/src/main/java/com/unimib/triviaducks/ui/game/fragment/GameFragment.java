@@ -1,5 +1,9 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import android.content.Intent;
+import static com.unimib.triviaducks.util.Constants.CATEGORY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
@@ -41,17 +46,26 @@ public class GameFragment extends Fragment {
 
     private final MutableLiveData<String> mutableQuestionCounter = new MutableLiveData<>();
     private final MutableLiveData<Long> mutableSecondsRemaining = new MutableLiveData<>();
+    private final MutableLiveData<String> mutableScore = new MutableLiveData<>();
 
     private GameHandler gameHandler;
+    private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
+
     private int category; //categoria delle domande da passare al GameHandler
+
+    private int errorsCount = 0;
 
     public GameFragment() {
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter);
+        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
+
+        category = getActivity().getIntent().getIntExtra(CATEGORY,0);
+        Log.d("GameFragment","Category " + category);
     }
 
     @Override
@@ -71,6 +85,11 @@ public class GameFragment extends Fragment {
 
         countdownTextView = view.findViewById(R.id.countdown);
 
+        lottieHeart1 = view.findViewById(R.id.lottie_heart1);
+        lottieHeart2 = view.findViewById(R.id.lottie_heart2);
+        lottieHeart3 = view.findViewById(R.id.lottie_heart3);
+
+        //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
         //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
@@ -96,7 +115,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(10, "multiple", System.currentTimeMillis());
+        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -162,6 +181,17 @@ public class GameFragment extends Fragment {
         answerButton2.setText(Jsoup.parse(allAnswers.get(1)).text());
         answerButton3.setText(Jsoup.parse(allAnswers.get(2)).text());
         answerButton4.setText(Jsoup.parse(allAnswers.get(3)).text());
+    }
+
+    public void handleWrongAnswer() {
+        errorsCount++; // Incrementa il numero di errori
+        if (errorsCount == 1) {
+            lottieHeart3.setVisibility(View.GONE); // Nascondi il cuore 3
+        } else if (errorsCount == 2) {
+            lottieHeart2.setVisibility(View.GONE); // Nascondi il cuore 2
+        } else if (errorsCount == 3) {
+            lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
+        }
     }
 
 }

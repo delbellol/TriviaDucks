@@ -4,7 +4,8 @@ import static com.unimib.triviaducks.util.Constants.RETROFIT_ERROR;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_VALUE;
 import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
-import static com.unimib.triviaducks.util.SharedPreferencesUtils.getCategory;
+
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -36,12 +37,13 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
      * Metodo per recuperare le domande dall'API remota.
      */
     @Override
-    public void getQuestions() {
+    public void getQuestions(int category) {
         // Crea una chiamata Retrofit per ottenere le domande.
+        Log.d("QuestionRemoteDataSource","" + category);
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
                 TRIVIA_AMOUNT_VALUE, // Quantità di domande.
                 TRIVIA_TYPE_VALUE,    // Tipo di domande.
-                getCategory()
+                category
         );
 
         // Esegue la chiamata in modo asincrono.

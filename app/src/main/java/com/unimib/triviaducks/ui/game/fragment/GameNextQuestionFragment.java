@@ -15,12 +15,17 @@ import com.unimib.triviaducks.R;
 public class GameNextQuestionFragment extends DialogFragment {
 
     Button nextBtn;
-
     GameFragment fragment;
     TextView dialog_title;
+    String reason;
 
     public GameNextQuestionFragment() {
         // Costruttore vuoto
+    }
+
+    public GameNextQuestionFragment(GameFragment fragment, String reason) {
+        this.fragment = fragment;
+        this.reason = reason;
     }
 
     public GameNextQuestionFragment(GameFragment fragment) {
@@ -51,7 +56,7 @@ public class GameNextQuestionFragment extends DialogFragment {
         });
 
         dialog_title = view.findViewById(R.id.dialog_title);
-
+        dialog_title.setText(reason);
 
 
         return builder.create();

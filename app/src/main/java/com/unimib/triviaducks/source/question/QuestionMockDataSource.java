@@ -23,7 +23,7 @@ public class QuestionMockDataSource extends BaseQuestionRemoteDataSource {
      * Metodo per simulare il recupero delle domande da un mock (file JSON locale).
      */
     @Override
-    public void getQuestions() {
+    public void getQuestions(int category) {
         QuestionAPIResponse questionAPIResponse = null; // Inizializza la risposta.
 
         try {

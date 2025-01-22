@@ -19,18 +19,18 @@ public class QuestionViewModel extends ViewModel {
     }
 
     // Metodo per ottenere le domande, crea la LiveData se non esiste e la aggiorna
-    public MutableLiveData<Result> getQuestions(int amount, String type, long lastUpdate) {
+    public MutableLiveData<Result> getQuestions(int amount, String type, int category, long lastUpdate) {
         // Se questionListLiveData è null, esegui il fetch delle domande
         if (questionListLiveData == null) {
-            fetchQuestions(amount, type, lastUpdate);
+            fetchQuestions(amount, type, category, lastUpdate);
         }
         return questionListLiveData; // Ritorna la LiveData con le domande
     }
 
     // Metodo privato per chiamare il repository e ottenere le domande
-    private void fetchQuestions(int amount, String type, long lastUpdate) {
+    private void fetchQuestions(int amount, String type, int category, long lastUpdate) {
         // Chiamata al repository per ottenere le domande e aggiornare questionListLiveData
-        questionListLiveData = questionRepository.fetchQuestions(amount, type, lastUpdate);
+        questionListLiveData = questionRepository.fetchQuestions(amount, type, category, lastUpdate);
     }
 
     // Metodo privato per ottenere le domande senza parametri (probabilmente non usato)
