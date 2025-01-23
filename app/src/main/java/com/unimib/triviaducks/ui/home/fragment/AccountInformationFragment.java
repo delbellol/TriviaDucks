@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class AccountInformationFragment extends Fragment {
     private CircularProgressIndicator circularProgressIndicator;
     private ConstraintLayout accountLayout;
     private LottieAnimationView first_place, second_place, third_place;
+    private Button logoutButton;
 
     public AccountInformationFragment() {
     }
@@ -96,6 +98,7 @@ public class AccountInformationFragment extends Fragment {
         // Collegamento dell'ImageView per il profilo
         profileImageView = view.findViewById(R.id.profilePicture);
 
+        logoutButton = view.findViewById(R.id.logout);
 
         bestScoreTextView = view.findViewById(R.id.best_score);
 

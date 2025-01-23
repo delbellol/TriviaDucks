@@ -128,7 +128,7 @@
                         android:gravity="start"
                         android:text="Modifica Account" />
                     <Button
-                        android:id = "@+id/temp2"
+                        android:id = "@+id/logout"
                         style="@style/Widget.Material3.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
