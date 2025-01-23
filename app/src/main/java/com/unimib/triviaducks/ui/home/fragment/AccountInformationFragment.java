@@ -193,14 +193,26 @@ public class AccountInformationFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)));
 
+
         Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
-        List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
 
-        first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
-        second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
-        third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
+        if (matchPlayedSet == null || matchPlayedSet.isEmpty()) {
+            Log.e(TAG, "The set is empty");
+        } else {
+            List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
+
+            if (matchPlayedList.size() >= 1) {
+                first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
+                if (matchPlayedList.size() >= 2) {
+                    second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
+                    if (matchPlayedList.size() > 2) {
+                        third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
+                    }
+                }
+            }
+        }
 
         usernameTextView.setText(
                 sharedPreferencesUtils.readStringData(
