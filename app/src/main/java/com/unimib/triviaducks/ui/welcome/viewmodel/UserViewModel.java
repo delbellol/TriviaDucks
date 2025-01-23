@@ -50,6 +50,12 @@ public class UserViewModel extends ViewModel {
         }
     }
 
+    public void updateCategoryCounter(String category, String idToken) {
+        if (idToken != null) {
+            userRepository.updateCategoryCounter(category, idToken);
+        }
+    }
+
     public MutableLiveData<Result> getUserPreferences(String idToken) {
         if (idToken != null) {
             userPreferencesMutableLiveData = userRepository.getUserPreferences(idToken);
@@ -62,6 +68,13 @@ public class UserViewModel extends ViewModel {
             userImagesMutableLiveData = userRepository.getUserImages(idToken);
         }
         Log.d(TAG, userImagesMutableLiveData.toString());
+        return userImagesMutableLiveData;
+    }
+
+    public MutableLiveData<Result> getCategoriesPodium(String idToken) {
+        if (idToken != null) {
+            userImagesMutableLiveData = userRepository.getCategoriesPodium(idToken);
+        }
         return userImagesMutableLiveData;
     }
 

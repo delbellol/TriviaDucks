@@ -6,24 +6,22 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -106,6 +104,52 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
+    public void getCategoriesPodium(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            DataSnapshot dataSnapshot = task.getResult();
+                            Map<String, Integer> categoryCountMap = new HashMap<>();
+
+                            for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                                String category = categorySnapshot.getKey();
+                                Integer count = categorySnapshot.getValue(Integer.class);
+                                categoryCountMap.put(category, count);
+                            }
+
+                            Set<String> topCategories = categoryCountMap
+                                    .entrySet()
+                                    .stream()
+                                    .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+                                    .limit(3)
+                                    .map(Map.Entry::getKey)
+                                    .collect(Collectors.toSet());
+
+//                            for (String category : topCategories) {
+//                                Log.d(TAG, "Categoria più giocata: " + category);
+//                            }
+
+                            sharedPreferencesUtil.writeStringSetData(
+                                    SHARED_PREFERENCES_FILENAME,
+                                    SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY,
+                                    topCategories
+                            );
+
+                            userResponseCallback.onSuccessFromGettingUserPreferences();
+                        }
+                        else {
+                            Log.d(TAG, "No data found for categories!");
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "Exception: "+task.getException());
+                    }
+                });
+    }
+
+    @Override
     public void saveUserPreferences(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -120,6 +164,17 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void saveUserImage(String imageName, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_PROFILE_PICTURE).setValue(imageName).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
+    }
+
+    @Override
+    public void updateCategoryCounter(String category, String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken)
+                .child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)
+                .child(category).setValue(ServerValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                     }

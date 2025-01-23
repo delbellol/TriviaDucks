@@ -2,6 +2,8 @@ package com.unimib.triviaducks.ui.home.fragment;
 
 // Import delle costanti per l'uso nelle SharedPreferences
 
+import static com.unimib.triviaducks.util.Constants.*;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
@@ -31,6 +34,10 @@ import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.Converter;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 public class AccountInformationFragment extends Fragment {
@@ -46,6 +53,7 @@ public class AccountInformationFragment extends Fragment {
     private SharedPreferencesUtils sharedPreferencesUtils; // Utility per SharedPreferences
     private CircularProgressIndicator circularProgressIndicator;
     private ConstraintLayout accountLayout;
+    private LottieAnimationView first_place, second_place, third_place;
 
     public AccountInformationFragment() {
     }
@@ -86,6 +94,10 @@ public class AccountInformationFragment extends Fragment {
 
         // Collegamento dell'ImageView per il profilo
         profileImageView = view.findViewById(R.id.profilePicture);
+
+        first_place = view.findViewById(R.id.first_place);
+        second_place = view.findViewById(R.id.second_place);
+        third_place = view.findViewById(R.id.third_place);
 
         // Carico immagine profilo
         loadInformation();
@@ -157,6 +169,28 @@ public class AccountInformationFragment extends Fragment {
                 userViewModel.getLoggedUser().getIdToken()
         );
 
+        userViewModel.getCategoriesPodium(
+                userViewModel.getLoggedUser().getIdToken()
+        );
+
+        if (sharedPreferencesUtils.readStringSetData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null)
+            Log.d(TAG, "null");
+        else
+            Log.d(TAG, String.valueOf(sharedPreferencesUtils.readStringSetData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)));
+
+        Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
+        List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
+
+        first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
+        second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
+        third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
+
         usernameTextView.setText(
                 sharedPreferencesUtils.readStringData(
                         Constants.SHARED_PREFERENCES_FILENAME,
@@ -170,52 +204,9 @@ public class AccountInformationFragment extends Fragment {
                         )
                 )
         );
+
+
     }
-
-    //TODO AAGGIUNGERE CIRCULAR INDICATOR
-/*
-    private void loadInformation(View view) {
-        circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
-        accountLayout = view.findViewById(R.id.accountLayout);
-
-        // Recupera le informazioni utente
-        userViewModel.getUserImages(userViewModel.getLoggedUser().getIdToken()).observe(getViewLifecycleOwner(), userImages -> {
-            if (userImages != null) {
-                String profilePictureName = sharedPreferencesUtils.readStringData(
-                        Constants.SHARED_PREFERENCES_FILENAME,
-                        Constants.SHARED_PREFERENCES_PROFILE_PICTURE
-                );
-                int resourceId = getResourceIdByName(profilePictureName);
-                if (resourceId != 0) {
-                    profileImageView.setImageResource(resourceId);
-                }
-            }
-
-            // Controlla se tutte le operazioni sono complete
-            checkIfLoadingComplete(circularProgressIndicator, view);
-        });
-
-        userViewModel.getUserPreferences(userViewModel.getLoggedUser().getIdToken()).observe(getViewLifecycleOwner(), userPreferences -> {
-            if (userPreferences != null) {
-                usernameTextView.setText(sharedPreferencesUtils.readStringData(
-                        Constants.SHARED_PREFERENCES_FILENAME,
-                        Constants.SHARED_PREFERENCES_USERNAME
-                ));
-            }
-
-            // Controlla se tutte le operazioni sono complete
-            checkIfLoadingComplete(circularProgressIndicator, view);
-        });
-    }
-
-    // Metodo per controllare se il caricamento è completato
-    private void checkIfLoadingComplete(CircularProgressIndicator circularProgressIndicator, ConstraintLayout accountLayout) {
-        if (!userViewModel.getUserImages(userViewModel.getLoggedUser().getIdToken()).hasActiveObservers() && !userViewModel.getUserPreferences(userViewModel.getLoggedUser().getIdToken()).hasActiveObservers()) {
-            circularProgressIndicator.setVisibility(View.GONE); // Nasconde il progress indicator
-            accountLayout.setVisibility(View.VISIBLE); // Mostra la RecyclerView o altri elementi
-        }
-    }
-*/
 
     // Metodo per ottenere l'ID della risorsa dal nome
     private int getResourceIdByName(String resourceName) {
@@ -224,6 +215,21 @@ public class AccountInformationFragment extends Fragment {
                 "drawable", // Ricerca nelle risorse di tipo drawable
                 requireContext().getPackageName() // Nome del pacchetto
         );
+    }
+
+    private int getCategoryIconFromCode(int code) {
+        switch (code) {
+            default:
+                return R.raw.category_all;
+            case HISTORY_CODE:
+                return R.raw.category_science;
+            case SCIENCE_NATURE_CODE:
+                return R.raw.category_geography;
+            case GEOGRAPHY_CODE:
+                return R.raw.category_history;
+            case SPORTS_CODE:
+                return R.raw.category_sport;
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

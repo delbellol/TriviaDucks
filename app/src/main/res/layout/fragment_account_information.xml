@@ -191,23 +191,50 @@
                     android:layout_marginHorizontal="25dp"
                     android:text="Categorie preferite"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-                <LinearLayout
+                <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:columnCount="6"
+                    android:alignmentMode="alignMargins"
+                    android:useDefaultMargins="true"
+                    android:gravity="center">
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/medal1" />
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/first_place"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:contentDescription="@string/default_title"
+                        app:lottie_rawRes="@raw/category_history"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="-40dp" />
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/medal2" />
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/second_place"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:contentDescription="@string/default_title"
+                        app:lottie_rawRes="@raw/category_history"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="-40dp" />
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/medal3" />
-                </LinearLayout>
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/third_place"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:contentDescription="@string/default_title"
+                        app:lottie_rawRes="@raw/category_history"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="-40dp" />
+                </GridLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

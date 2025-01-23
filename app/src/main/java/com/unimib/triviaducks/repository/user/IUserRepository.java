@@ -10,6 +10,7 @@ public interface IUserRepository {
     MutableLiveData<Result> getGoogleUser(String idToken);
     MutableLiveData<Result> getUserPreferences(String idToken);
     MutableLiveData<Result> getUserImages(String idToken);
+    MutableLiveData<Result> getCategoriesPodium(String idToken);
     MutableLiveData<Result> logout();
     User getLoggedUser();
     void signUp(String email, String password);
@@ -17,4 +18,5 @@ public interface IUserRepository {
     void signInWithGoogle(String token);
     void saveUserPreferences(String username, String idToken);
     void saveUserImage(String imageName, String idToken);
+    void updateCategoryCounter(String category, String idToken);
 }
