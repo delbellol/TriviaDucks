@@ -79,6 +79,13 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     }
 
     @Override
+    public MutableLiveData<Result> getLeaderboard() {
+        Log.d(TAG, "ok");
+        userDataRemoteDataSource.getLeaderboard();
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
     public User getLoggedUser() {
         return userRemoteDataSource.getLoggedUser();
     }

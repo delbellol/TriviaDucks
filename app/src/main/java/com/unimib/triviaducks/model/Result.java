@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.model;
 
+import java.util.List;
+
 public abstract class Result {
     private Result() {}
 
@@ -28,6 +30,16 @@ public abstract class Result {
         }
         public User getData() {
             return user;
+        }
+    }
+
+    public static final class LeaderboardSuccess extends Result {
+        private final List<User> leaderboard;
+        public LeaderboardSuccess(List<User> leaderboard) {
+            this.leaderboard = leaderboard;
+        }
+        public List<User> getData() {
+            return leaderboard;
         }
     }
 

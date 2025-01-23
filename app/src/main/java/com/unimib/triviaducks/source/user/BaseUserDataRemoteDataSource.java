@@ -20,6 +20,8 @@ public abstract class BaseUserDataRemoteDataSource {
 
     public abstract void getCategoriesPodium(String idToken);
 
+    public abstract void getLeaderboard();
+
     public abstract void saveUserPreferences(String username, String idToken);
 
     public abstract void saveUserImage(String imageName, String idToken);

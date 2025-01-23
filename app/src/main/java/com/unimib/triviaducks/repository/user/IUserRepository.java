@@ -21,4 +21,5 @@ public interface IUserRepository {
     void saveUserImage(String imageName, String idToken);
     void saveBestScore(int score, String idToken);
     void updateCategoryCounter(String category, String idToken);
+    MutableLiveData<Result> getLeaderboard();
 }

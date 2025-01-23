@@ -18,6 +18,7 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<Result> userImagesMutableLiveData;
     private MutableLiveData<Result> userPodiumMutableLiveData;
     private MutableLiveData<Result> userBestScoreMutableLiveData;
+    private MutableLiveData<Result> leaderboardMutableLiveData;
     private boolean authenticationError;
 
     public UserViewModel(IUserRepository userRepository) {
@@ -127,5 +128,11 @@ public class UserViewModel extends ViewModel {
 
     private void getUserData(String token) {
         userMutableLiveData = userRepository.getGoogleUser(token);
+    }
+
+    public MutableLiveData<Result> getLeaderboard() {
+        Log.d(TAG, "ok");
+        leaderboardMutableLiveData = userRepository.getLeaderboard();
+        return leaderboardMutableLiveData;
     }
 }
