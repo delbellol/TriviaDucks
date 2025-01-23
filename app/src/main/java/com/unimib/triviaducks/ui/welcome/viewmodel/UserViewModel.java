@@ -16,6 +16,8 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<Result> userMutableLiveData;
     private MutableLiveData<Result> userPreferencesMutableLiveData;
     private MutableLiveData<Result> userImagesMutableLiveData;
+    private MutableLiveData<Result> userPodiumMutableLiveData;
+    private MutableLiveData<Result> userBestScoreMutableLiveData;
     private boolean authenticationError;
 
     public UserViewModel(IUserRepository userRepository) {
@@ -50,6 +52,12 @@ public class UserViewModel extends ViewModel {
         }
     }
 
+    public void saveBestScore(int score, String idToken) {
+        if (idToken != null) {
+            userRepository.saveBestScore(score, idToken);
+        }
+    }
+
     public void updateCategoryCounter(String category, String idToken) {
         if (idToken != null) {
             userRepository.updateCategoryCounter(category, idToken);
@@ -71,11 +79,19 @@ public class UserViewModel extends ViewModel {
         return userImagesMutableLiveData;
     }
 
+    public MutableLiveData<Result> getUserBestScore(String idToken) {
+        if (idToken != null) {
+            userBestScoreMutableLiveData = userRepository.getUserBestScore(idToken);
+        }
+        Log.d(TAG, userBestScoreMutableLiveData.toString());
+        return userBestScoreMutableLiveData;
+    }
+
     public MutableLiveData<Result> getCategoriesPodium(String idToken) {
         if (idToken != null) {
-            userImagesMutableLiveData = userRepository.getCategoriesPodium(idToken);
+            userPodiumMutableLiveData = userRepository.getCategoriesPodium(idToken);
         }
-        return userImagesMutableLiveData;
+        return userPodiumMutableLiveData;
     }
 
     //TODO getUserImage e cambiare i nomi

@@ -181,8 +181,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="25dp"
-                    android:text="Record Risposte corrette"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:text="Punteggio migliore"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <TextView
+                    android:id="@+id/best_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_gravity="center"
+                    android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
@@ -207,7 +218,6 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/default_title"
-                        app:lottie_rawRes="@raw/category_history"
                         tools:layout_editor_absoluteX="0dp"
                         tools:layout_editor_absoluteY="-40dp" />
                     <ImageView
@@ -219,7 +229,6 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/default_title"
-                        app:lottie_rawRes="@raw/category_history"
                         tools:layout_editor_absoluteX="0dp"
                         tools:layout_editor_absoluteY="-40dp" />
                     <ImageView
@@ -231,7 +240,6 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/default_title"
-                        app:lottie_rawRes="@raw/category_history"
                         tools:layout_editor_absoluteX="0dp"
                         tools:layout_editor_absoluteY="-40dp" />
                 </GridLayout>

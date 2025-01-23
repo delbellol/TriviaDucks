@@ -16,11 +16,15 @@ public abstract class BaseUserDataRemoteDataSource {
 
     public abstract void getUserImages(String idToken);
 
+    public abstract void getUserBestScore(String idToken);
+
     public abstract void getCategoriesPodium(String idToken);
 
     public abstract void saveUserPreferences(String username, String idToken);
 
     public abstract void saveUserImage(String imageName, String idToken);
+
+    public abstract void saveBestScore(int score, String idToken);
 
     public abstract void updateCategoryCounter(String category, String idToken);
 }

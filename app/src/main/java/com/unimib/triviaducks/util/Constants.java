@@ -97,7 +97,7 @@ public class Constants {
     public static final String SHARED_PREFERENCES_USERNAME = "username";
     public static final String SHARED_PREFERENCES_PROFILE_PICTURE = "profile_picture";
     public static final String SHARED_PREFERENCES_LAST_UPDATE = "last_update";
-    public static final String SHARED_PREFERNECES_LAST_UPDATE = "last_update";
+    public static final String SHARED_PREFERENCES_BEST_SCORE = "best_score";
     public static final String SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY = "match_played_by_category";
 
     // Costanti di errore

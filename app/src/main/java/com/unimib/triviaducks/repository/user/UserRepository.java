@@ -67,6 +67,12 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     }
 
     @Override
+    public MutableLiveData<Result> getUserBestScore(String idToken) {
+        userDataRemoteDataSource.getUserBestScore(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
     public MutableLiveData<Result> getCategoriesPodium(String idToken) {
         userDataRemoteDataSource.getCategoriesPodium(idToken);
         return userPreferencesMutableLiveData;
@@ -106,6 +112,11 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
     @Override
     public void saveUserImage(String imageName, String idToken) {
         userDataRemoteDataSource.saveUserImage(imageName, idToken);
+    }
+
+    @Override
+    public void saveBestScore(int score, String idToken) {
+        userDataRemoteDataSource.saveBestScore(score, idToken);
     }
 
     @Override

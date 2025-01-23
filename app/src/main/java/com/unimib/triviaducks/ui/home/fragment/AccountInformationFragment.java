@@ -48,6 +48,7 @@ public class AccountInformationFragment extends Fragment {
     private ImageButton profilePicture;
     private ImageView profileImageView; // Visualizzazione immagine profilo
     private TextView usernameTextView; // Visualizzazione nome utente
+    private TextView bestScoreTextView;
     private UserViewModel userViewModel; // ViewModel per gestire i dati utente
     private Converter converter; // Classe per conversioni
     private SharedPreferencesUtils sharedPreferencesUtils; // Utility per SharedPreferences
@@ -94,6 +95,9 @@ public class AccountInformationFragment extends Fragment {
 
         // Collegamento dell'ImageView per il profilo
         profileImageView = view.findViewById(R.id.profilePicture);
+
+
+        bestScoreTextView = view.findViewById(R.id.best_score);
 
         first_place = view.findViewById(R.id.first_place);
         second_place = view.findViewById(R.id.second_place);
@@ -173,6 +177,10 @@ public class AccountInformationFragment extends Fragment {
                 userViewModel.getLoggedUser().getIdToken()
         );
 
+        userViewModel.getUserBestScore(
+                userViewModel.getLoggedUser().getIdToken()
+        );
+
         if (sharedPreferencesUtils.readStringSetData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null)
@@ -205,7 +213,10 @@ public class AccountInformationFragment extends Fragment {
                 )
         );
 
-
+        bestScoreTextView.setText(
+                String.valueOf(sharedPreferencesUtils.readIntData(
+                        Constants.SHARED_PREFERENCES_FILENAME,
+                        Constants.SHARED_PREFERENCES_BEST_SCORE)));
     }
 
     // Metodo per ottenere l'ID della risorsa dal nome

@@ -104,6 +104,23 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
+    public void getUserBestScore(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_BEST_SCORE).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int score = 0;
+                        if (task.getResult().getValue(Integer.class) != null)
+                            score = task.getResult().getValue(Integer.class);
+                        sharedPreferencesUtil.writeIntData(
+                                SHARED_PREFERENCES_FILENAME,
+                                SHARED_PREFERENCES_BEST_SCORE,
+                                score);
+                        userResponseCallback.onSuccessFromGettingUserPreferences();
+                    }
+                });
+    }
+
+    @Override
     public void getCategoriesPodium(String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY).get()
@@ -164,6 +181,18 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void saveUserImage(String imageName, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_PROFILE_PICTURE).setValue(imageName).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
+    }
+
+    @Override
+    public void saveBestScore(int score, String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .child(idToken)
+                .child(SHARED_PREFERENCES_BEST_SCORE)
+                .setValue(score).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                     }
