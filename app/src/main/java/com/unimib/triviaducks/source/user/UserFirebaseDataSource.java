@@ -21,7 +21,7 @@ import com.unimib.triviaducks.util.SharedPreferencesUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -216,7 +216,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
     @Override
     public void getLeaderboard() {
-        Log.d(TAG, "ok final");
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
                 .limitToLast(10)
@@ -225,42 +224,24 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                     if (task.isSuccessful()) {
                         DataSnapshot dataSnapshot = task.getResult();
 
-                        List<String> topUsernames = new ArrayList<>();
-                        List<Integer> topScores = new ArrayList<>();
-                        List<String> topImages = new ArrayList<>();
+                        HashSet<String> leaderboardSet = new HashSet<>();
 
                         for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                             String username = userSnapshot.child(SHARED_PREFERENCES_USERNAME).getValue(String.class);
-                            Integer best_score = userSnapshot.child(SHARED_PREFERENCES_BEST_SCORE).getValue(Integer.class);
+                            Integer bestScore = userSnapshot.child(SHARED_PREFERENCES_BEST_SCORE).getValue(Integer.class);
                             String image = userSnapshot.child(SHARED_PREFERENCES_PROFILE_PICTURE).getValue(String.class);
 
-                            if (best_score == null) {
-                                best_score = 0;
-                            }
+                            String topUserData = bestScore + ";" + username + ";" + image;
 
                             if (username != null && image != null) {
-                                topUsernames.add(username);
-                                topScores.add(best_score);
-                                topImages.add(image);
+                                leaderboardSet.add(topUserData);
                             }
                         }
 
-                        // TEST
-                        for (int i = 0; i < topUsernames.size(); i++) {
-                            String username = topUsernames.get(i);
-                            Integer bestScore = topScores.get(i);
-                            String image = topImages.get(i);
-
-                            Log.d(TAG, "Image: " + image + " Username: " + username + " Best Score: " + bestScore);
-                        }
-
-                        //TODO Aggiungere salvataggio image e best score
-                        //TODO convertire in set ordinato
-                        Set<String> usernameSet = new HashSet<>(topUsernames);
                         sharedPreferencesUtil.writeStringSetData(
                                 SHARED_PREFERENCES_FILENAME,
-                                SHARED_PREFERENCES_LEADERBOARD_USERNAMES,
-                                usernameSet
+                                SHARED_PREFERENCES_LEADERBOARD,
+                                leaderboardSet
                         );
 
                         userResponseCallback.onSuccessFromGettingUserPreferences();

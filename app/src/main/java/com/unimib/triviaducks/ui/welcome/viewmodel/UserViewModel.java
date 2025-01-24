@@ -131,7 +131,6 @@ public class UserViewModel extends ViewModel {
     }
 
     public MutableLiveData<Result> getLeaderboard() {
-        Log.d(TAG, "ok");
         leaderboardMutableLiveData = userRepository.getLeaderboard();
         return leaderboardMutableLiveData;
     }

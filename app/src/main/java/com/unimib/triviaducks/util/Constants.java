@@ -99,7 +99,7 @@ public class Constants {
     public static final String SHARED_PREFERENCES_LAST_UPDATE = "last_update";
     public static final String SHARED_PREFERENCES_BEST_SCORE = "best_score";
     public static final String SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY = "match_played_by_category";
-    public static final String SHARED_PREFERENCES_LEADERBOARD_USERNAMES = "leaderboard_username";
+    public static final String SHARED_PREFERENCES_LEADERBOARD = "leaderboard";
 
     // Costanti di errore
     public static final String REMOVED_QUESTION = "[Removed]";

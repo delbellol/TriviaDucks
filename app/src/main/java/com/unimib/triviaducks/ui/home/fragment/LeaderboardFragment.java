@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.adapter.RankRecyclerAdapter;
@@ -22,13 +20,19 @@ import com.unimib.triviaducks.model.Rank;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
+import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.ServiceLocator;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LeaderboardFragment extends Fragment {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
+
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     private UserViewModel userViewModel;
 
@@ -52,7 +56,9 @@ public class LeaderboardFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
-        userViewModel.setAuthenticationError(false);// Inizializzazione base del fragment
+        userViewModel.setAuthenticationError(false);
+
+        userViewModel.getLeaderboard();
     }
 
     @Override
@@ -60,34 +66,29 @@ public class LeaderboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
 
-        Log.d(TAG, "prima di userViewModel.getLeaderboard()");
-        userViewModel.getLeaderboard();
-        Log.d(TAG, "dopo userViewModel.getLeaderboard()");
-
-            recyclerView = view.findViewById(R.id.rankList);
-
-            rankList = new ArrayList<>();
-            rankList.add(new Rank(1, R.drawable.p1, "Account 1", 1000));
-            rankList.add(new Rank(2, R.drawable.p2, "Account 2", 950));
-            rankList.add(new Rank(3, R.drawable.p3, "Account 3", 900));
-            rankList.add(new Rank(4, R.drawable.p4, "Account 4", 850));
-            rankList.add(new Rank(5, R.drawable.p5, "Account 5", 800));
-            rankList.add(new Rank(6, R.drawable.p6, "Account 6", 750));
-            rankList.add(new Rank(7, R.drawable.p1, "Account 7", 700));
-            rankList.add(new Rank(8, R.drawable.p2, "Account 8", 650));
-            rankList.add(new Rank(9, R.drawable.p3, "Account 9", 600));
-            rankList.add(new Rank(10, R.drawable.p4, "Account 10", 550));
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            adapter = new RankRecyclerAdapter(rankList);
-            recyclerView.setAdapter(adapter);
-
-            return view;
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.rankList);
+
+        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+
+        Set<String> leaderboardSet = sharedPreferencesUtils.readStringSetData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_LEADERBOARD);
+
+        if (leaderboardSet==null)
+            Log.d(TAG, "null");
+        else
+            Log.d(TAG, String.valueOf(leaderboardSet));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new RankRecyclerAdapter(getContext(), leaderboardSet);
+        recyclerView.setAdapter(adapter);
 
     }
 }
