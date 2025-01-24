@@ -176,4 +176,19 @@ public class GameHandler {
         timerUtils.endTimer(score);
     }
 
+    public void handleTimerExpired() {
+        wrongAnswersCounter++; // Incrementa il contatore degli errori
+        fragment.handleWrongAnswer(); // Mostra eventuali effetti visivi
+
+        if (wrongAnswersCounter >= 3) {
+            GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired), score);
+            gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+        } else {
+            GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(
+                    (GameFragment) fragment, context.getString(R.string.time_expired));
+            nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
+        }
+    }
+
+
 }

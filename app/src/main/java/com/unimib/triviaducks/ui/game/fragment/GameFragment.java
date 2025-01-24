@@ -194,4 +194,8 @@ public class GameFragment extends Fragment {
         }
     }
 
+    public void handleTimerExpired() {
+        gameHandler.handleTimerExpired();
+    }
+
 }

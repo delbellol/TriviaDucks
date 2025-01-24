@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 
 import java.util.Timer;
@@ -48,8 +49,7 @@ public class TimerUtils {
 
             @Override
             public void onFinish() {
-                endTimer(score);
-                showGameOver();
+                notifyTimerExpired();
             }
         }.start();
     }
@@ -66,5 +66,11 @@ public class TimerUtils {
     private void showGameOver(){
         GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired),score);
         gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+    }
+
+    public void notifyTimerExpired() {
+        if (fragment instanceof GameFragment) {
+            ((GameFragment) fragment).handleTimerExpired(); // Notifica al GameFragment
+        }
     }
 }
