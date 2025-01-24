@@ -124,6 +124,7 @@ public class GameHandler {
 
     public void checkAnswer(String selectedAnswer, View view) {
         timerUtils.endTimer(score);
+        String correctAnswer = Jsoup.parse(currentQuestion.getCorrectAnswer()).text();
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
@@ -140,10 +141,10 @@ public class GameHandler {
             //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
 
-                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer), score);
+                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer), score, correctAnswer);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer));
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer), correctAnswer);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
                 //Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
             }
@@ -178,14 +179,14 @@ public class GameHandler {
 
     public void handleTimerExpired() {
         wrongAnswersCounter++; // Incrementa il contatore degli errori
-        fragment.handleWrongAnswer(); // Mostra eventuali effetti visivi
-
+        fragment.handleWrongAnswer(); // Per togliere cuore rosso
+        String correctAnswer = Jsoup.parse(currentQuestion.getCorrectAnswer()).text();
         if (wrongAnswersCounter >= 3) {
-            GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired), score);
+            GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired), score, correctAnswer);
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         } else {
             GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(
-                    (GameFragment) fragment, context.getString(R.string.time_expired));
+                    (GameFragment) fragment, context.getString(R.string.time_expired), correctAnswer);
             nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
         }
     }
