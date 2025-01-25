@@ -52,7 +52,6 @@ public class GameHandler {
     private Question currentQuestion;
     private TimerUtils timerUtils;
     private int wrongAnswersCounter;
-    private int score;
 
     public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter, MutableLiveData<String> mutableScore) {
         this.fragment = fragment;
@@ -123,13 +122,13 @@ public class GameHandler {
     }
 
     public void checkAnswer(String selectedAnswer, View view) {
-        timerUtils.endTimer(score);
+        timerUtils.endTimer();
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
-                timerUtils.endTimer(score);
-                AddScore();
+                timerUtils.endTimer();
+                fragment.AddScore(currentQuestion.getDifficulty());
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             } else {
                 Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
@@ -139,8 +138,7 @@ public class GameHandler {
             fragment.handleWrongAnswer();
             //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
-
-                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer), score);
+                GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer), fragment.getScore());
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer));
@@ -153,27 +151,8 @@ public class GameHandler {
         }
     }
 
-    private void AddScore() {
-        String difficulty = currentQuestion.getDifficulty();
-        switch (difficulty) {
-            case "easy":
-                score += EASY_QUESTION_POINTS;
-                break;
-            case "medium":
-                score += MEDIUM_QUESTION_POINTS;
-                break;
-            case "hard":
-                score += HARD_QUESTION_POINTS;
-                break;
-            default:
-                Log.e("GameHandler","Errore nell'ottenere la difficoltà della domanda");
-                break;
-        }
-        Log.d("GameHandler", "Punteggio: "+score);
-    }
-
     public void endGame() {
-        timerUtils.endTimer(score);
+        timerUtils.endTimer();
     }
 
 }

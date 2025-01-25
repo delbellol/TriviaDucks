@@ -1,7 +1,9 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-import android.content.Intent;
 import static com.unimib.triviaducks.util.Constants.CATEGORY;
+import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 
 import android.os.Bundle;
@@ -25,10 +27,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
-import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
-import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import org.jsoup.Jsoup;
 
@@ -54,6 +53,8 @@ public class GameFragment extends Fragment {
     private int category; //categoria delle domande da passare al GameHandler
 
     private int errorsCount = 0;
+
+    private int score;
 
     public GameFragment() {
     }
@@ -192,6 +193,28 @@ public class GameFragment extends Fragment {
         } else if (errorsCount == 3) {
             lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
         }
+    }
+
+    public void AddScore(String difficulty) {
+        switch (difficulty) {
+            case "easy":
+                score += EASY_QUESTION_POINTS;
+                break;
+            case "medium":
+                score += MEDIUM_QUESTION_POINTS;
+                break;
+            case "hard":
+                score += HARD_QUESTION_POINTS;
+                break;
+            default:
+                Log.e("GameHandler","Errore nell'ottenere la difficoltà della domanda");
+                break;
+        }
+        Log.d("GameHandler", "Punteggio: "+score);
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }
