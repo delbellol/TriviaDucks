@@ -1,16 +1,10 @@
 package com.unimib.triviaducks.ui.home;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
@@ -19,7 +13,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.game.QuestionActivity;
 import com.unimib.triviaducks.util.MusicService;
 
 public class HomeActivity extends AppCompatActivity {
@@ -27,8 +20,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-
 
         SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
@@ -52,4 +43,48 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Ferma la musica quando l'app va in background
+        stopMusic();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Ferma la musica quando l'app va in background
+        stopMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Ripristina la musica quando l'app ritorna in primo piano
+        resumeMusic();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Assicurati che la musica parta all'avvio dell'attività
+        resumeMusic();
+    }
+
+    private void stopMusic() {
+        Intent intent = new Intent(this, MusicService.class);
+        intent.setAction("OFF");
+        startService(intent); // Ferma la musica
+    }
+
+    private void resumeMusic() {
+        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
+
+        if (isMusicEnabled) {
+            Intent intent = new Intent(this, MusicService.class);
+            intent.setAction("ON"); // Riavvia la musica
+            startService(intent);
+        }
+    }
 }
