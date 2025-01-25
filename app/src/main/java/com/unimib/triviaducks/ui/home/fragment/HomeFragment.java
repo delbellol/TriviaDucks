@@ -98,14 +98,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button oneShot = view.findViewById(R.id.oneShot);
-        oneShot.setOnClickListener(v -> {
-            GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
-            gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
-        });
-
-        Button trials = view.findViewById(R.id.trials);
-        trials.setOnClickListener(v -> {
+        Button play = view.findViewById(R.id.play);
+        play.setOnClickListener(v -> {
             GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
             gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
         });

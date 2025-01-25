@@ -51,10 +51,12 @@ public class GameFragment extends Fragment {
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
 
     private int category; //categoria delle domande da passare al GameHandler
+    String difficulty;
 
     private int errorsCount = 0;
 
     private int score;
+
 
     public GameFragment() {
     }
@@ -67,6 +69,9 @@ public class GameFragment extends Fragment {
 
         category = getActivity().getIntent().getIntExtra(CATEGORY,0);
         Log.d("GameFragment","Category " + category);
+
+        difficulty = getActivity().getIntent().getStringExtra("DIFFICULTY");
+        Log.d("GameFragment","Difficulty " + difficulty);
     }
 
     @Override
