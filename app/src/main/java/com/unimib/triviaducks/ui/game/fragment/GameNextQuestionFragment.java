@@ -60,12 +60,14 @@ public class GameNextQuestionFragment extends DialogFragment {
         dialog_title.setText(reason);
 
         //risposta corretta
-        TextView correctAnswerTextView = view.findViewById(R.id.correct_answer); // Nuovo TextView
+        TextView correctAnswerTextView = view.findViewById(R.id.correct_answer);
+        TextView dialogQuestion = view.findViewById(R.id.dialog_question);
         if (correctAnswer != null) {
             correctAnswerTextView.setText(correctAnswer); // Mostra la risposta corretta
             correctAnswerTextView.setVisibility(View.VISIBLE); // Assicurati che sia visibile
         } else {
             correctAnswerTextView.setVisibility(View.GONE); // Nascondi il TextView se non c'è risposta
+            dialogQuestion.setVisibility(View.GONE);
         }
 
         nextBtn.setOnClickListener(v -> {
