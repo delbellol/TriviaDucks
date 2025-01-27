@@ -89,7 +89,7 @@ public class Constants {
     public static final String TRIVIA_AMOUNT_PARAMETER = "amount";
     public static final String TRIVIA_TYPE_PARAMETER = "type";
     public static final String TRIVIA_CATEGORY_PARAMETER = "category";
-    public static final int TRIVIA_AMOUNT_VALUE = 2;
+    public static final int TRIVIA_AMOUNT_VALUE = 5;
     public static final String TRIVIA_TYPE_VALUE = "multiple";
 
     // File di SharedPreferences

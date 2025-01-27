@@ -88,11 +88,10 @@ public class GameHandler {
         timerUtils = new TimerUtils(fragment, context, mutableSecondsRemaining);
     }
 
-    public void loadQuestions(int category, boolean load) {
+    public void loadQuestions(int category) {
         //Log.d("GameHandler","Categoria: "+category);
         try {
-            //questionViewModel.fetchQuestions(category, System.currentTimeMillis());
-            questionViewModel.fetchQuestions(category, System.currentTimeMillis()).observe(fragment.getViewLifecycleOwner(), item -> {
+            questionViewModel.fetchQuestions(category).observe(fragment.getViewLifecycleOwner(), item -> {
                 Log.d(TAG,"Sono arrivato qui");
                 MutableLiveData<Result> rs = questionViewModel.getQuestions();
                 if (Objects.requireNonNull(rs.getValue()).isSuccess()) {
@@ -100,11 +99,8 @@ public class GameHandler {
                     if (result != null) {
                         questionList.clear();
                         questionList.addAll(result);
-                        if (load)
-                            loadNextQuestion();
-                        counter = 0;
-                        Log.d("GameHandler", "Reloaded questions");
                         fragment.hideLoadingScreen();
+                        loadNextQuestion();
                     } else {
                         View view = fragment.getView();
                         if (view != null) {
@@ -149,20 +145,21 @@ public class GameHandler {
         timerUtils.endTimer(score);
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
-            if (counter >= questionList.size()) {
-                fragment.showLoadingScreen();
-                loadQuestions(category,false);
+            if (counter < questionList.size()) {
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
+                timerUtils.endTimer(score);
+                AddScore();
+                nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }
-            GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
-            timerUtils.endTimer(score);
-            AddScore();
-            nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
+            else {
+                GameOverFragment gameOverDialog = new GameOverFragment("Hai terminato il quiz",score,true);
+                gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+            }
         } else {
             wrongAnswersCounter++;
             fragment.handleWrongAnswer();
             //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
-
                 GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer), score);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }else{
@@ -171,8 +168,6 @@ public class GameHandler {
                 //Snackbar.make(view, "Attenzione! Hai ancora " + (3 - wrongAnswersCounter) + " tentativi.", Snackbar.LENGTH_SHORT).show();
             }
 
-            //GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.wrong_answer),score);
-            //gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         }
     }
 

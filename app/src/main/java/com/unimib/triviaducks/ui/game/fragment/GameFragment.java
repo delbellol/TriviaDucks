@@ -117,7 +117,7 @@ public class GameFragment extends Fragment {
 
 
         showLoadingScreen();
-        gameHandler.loadQuestions(category,true);
+        gameHandler.loadQuestions(category);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override

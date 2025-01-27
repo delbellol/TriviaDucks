@@ -22,7 +22,6 @@ public class QuestionViewModel extends ViewModel {
 
     private final QuestionRepository questionRepository; // Repository per accedere ai dati delle domande
     private MutableLiveData<Result> questionListLiveData; // LiveData per osservare i dati delle domande
-    private long lastUpdate;
 
     // Costruttore che riceve il repository per gestire la logica delle domande
     public QuestionViewModel(QuestionRepository questionRepository) {
@@ -35,12 +34,11 @@ public class QuestionViewModel extends ViewModel {
     }
 
     // Metodo privato per chiamare il repository e ottenere le domande
-    public MutableLiveData<Result> fetchQuestions(int category,long lastUpdate) {
+    public MutableLiveData<Result> fetchQuestions(int category) {
         // Chiamata al repository per ottenere le domande e aggiornare questionListLiveData
         if (questionListLiveData == null) {
             questionListLiveData = questionRepository.fetchQuestions(category);
         }
-
         return getQuestions();
     }
 
