@@ -23,7 +23,7 @@
     <string name="ranking_description">bottone per accedere alla sezione classifica</string>
     <string name="close_description">bottone per tornare alla schermata principale</string>
     <string name="play">Play</string>
-    <string name="default_description">You have three lives and you have to reply within 30 seconds each question. Do your best!</string>
+    <string name="default_description">You have 50 questions, three lives and you have to reply within 30 seconds each question. Do your best!</string>
     <string name="default_title">Get Ready!</string>
     <string name="account">Account</string>
     <string name="change_password">Password</string>
