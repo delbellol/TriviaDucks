@@ -4,6 +4,7 @@ import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,9 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
 public class GameHandler {
     private static final String TAG = GameHandler.class.getSimpleName();
@@ -49,12 +53,14 @@ public class GameHandler {
     private QuestionViewModel questionViewModel;
     private List<Question> questionList;
     private int counter;
+    private int totalCounter;
     private Question currentQuestion;
     private TimerUtils timerUtils;
     private int wrongAnswersCounter;
     private int score;
+    private int category;
 
-    public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter, MutableLiveData<String> mutableScore) {
+    public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter, MutableLiveData<String> mutableScore, int category) {
         this.fragment = fragment;
         this.context = context;
         this.mutableSecondsRemaining = mutableSecondsRemaining;
@@ -63,6 +69,7 @@ public class GameHandler {
         this.questionList = new ArrayList<>();
         this.counter = 0;
         this.wrongAnswersCounter = 0;
+        this.category = category;
 
         QuestionRepository questionRepository =
                 ServiceLocator.getInstance().getQuestionsRepository(
@@ -81,27 +88,42 @@ public class GameHandler {
         timerUtils = new TimerUtils(fragment, context, mutableSecondsRemaining);
     }
 
-    public void loadQuestions(int numberOfQuestions, String type, int category, long seed) {
-        Log.d("GameHandler","Category: "+category);
-        questionViewModel.getQuestions(numberOfQuestions, type, category, seed).observe(fragment.getViewLifecycleOwner(), result -> {
-            if (result.isSuccess()) {
-                questionList.clear();
-                questionList.addAll(((Result.QuestionSuccess) result).getData().getQuestions());
-                loadNextQuestion();
-                fragment.hideLoadingScreen();
-            } else {
-                View view = fragment.getView();
-                if (view != null) {
-                    Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
+    public void loadQuestions(int category, boolean load) {
+        //Log.d("GameHandler","Categoria: "+category);
+        try {
+            //questionViewModel.fetchQuestions(category, System.currentTimeMillis());
+            questionViewModel.fetchQuestions(category, System.currentTimeMillis()).observe(fragment.getViewLifecycleOwner(), item -> {
+                Log.d(TAG,"Sono arrivato qui");
+                MutableLiveData<Result> rs = questionViewModel.getQuestions();
+                if (Objects.requireNonNull(rs.getValue()).isSuccess()) {
+                    List<Question> result = ((Result.QuestionSuccess)rs.getValue()).getData().getQuestions();
+                    if (result != null) {
+                        questionList.clear();
+                        questionList.addAll(result);
+                        if (load)
+                            loadNextQuestion();
+                        counter = 0;
+                        Log.d("GameHandler", "Reloaded questions");
+                        fragment.hideLoadingScreen();
+                    } else {
+                        View view = fragment.getView();
+                        if (view != null) {
+                            Snackbar.make(view, "Errore nel caricamento delle domande.", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
+
+
 
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
             new Thread(() -> {
-                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
+                mutableQuestionCounter.postValue(String.format("Domanda N. %d", totalCounter + 1));
 
                 currentQuestion = questionList.get(counter);
                 Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
@@ -116,6 +138,7 @@ public class GameHandler {
                     fragment.setAnswerText(currentQuestion, allAnswers);
                     fragment.enableAnswerButtons();
                     counter++;
+                    totalCounter++;
                     timerUtils.startCountdown(TIMER_TIME);
                 });
             }).start();
@@ -126,14 +149,14 @@ public class GameHandler {
         timerUtils.endTimer(score);
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
-            if (counter < questionList.size()) {
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
-                timerUtils.endTimer(score);
-                AddScore();
-                nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
-            } else {
-                Snackbar.make(view, "Hai completato il quiz!", Snackbar.LENGTH_LONG).show();
+            if (counter >= questionList.size()) {
+                fragment.showLoadingScreen();
+                loadQuestions(category,false);
             }
+            GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
+            timerUtils.endTimer(score);
+            AddScore();
+            nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
         } else {
             wrongAnswersCounter++;
             fragment.handleWrongAnswer();

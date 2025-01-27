@@ -81,7 +81,7 @@ public class Constants {
     public static final int COUNTDOWN_INTERVAL = 1000;
 
     // Timeout per la freschezza dei dati
-    public static final int FRESH_TIMEOUT = 1000 * 60;
+    public static final int FRESH_TIMEOUT = 1000;
 
     // Configurazione API Trivia
     public static final String TRIVIA_API_BASE_URL = "https://opentdb.com/";
@@ -89,7 +89,7 @@ public class Constants {
     public static final String TRIVIA_AMOUNT_PARAMETER = "amount";
     public static final String TRIVIA_TYPE_PARAMETER = "type";
     public static final String TRIVIA_CATEGORY_PARAMETER = "category";
-    public static final int TRIVIA_AMOUNT_VALUE = 50;
+    public static final int TRIVIA_AMOUNT_VALUE = 2;
     public static final String TRIVIA_TYPE_VALUE = "multiple";
 
     // File di SharedPreferences

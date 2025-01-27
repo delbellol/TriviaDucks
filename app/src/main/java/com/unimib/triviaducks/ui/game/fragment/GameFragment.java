@@ -62,10 +62,10 @@ public class GameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
+        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore,category);
 
         category = getActivity().getIntent().getIntExtra(CATEGORY,0);
-        Log.d("GameFragment","Category " + category);
+        //Log.d("GameFragment","Category " + category);
     }
 
     @Override
@@ -115,7 +115,9 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
+
+        showLoadingScreen();
+        gameHandler.loadQuestions(category,true);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -130,8 +132,6 @@ public class GameFragment extends Fragment {
                 counterTextView.setText(text);
             }
         });
-
-        //Log.d("GameFragment","Categoria: "+SharedPreferencesUtils.getCategory());
 
         return view;
     }
@@ -192,6 +192,11 @@ public class GameFragment extends Fragment {
         } else if (errorsCount == 3) {
             lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
         }
+    }
+
+    public void showLoadingScreen() {
+        gameLayout.setVisibility(View.GONE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
     }
 
 }
