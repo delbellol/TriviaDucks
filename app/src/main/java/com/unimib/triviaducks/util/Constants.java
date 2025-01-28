@@ -41,6 +41,7 @@ public class Constants {
     public static final String CARTOON = "Entertainment: Cartoon & Animations";
 
     public static final String CATEGORY = "category";
+    public static final String DIFFICULTY = "difficulty";
 
     //Codice per le categorie dell'API
     public static final int ANY_CATEGORIES_CODE = 0;
@@ -50,7 +51,7 @@ public class Constants {
     public static final int SPORTS_CODE = 21;
 
     // Liste di difficoltà e categorie
-    public static final List<String> DIFFICULTY = Arrays.asList(
+    public static final List<String> DIFFICULTY_LIST = Arrays.asList(
             EASY_DIFFICULTY, MEDIUM_DIFFICULTY, HARD_DIFFICULTY
     );
 

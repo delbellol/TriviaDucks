@@ -1,6 +1,7 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
 import static com.unimib.triviaducks.util.Constants.CATEGORY;
+import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
@@ -70,7 +71,7 @@ public class GameFragment extends Fragment {
         category = getActivity().getIntent().getIntExtra(CATEGORY,0);
         Log.d("GameFragment","Category " + category);
 
-        difficulty = getActivity().getIntent().getStringExtra("DIFFICULTY");
+        difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
         Log.d("GameFragment","Difficulty " + difficulty);
     }
 

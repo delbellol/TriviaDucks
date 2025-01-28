@@ -98,7 +98,7 @@ public class GameModeFragment extends DialogFragment {
     private void buttonClick(int selectedCategory, String difficulty) {
         Intent intent = new Intent(getActivity(), QuestionActivity.class);
         intent.putExtra(CATEGORY, selectedCategory);
-        intent.putExtra("DIFFICULTY", difficulty);
+        intent.putExtra(DIFFICULTY, difficulty);
         startActivity(intent);
         dismiss();
     }
