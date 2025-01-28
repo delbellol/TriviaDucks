@@ -97,7 +97,6 @@ public class GameFragment extends Fragment {
         lottieHeart3 = view.findViewById(R.id.lottie_heart3);
 
         //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
-        //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
@@ -137,8 +136,6 @@ public class GameFragment extends Fragment {
                 counterTextView.setText(text);
             }
         });
-
-        //Log.d("GameFragment","Categoria: "+SharedPreferencesUtils.getCategory());
 
         return view;
     }
@@ -202,6 +199,7 @@ public class GameFragment extends Fragment {
     }
 
     public void AddScore(String difficulty) {
+
         switch (difficulty) {
             case "easy":
                 score += EASY_QUESTION_POINTS;
@@ -213,10 +211,10 @@ public class GameFragment extends Fragment {
                 score += HARD_QUESTION_POINTS;
                 break;
             default:
-                Log.e("GameHandler","Errore nell'ottenere la difficoltà della domanda");
+                Log.e(TAG,"Error obtaing question difficulty");
                 break;
         }
-        Log.d("GameHandler", "Punteggio: "+score);
+        Log.d(TAG, "Score: "+score);
     }
 
     public int getScore() {
