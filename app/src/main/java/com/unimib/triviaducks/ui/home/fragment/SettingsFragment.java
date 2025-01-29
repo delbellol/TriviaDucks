@@ -1,8 +1,8 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
-import android.content.Context;
+import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_VOLUME;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,13 +17,19 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class SettingsFragment extends Fragment {
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     private Switch musicSwitch;
     private Switch themeSwitch;
     private SeekBar volumeSeekBar;
+    private int volume;
+    private boolean isNightMode;
+    private boolean isMusicOFF;
 
 
     public SettingsFragment() {
@@ -52,21 +58,41 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+
         musicSwitch = view.findViewById(R.id.music_switch);
         themeSwitch = view.findViewById(R.id.theme_switch);
         volumeSeekBar = view.findViewById(R.id.volume_seekbar);
 
+        volume = sharedPreferencesUtils.readIntData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_VOLUME);
+
+        isMusicOFF = sharedPreferencesUtils.readBooleanData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
+
+        isNightMode = sharedPreferencesUtils.readBooleanData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
+
         // Imposta lo stato iniziale dello switch music
-        boolean isMusicEnabled = isMusicPlaying();
-        musicSwitch.setChecked(isMusicEnabled);
+        musicSwitch.setChecked(isMusicOFF);
 
         // Imposta il volume iniziale
-        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        int volume = preferences.getInt("Volume", 50);  // Default volume: 50
+//        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+
+//        sharedPreferencesUtils.writeIntData(
+//                Constants.SHARED_PREFERENCES_FILENAME,
+//                Constants.SHARED_PREFERENCES_VOLUME,
+//                volume);  // Default volume: 50
         volumeSeekBar.setProgress(volume);
 
         // Imposta lo stato iniziale dello switch del tema
-        boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
+//        sharedPreferencesUtils.writeBooleanData(
+//                Constants.SHARED_PREFERENCES_FILENAME,
+//                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE,
+//                isNightMode);
         themeSwitch.setChecked(isNightMode);
 
         // Gestione del cambio stato dello switch muisc
@@ -74,28 +100,35 @@ public class SettingsFragment extends Fragment {
             Intent intent = new Intent(requireContext(), MusicService.class);
             if (isChecked) {
                 intent.setAction("ON");
+                isMusicOFF = false;
             } else {
                 intent.setAction("OFF");
+                isMusicOFF = true;
             }
             requireContext().startService(intent);
 
             // Salva lo stato dell'interruttore
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("MusicEnabled", isChecked);
-            editor.apply();
+            sharedPreferencesUtils.writeBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_MUSIC_OFF,
+                    isMusicOFF);
         });
 
         // Gestione del cambio di tema tramite Switch
         themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = preferences.edit();
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                editor.putBoolean("ThemeNightMode", true);
+                isNightMode = true;
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                editor.putBoolean("ThemeNightMode", false);
+                isNightMode = false;
             }
-            editor.apply();
+
+            // Salva lo stato dell'interruttore
+            sharedPreferencesUtils.writeBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE,
+                    isNightMode);
         });
 
         // Gestione del cambiamento del volume tramite SeekBar
@@ -103,9 +136,10 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Salva il volume in SharedPreferences
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt("Volume", progress);
-                editor.apply();
+                sharedPreferencesUtils.writeIntData(
+                        Constants.SHARED_PREFERENCES_FILENAME,
+                        SHARED_PREFERENCES_VOLUME,
+                        progress);
 
                 // Invia il volume al MusicService
                 Intent intent = new Intent(requireContext(), MusicService.class);
@@ -120,11 +154,5 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-    }
-
-    // Metodo per verificare se la musica è in riproduzione
-    private boolean isMusicPlaying() {
-        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        return preferences.getBoolean("MusicEnabled", true); // Se non esiste, restituisce "true" di default
     }
 }

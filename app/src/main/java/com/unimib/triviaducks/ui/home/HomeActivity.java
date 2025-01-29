@@ -21,20 +21,20 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
-        boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
-
-        if (isMusicEnabled) {
-            Intent intent = new Intent(this, MusicService.class);
-            intent.setAction("ON"); // Usa l'azione ON per avviare la musica
-            startService(intent);
-        }
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+//        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+//        boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
+//        boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
+//
+//        if (isMusicEnabled) {
+//            Intent intent = new Intent(this, MusicService.class);
+//            intent.setAction("ON"); // Usa l'azione ON per avviare la musica
+//            startService(intent);
+//        }
+//        if (isNightMode) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        }
 
         setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
