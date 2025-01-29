@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         // Ferma la musica quando l'app va in background
-        stopMusic();
+        //stopMusic();
     }
 
     @Override
