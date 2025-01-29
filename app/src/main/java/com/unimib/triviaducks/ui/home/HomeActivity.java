@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -13,28 +14,54 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.home.fragment.SettingsFragment;
+import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final String TAG = HomeActivity.class.getSimpleName();
+
+    private SharedPreferencesUtils sharedPreferencesUtils;
+
+    private int volume;
+    private boolean isNightMode;
+    private boolean isMusicOFF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-//        boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
-//        boolean isNightMode = preferences.getBoolean("ThemeNightMode", false);
-//
-//        if (isMusicEnabled) {
-//            Intent intent = new Intent(this, MusicService.class);
-//            intent.setAction("ON"); // Usa l'azione ON per avviare la musica
-//            startService(intent);
-//        }
-//        if (isNightMode) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//        } else {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//        }
+        sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
+
+        volume = sharedPreferencesUtils.readIntData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_VOLUME);
+        //Log.d(TAG, String.valueOf(volume));
+
+        isMusicOFF = sharedPreferencesUtils.readBooleanData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
+        //Log.d(TAG, String.valueOf(isMusicOFF));
+
+        isNightMode = sharedPreferencesUtils.readBooleanData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
+        //Log.d(TAG, String.valueOf(isNightMode));
+
+
+        Intent intent = new Intent(this, MusicService.class);
+
+        if (isMusicOFF)
+            intent.setAction("OFF"); // Usa l'azione ON per avviare la musica
+        else
+            intent.setAction("ON");
+        startService(intent);
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -78,13 +105,18 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void resumeMusic() {
-        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        boolean isMusicEnabled = preferences.getBoolean("MusicEnabled", true);
+        isMusicOFF = sharedPreferencesUtils.readBooleanData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
+        Log.d(TAG, String.valueOf(isMusicOFF));
 
-        if (isMusicEnabled) {
-            Intent intent = new Intent(this, MusicService.class);
-            intent.setAction("ON"); // Riavvia la musica
-            startService(intent);
-        }
+        Intent intent = new Intent(this, MusicService.class);
+
+        if (isMusicOFF)
+            intent.setAction("OFF");
+        else
+            intent.setAction("ON");
+
+        startService(intent);
     }
 }

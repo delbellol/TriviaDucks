@@ -115,6 +115,6 @@ public class SharedPreferencesUtils {
         // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
         SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE);
         // Restituisce il valore associato alla chiave, o null se non presente.
-        return sharedPref.getBoolean(key, true);
+        return sharedPref.getBoolean(key, false);
     }
 }

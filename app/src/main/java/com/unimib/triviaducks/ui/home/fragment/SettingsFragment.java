@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.unimib.triviaducks.util.MusicService;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class SettingsFragment extends Fragment {
+    private static final String TAG = SettingsFragment.class.getSimpleName();
+
     private SharedPreferencesUtils sharedPreferencesUtils;
 
     private Switch musicSwitch;
@@ -58,7 +61,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+        sharedPreferencesUtils = new SharedPreferencesUtils(requireActivity().getApplication());
 
         musicSwitch = view.findViewById(R.id.music_switch);
         themeSwitch = view.findViewById(R.id.theme_switch);
@@ -77,7 +80,7 @@ public class SettingsFragment extends Fragment {
                 Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
 
         // Imposta lo stato iniziale dello switch music
-        musicSwitch.setChecked(isMusicOFF);
+        musicSwitch.setChecked(!isMusicOFF);
 
         // Imposta il volume iniziale
 //        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
@@ -112,6 +115,9 @@ public class SettingsFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_MUSIC_OFF,
                     isMusicOFF);
+            Log.d(TAG, String.valueOf(sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_MUSIC_OFF)));
         });
 
         // Gestione del cambio di tema tramite Switch
