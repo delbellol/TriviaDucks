@@ -13,8 +13,8 @@ import com.unimib.triviaducks.R;
 public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.ViewHolder> {
     // Array of images
     // Adding images from drawable folder
-    private int[] images = {R.drawable.p1, R.drawable.p2, R.drawable.p3,
-            R.drawable.p4,};
+    private int[] images = {R.drawable.random, R.drawable.easy, R.drawable.medium,
+            R.drawable.hard,};
     private Context ctx;
 
     // Constructor of our ViewPager2Adapter class

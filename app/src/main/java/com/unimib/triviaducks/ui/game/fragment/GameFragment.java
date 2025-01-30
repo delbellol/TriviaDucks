@@ -72,7 +72,7 @@ public class GameFragment extends Fragment {
         super.onCreate(savedInstanceState);
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
 
-        category = getActivity().getIntent().getIntExtra(CATEGORY,0);
+        category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
         Log.d("GameFragment","Category " + category);
 
         difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
@@ -128,7 +128,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
+        gameHandler.loadQuestions(category,questionAmount);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override

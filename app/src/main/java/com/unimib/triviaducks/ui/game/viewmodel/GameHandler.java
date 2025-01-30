@@ -139,12 +139,12 @@ public class GameHandler {
     }
 
     public void checkAnswer(String selectedAnswer, View view) {
-        timerUtils.endTimer(score);
+        timerUtils.endTimer();
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
-                timerUtils.endTimer(score);
+                timerUtils.endTimer();
                 AddScore();
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }
@@ -188,7 +188,7 @@ public class GameHandler {
     }
 
     public void endGame() {
-        timerUtils.endTimer(score);
+        timerUtils.endTimer();
     }
 
 }

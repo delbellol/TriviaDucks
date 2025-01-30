@@ -23,7 +23,7 @@
     <string name="ranking_description">bottone per accedere alla sezione classifica</string>
     <string name="close_description">bottone per tornare alla schermata principale</string>
     <string name="play">Play</string>
-    <string name="default_description">You have 50 questions, three lives and you have to reply within 30 seconds each question. Do your best!</string>
+    <string name="default_description">You have some questions, three lives and you have to reply within 30 seconds each question. Do your best!</string>
     <string name="default_title">Get Ready!</string>
     <string name="account">Account</string>
     <string name="change_password">Password</string>
@@ -36,9 +36,9 @@
     <string name="answer3">Risposta 3</string>
     <string name="answer4">Risposta 4</string>
     <string name="time_out">Tempo Scaduto</string>
-    <string name="quit_game_description">Sei sicuro di voler uscire dalla partita?</string>
+    <string name="quit_game_description">Are you sure you want to quit?</string>
     <string name="quit_game">Exit</string>
-    <string name="cancel_quit_game">Annulla</string>
+    <string name="cancel_quit_game">Cancel</string>
     <string name="default_gameover">GameOver</string>
     <string name="back_home">Go back to the home page</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -103,4 +103,5 @@
     <string name="minus">–</string>
     <string name="plus">+</string>
     <string name="default_picker_value">10</string>
+    <string name="default_difficulty_text_value">Swipe to pick difficulty</string>
 </resources>
