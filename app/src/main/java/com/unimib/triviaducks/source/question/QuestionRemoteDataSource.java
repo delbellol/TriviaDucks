@@ -45,11 +45,11 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
      * Metodo per recuperare le domande dall'API remota.
      */
     @Override
-    public void fetchQuestions(int category) {
+    public void fetchQuestions(int category, int questionAmount) {
         // Crea una chiamata Retrofit per ottenere le domande.
         Log.d("QuestionRemoteDataSource","Category: " + category);
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
-                TRIVIA_AMOUNT_VALUE, // Quantità di domande.
+                questionAmount, // Quantità di domande.
                 TRIVIA_TYPE_VALUE,    // Tipo di domande.
                 category
         );

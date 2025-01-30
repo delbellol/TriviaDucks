@@ -29,9 +29,9 @@ public class QuestionRepository implements QuestionResponseCallback {
     /**
      * Metodo per recuperare le domande
      */
-    public MutableLiveData<Result> fetchQuestions(int category) {
+    public MutableLiveData<Result> fetchQuestions(int category, int questionAmount) {
 
-        questionRemoteDataSource.fetchQuestions(category);
+        questionRemoteDataSource.fetchQuestions(category,questionAmount);
         allQuestionsMutableLiveData = questionRemoteDataSource.getQuestions();
         return allQuestionsMutableLiveData; // Restituisce il LiveData aggiornato
     }

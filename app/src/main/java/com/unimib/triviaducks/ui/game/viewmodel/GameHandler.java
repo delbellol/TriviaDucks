@@ -88,11 +88,9 @@ public class GameHandler {
         timerUtils = new TimerUtils(fragment, context, mutableSecondsRemaining);
     }
 
-    public void loadQuestions(int category) {
-        //Log.d("GameHandler","Categoria: "+category);
+    public void loadQuestions(int category, int questionAmount) {
         try {
-            questionViewModel.fetchQuestions(category).observe(fragment.getViewLifecycleOwner(), item -> {
-                Log.d(TAG,"Sono arrivato qui");
+            questionViewModel.fetchQuestions(category,questionAmount).observe(fragment.getViewLifecycleOwner(), item -> {
                 MutableLiveData<Result> rs = questionViewModel.getQuestions();
                 if (Objects.requireNonNull(rs.getValue()).isSuccess()) {
                     List<Question> result = ((Result.QuestionSuccess)rs.getValue()).getData().getQuestions();
@@ -184,10 +182,10 @@ public class GameHandler {
                 score += HARD_QUESTION_POINTS;
                 break;
             default:
-                Log.e("GameHandler","Errore nell'ottenere la difficoltà della domanda");
+                Log.e(TAG,"Errore nell'ottenere la difficoltà della domanda");
                 break;
         }
-        Log.d("GameHandler", "Punteggio: "+score);
+        Log.d(TAG, "Punteggio: "+score);
     }
 
     public void endGame() {

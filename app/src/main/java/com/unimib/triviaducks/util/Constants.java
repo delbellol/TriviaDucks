@@ -40,8 +40,6 @@ public class Constants {
     public static final String ANIME_MANGA = "Entertainment: Japanese Anime & Manga";
     public static final String CARTOON = "Entertainment: Cartoon & Animations";
 
-    public static final String CATEGORY = "category";
-
     //Codice per le categorie dell'API
     public static final int ANY_CATEGORIES_CODE = 0;
     public static final int HISTORY_CODE = 23;

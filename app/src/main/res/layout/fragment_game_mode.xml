@@ -28,6 +28,62 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/questionPickerDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/number_picker_description"
+            android:textStyle="bold"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/account_background_white">
+
+            <Button
+                android:id="@+id/minus_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:text="@string/minus" />
+
+            <TextView
+                android:id="@+id/questionPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="30sp"
+                android:text="@string/default_picker_value"/>
+
+            <Button
+                android:id="@+id/plus_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:text="@string/plus" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="40dp">
@@ -52,4 +108,7 @@
             android:layout_marginTop="0dp"
             android:text="@string/quit_game" />
     </LinearLayout>
+
+
+
 </LinearLayout>

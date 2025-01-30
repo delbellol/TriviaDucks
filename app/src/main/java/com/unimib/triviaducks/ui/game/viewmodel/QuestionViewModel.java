@@ -34,10 +34,12 @@ public class QuestionViewModel extends ViewModel {
     }
 
     // Metodo privato per chiamare il repository e ottenere le domande
-    public MutableLiveData<Result> fetchQuestions(int category) {
+    public MutableLiveData<Result> fetchQuestions(int category, int questionAmount) {
+        Log.d(TAG,"QuestionAmount: "+questionAmount);
+        Log.d(TAG,"Category: "+category);
         // Chiamata al repository per ottenere le domande e aggiornare questionListLiveData
         if (questionListLiveData == null) {
-            questionListLiveData = questionRepository.fetchQuestions(category);
+            questionListLiveData = questionRepository.fetchQuestions(category,questionAmount);
         }
         return getQuestions();
     }
