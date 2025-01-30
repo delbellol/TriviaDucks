@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_gameover"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center" />
 
@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:textSize="18sp"
         android:text="Score: " />
 
     <Button
@@ -36,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The correct answer was:"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center" />
 
@@ -46,5 +47,6 @@
         android:layout_height="wrap_content"
         android:text="Correct answer will be shown here."
         android:layout_gravity="center"
+        android:textSize="18sp"
         android:layout_marginTop="8dp" />
 </LinearLayout>
