@@ -2,6 +2,7 @@ package com.unimib.triviaducks.ui.home.fragment;
 
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -13,7 +14,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,14 +24,21 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.adapter.DifficultyAdapter;
 import com.unimib.triviaducks.ui.game.QuestionActivity;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
+import com.unimib.triviaducks.util.Constants;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GameModeFragment extends DialogFragment {
     private static final String TAG = GameModeFragment.class.getSimpleName();
     private TextView questionPicker;
     private Button plus_button;
     private Button minus_button;
+    private ViewPager2 viewPager2;
+    private String selectedDifficulty = "random";
 
     public GameModeFragment() {
         // Required empty public constructor
@@ -61,6 +71,40 @@ public class GameModeFragment extends DialogFragment {
         int selectedCategory = getArguments().getInt(TRIVIA_CATEGORY_PARAMETER, 0);
         Log.d(TAG, String.valueOf(selectedCategory));
 
+        List<String> difficultyList = Arrays.asList(
+                "random",
+                "easy",
+                "medium",
+                "hard"
+        );
+
+        viewPager2 = view.findViewById(R.id.viewpager);
+        DifficultyAdapter difficultyAdapter = new DifficultyAdapter(this.getContext());
+
+        viewPager2.setAdapter(difficultyAdapter);
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            // This method is triggered when there is any scrolling activity for the current page
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            // triggered when you select a new page
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                selectedDifficulty = difficultyList.get(position);
+            }
+
+            // triggered when there is
+            // scroll state will be changed
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+
         questionPicker = view.findViewById(R.id.questionPicker);
 
         Button play = view.findViewById(R.id.play);
@@ -71,7 +115,6 @@ public class GameModeFragment extends DialogFragment {
             startActivity(intent);
             dismiss();
         });
-
         plus_button = view.findViewById(R.id.plus_button);
         plus_button.setOnClickListener(v -> {
             int value = Integer.parseInt(questionPicker.getText().toString());

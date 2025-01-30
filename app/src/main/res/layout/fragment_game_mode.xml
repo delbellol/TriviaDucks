@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/gameModeFragment"
     android:orientation="vertical"
     android:background="@android:color/holo_green_light"
@@ -83,10 +84,25 @@
 
     </LinearLayout>
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="40dp">
+        android:layout_height="200dp"
+        tools:context=".MainActivity">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/play"
@@ -95,9 +111,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
             android:text="@string/play" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Button
@@ -108,7 +125,4 @@
             android:layout_marginTop="0dp"
             android:text="@string/quit_game" />
     </LinearLayout>
-
-
-
 </LinearLayout>

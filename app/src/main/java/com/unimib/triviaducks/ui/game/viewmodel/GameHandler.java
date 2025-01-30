@@ -60,7 +60,7 @@ public class GameHandler {
     private int score;
     private int category;
 
-    public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter, MutableLiveData<String> mutableScore, int category) {
+    public GameHandler(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining, MutableLiveData<String> mutableQuestionCounter, MutableLiveData<String> mutableScore) {
         this.fragment = fragment;
         this.context = context;
         this.mutableSecondsRemaining = mutableSecondsRemaining;
@@ -69,7 +69,6 @@ public class GameHandler {
         this.questionList = new ArrayList<>();
         this.counter = 0;
         this.wrongAnswersCounter = 0;
-        this.category = category;
 
         QuestionRepository questionRepository =
                 ServiceLocator.getInstance().getQuestionsRepository(
@@ -117,7 +116,7 @@ public class GameHandler {
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
             new Thread(() -> {
-                mutableQuestionCounter.postValue(String.format("Domanda N. %d", totalCounter + 1));
+                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
 
                 currentQuestion = questionList.get(counter);
                 Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());

@@ -22,10 +22,10 @@
             android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.welcome.WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.welcome.WelcomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

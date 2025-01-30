@@ -1,5 +1,9 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
+import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
 import android.content.Intent;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
@@ -26,10 +30,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
-import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
-import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import org.jsoup.Jsoup;
 
@@ -53,8 +54,12 @@ public class GameFragment extends Fragment {
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
 
     private int category; //categoria delle domande da passare al GameHandler
+    String difficulty;
 
     private int errorsCount = 0;
+
+    private int score;
+
 
     private int questionAmount;
 
@@ -65,8 +70,13 @@ public class GameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore,category);
+        gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
 
+        category = getActivity().getIntent().getIntExtra(CATEGORY,0);
+        Log.d("GameFragment","Category " + category);
+
+        difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
+        Log.d("GameFragment","Difficulty " + difficulty);
         category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
         questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_AMOUNT_PARAMETER,10);
         //Log.d("GameFragment","Category " + category);
@@ -94,7 +104,6 @@ public class GameFragment extends Fragment {
         lottieHeart3 = view.findViewById(R.id.lottie_heart3);
 
         //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
-        //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
@@ -119,9 +128,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-
-        showLoadingScreen();
-        gameHandler.loadQuestions(category, questionAmount);
+        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -201,6 +208,29 @@ public class GameFragment extends Fragment {
     public void showLoadingScreen() {
         gameLayout.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public void AddScore(String difficulty) {
+
+        switch (difficulty) {
+            case "easy":
+                score += EASY_QUESTION_POINTS;
+                break;
+            case "medium":
+                score += MEDIUM_QUESTION_POINTS;
+                break;
+            case "hard":
+                score += HARD_QUESTION_POINTS;
+                break;
+            default:
+                Log.e(TAG,"Error obtaing question difficulty");
+                break;
+        }
+        Log.d(TAG, "Score: "+score);
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }
