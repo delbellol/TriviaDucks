@@ -98,6 +98,9 @@ public class Constants {
     public static final String SHARED_PREFERENCES_USERNAME = "username";
     public static final String SHARED_PREFERENCES_PROFILE_PICTURE = "profile_picture";
     public static final String SHARED_PREFERENCES_LAST_UPDATE = "last_update";
+    public static final String SHARED_PREFERENCES_VOLUME = "volume";
+    public static final String SHARED_PREFERENCES_IS_MUSIC_OFF = "is_music_off";
+    public static final String SHARED_PREFERENCES_IS_NIGHT_MODE = "is_night_mode";
 
     // Costanti di errore
     public static final String REMOVED_QUESTION = "[Removed]";

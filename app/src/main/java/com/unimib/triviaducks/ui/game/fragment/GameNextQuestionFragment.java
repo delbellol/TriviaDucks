@@ -18,9 +18,16 @@ public class GameNextQuestionFragment extends DialogFragment {
     GameFragment fragment;
     TextView dialog_title;
     String reason;
+    String correctAnswer;
 
     public GameNextQuestionFragment() {
         // Costruttore vuoto
+    }
+
+    public GameNextQuestionFragment(GameFragment fragment, String reason, String correctAnswer) {
+        this.fragment = fragment;
+        this.reason = reason;
+        this.correctAnswer = correctAnswer;
     }
 
     public GameNextQuestionFragment(GameFragment fragment, String reason) {
@@ -49,16 +56,24 @@ public class GameNextQuestionFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_game_next_question, null);
         builder.setView(view);
         nextBtn = view.findViewById(R.id.next);
+        dialog_title = view.findViewById(R.id.dialog_title);
+        dialog_title.setText(reason);
+
+        //risposta corretta
+        TextView correctAnswerTextView = view.findViewById(R.id.correct_answer);
+        TextView dialogQuestion = view.findViewById(R.id.dialog_question);
+        if (correctAnswer != null) {
+            correctAnswerTextView.setText(correctAnswer); // Mostra la risposta corretta
+            correctAnswerTextView.setVisibility(View.VISIBLE); // Assicurati che sia visibile
+        } else {
+            correctAnswerTextView.setVisibility(View.GONE); // Nascondi il TextView se non c'è risposta
+            dialogQuestion.setVisibility(View.GONE);
+        }
 
         nextBtn.setOnClickListener(v -> {
             fragment.nextBtnPressed();
             dismiss(); //chiude la finestra di dialogo
         });
-
-        dialog_title = view.findViewById(R.id.dialog_title);
-        dialog_title.setText(reason);
-
-
         return builder.create();
     }
 }
