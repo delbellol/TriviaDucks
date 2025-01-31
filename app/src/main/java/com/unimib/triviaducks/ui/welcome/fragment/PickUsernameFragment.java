@@ -117,12 +117,15 @@ public class PickUsernameFragment extends Fragment {
 
         sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_USERNAME, username);
         sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_PROFILE_PICTURE, resourceName);
+        sharedPreferencesUtils.writeIntData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_BEST_SCORE, 0);
 
         userViewModel.saveUserPreferences(username, userViewModel.getLoggedUser().getIdToken());
 
         if (resourceName != null) {
             userViewModel.saveUserImage(resourceName, userViewModel.getLoggedUser().getIdToken());
         }
+        else
+            userViewModel.saveUserImage(getResources().getResourceName(R.drawable.p1), userViewModel.getLoggedUser().getIdToken());
 
         Intent intent = new Intent(getContext(), HomeActivity.class);
         startActivity(intent);
