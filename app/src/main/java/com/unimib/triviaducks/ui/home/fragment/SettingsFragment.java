@@ -29,8 +29,6 @@ public class SettingsFragment extends Fragment {
 
     private Switch musicSwitch;
     private Switch themeSwitch;
-    private SeekBar volumeSeekBar;
-    private int volume;
     private boolean isNightMode;
     private boolean isMusicOFF;
 
@@ -65,11 +63,6 @@ public class SettingsFragment extends Fragment {
 
         musicSwitch = view.findViewById(R.id.music_switch);
         themeSwitch = view.findViewById(R.id.theme_switch);
-        volumeSeekBar = view.findViewById(R.id.volume_seekbar);
-
-        volume = sharedPreferencesUtils.readIntData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_VOLUME);
 
         isMusicOFF = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
@@ -84,12 +77,6 @@ public class SettingsFragment extends Fragment {
 
         // Imposta il volume iniziale
 //        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-
-//        sharedPreferencesUtils.writeIntData(
-//                Constants.SHARED_PREFERENCES_FILENAME,
-//                Constants.SHARED_PREFERENCES_VOLUME,
-//                volume);  // Default volume: 50
-        volumeSeekBar.setProgress(volume);
 
         // Imposta lo stato iniziale dello switch del tema
 //        sharedPreferencesUtils.writeBooleanData(
@@ -135,30 +122,6 @@ public class SettingsFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_NIGHT_MODE,
                     isNightMode);
-        });
-
-        // Gestione del cambiamento del volume tramite SeekBar
-        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Salva il volume in SharedPreferences
-                sharedPreferencesUtils.writeIntData(
-                        Constants.SHARED_PREFERENCES_FILENAME,
-                        SHARED_PREFERENCES_VOLUME,
-                        progress);
-
-                // Invia il volume al MusicService
-                Intent intent = new Intent(requireContext(), MusicService.class);
-                intent.setAction("VOLUME");
-                intent.putExtra("Volume", progress); // Passa il volume tramite Intent
-                requireContext().startService(intent);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 }
