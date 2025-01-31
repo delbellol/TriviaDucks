@@ -49,7 +49,6 @@ public class GameModeFragment extends DialogFragment {
     private Button minus_button;
     private ViewPager2 viewPager2;
     private String selectedDifficulty = "random";
-    private static final String TAG = HomeFragment.class.getSimpleName();
     private SharedPreferencesUtils sharedPreferencesUtils;
     private UserViewModel userViewModel;
 
