@@ -16,5 +16,5 @@ public abstract class BaseQuestionRemoteDataSource {
     }
 
     public abstract MutableLiveData<Result> getQuestions();
-    public abstract void fetchQuestions(int category, int questionAmount);
+    public abstract void fetchQuestions(int category, int questionAmount, String difficulty);
 }

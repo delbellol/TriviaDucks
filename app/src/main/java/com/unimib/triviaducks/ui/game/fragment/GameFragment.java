@@ -42,7 +42,7 @@ public class GameFragment extends Fragment {
     private CircularProgressIndicator circularProgressIndicator;
     private ConstraintLayout gameLayout;
 
-    private TextView questionTextView, counterTextView, countdownTextView;
+    private TextView questionTextView, counterTextView, countdownTextView, difficultyTextView;
     private Button answerButton1, answerButton2, answerButton3, answerButton4;
     private ImageButton closeImageButton;
 
@@ -128,7 +128,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(category,questionAmount);
+        gameHandler.loadQuestions(category,questionAmount, difficulty);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -141,6 +141,15 @@ public class GameFragment extends Fragment {
             @Override
             public void onChanged(String text) {
                 counterTextView.setText(text);
+            }
+        });
+
+        difficultyTextView = view.findViewById(R.id.difficulty);
+
+        mutableScore.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String text) {
+                difficultyTextView.setText(text);
             }
         });
 

@@ -104,4 +104,6 @@
     <string name="plus">+</string>
     <string name="default_picker_value">10</string>
     <string name="default_difficulty_text_value">Swipe to pick difficulty</string>
+
+    <string name="default_difficulty_question">Difficulty: random</string>
 </resources>

@@ -2,6 +2,7 @@ package com.unimib.triviaducks.service;
 
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_DIFFICULTY_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_ENDPOINT;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_TYPE_PARAMETER;
 
@@ -17,7 +18,8 @@ public interface QuestionAPIService {
     Call<QuestionAPIResponse> getQuestions( // Restituisce un oggetto Call con la risposta dell'API.
                                             @Query(TRIVIA_AMOUNT_PARAMETER) int amount, // Parametro "amount" per specificare il numero di domande.
                                             @Query(TRIVIA_TYPE_PARAMETER) String type,  // Parametro "type" per specificare il tipo di domande.
-                                            @Query(TRIVIA_CATEGORY_PARAMETER) int category //categoria
+                                            @Query(TRIVIA_CATEGORY_PARAMETER) int category, //categoria
+                                            @Query(TRIVIA_DIFFICULTY_PARAMETER) String difficulty //difficoltà
     );
 }
 

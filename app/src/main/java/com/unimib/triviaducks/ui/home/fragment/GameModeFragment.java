@@ -3,6 +3,7 @@ package com.unimib.triviaducks.ui.home.fragment;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_DIFFICULTY_PARAMETER;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -69,7 +70,6 @@ public class GameModeFragment extends DialogFragment {
 
         assert getArguments() != null;
         int selectedCategory = getArguments().getInt(TRIVIA_CATEGORY_PARAMETER, 0);
-        Log.d(TAG, String.valueOf(selectedCategory));
 
         List<String> difficultyList = Arrays.asList(
                 "random",
@@ -112,6 +112,7 @@ public class GameModeFragment extends DialogFragment {
             Intent intent = new Intent(getActivity(), QuestionActivity.class);
             intent.putExtra(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
             intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
+            intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
             startActivity(intent);
             dismiss();
         });

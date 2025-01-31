@@ -87,10 +87,10 @@ public class GameHandler {
         timerUtils = new TimerUtils(fragment, context, mutableSecondsRemaining);
     }
 
-    public void loadQuestions(int category, int questionAmount) {
+    public void loadQuestions(int category, int questionAmount, String difficulty) {
         fragment.showLoadingScreen();
         try {
-            questionViewModel.fetchQuestions(category,questionAmount).observe(fragment.getViewLifecycleOwner(), item -> {
+            questionViewModel.fetchQuestions(category,questionAmount, difficulty).observe(fragment.getViewLifecycleOwner(), item -> {
                 MutableLiveData<Result> rs = questionViewModel.getQuestions();
                 if (Objects.requireNonNull(rs.getValue()).isSuccess()) {
                     List<Question> result = ((Result.QuestionSuccess)rs.getValue()).getData().getQuestions();
@@ -117,9 +117,11 @@ public class GameHandler {
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
             new Thread(() -> {
-                mutableQuestionCounter.postValue(String.format("Domanda N. %d", counter + 1));
+                mutableQuestionCounter.postValue(String.format("Question N. %d", counter + 1));
 
                 currentQuestion = questionList.get(counter);
+                mutableScore.postValue(String.format("Difficulty: " + currentQuestion.getDifficulty()));
+
                 Log.d(TAG, Jsoup.parse(currentQuestion.getQuestion()).text());
                 Log.d(TAG, Jsoup.parse(currentQuestion.getCorrectAnswer()).text());
 

@@ -91,6 +91,7 @@ public class Constants {
     public static final String TRIVIA_CATEGORY_PARAMETER = "category";
     public static final int TRIVIA_AMOUNT_VALUE = 50;
     public static final String TRIVIA_TYPE_VALUE = "multiple";
+    public static final String TRIVIA_DIFFICULTY_PARAMETER = "difficulty";
 
     // File di SharedPreferences
     public static final String SHARED_PREFERENCES_FILENAME = "com.unimib.triviaducks.preferences";
