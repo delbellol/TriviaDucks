@@ -72,7 +72,7 @@ public class GameModeFragment extends DialogFragment {
         int selectedCategory = getArguments().getInt(TRIVIA_CATEGORY_PARAMETER, 0);
 
         List<String> difficultyList = Arrays.asList(
-                "random",
+                "",
                 "easy",
                 "medium",
                 "hard"
