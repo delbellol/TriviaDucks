@@ -88,6 +88,7 @@ public class GameHandler {
     }
 
     public void loadQuestions(int category, int questionAmount) {
+        fragment.showLoadingScreen();
         try {
             questionViewModel.fetchQuestions(category,questionAmount).observe(fragment.getViewLifecycleOwner(), item -> {
                 MutableLiveData<Result> rs = questionViewModel.getQuestions();
@@ -96,8 +97,8 @@ public class GameHandler {
                     if (result != null) {
                         questionList.clear();
                         questionList.addAll(result);
-                        fragment.hideLoadingScreen();
                         loadNextQuestion();
+                        fragment.hideLoadingScreen();
                     } else {
                         View view = fragment.getView();
                         if (view != null) {
