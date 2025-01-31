@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.repository.user;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.unimib.triviaducks.model.Question;
@@ -52,6 +54,30 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     }
 
     @Override
+    public MutableLiveData<Result> getUserImages(String idToken) {
+        userDataRemoteDataSource.getUserImages(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
+    public MutableLiveData<Result> getUserBestScore(String idToken) {
+        userDataRemoteDataSource.getUserBestScore(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
+    public MutableLiveData<Result> getCategoriesPodium(String idToken) {
+        userDataRemoteDataSource.getCategoriesPodium(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
+    public MutableLiveData<Result> getLeaderboard() {
+        userDataRemoteDataSource.getLeaderboard();
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
     public User getLoggedUser() {
         return userRemoteDataSource.getLoggedUser();
     }
@@ -85,6 +111,16 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     @Override
     public void saveUserImage(String imageName, String idToken) {
         userDataRemoteDataSource.saveUserImage(imageName, idToken);
+    }
+
+    @Override
+    public void saveBestScore(int score, String idToken) {
+        userDataRemoteDataSource.saveBestScore(score, idToken);
+    }
+
+    @Override
+    public void updateCategoryCounter(String category, String idToken) {
+        userDataRemoteDataSource.updateCategoryCounter(category, idToken);
     }
 
     @Override

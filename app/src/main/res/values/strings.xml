@@ -106,4 +106,5 @@
     <string name="default_difficulty_text_value">Swipe to pick difficulty</string>
 
     <string name="default_difficulty_question">Difficulty: random</string>
+    <string name="all_categories">All Categories</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.welcome.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,6 +15,10 @@ public class UserViewModel extends ViewModel {
     private final IUserRepository userRepository;
     private MutableLiveData<Result> userMutableLiveData;
     private MutableLiveData<Result> userPreferencesMutableLiveData;
+    private MutableLiveData<Result> userImagesMutableLiveData;
+    private MutableLiveData<Result> userPodiumMutableLiveData;
+    private MutableLiveData<Result> userBestScoreMutableLiveData;
+    private MutableLiveData<Result> leaderboardMutableLiveData;
     private boolean authenticationError;
 
     public UserViewModel(IUserRepository userRepository) {
@@ -47,11 +53,46 @@ public class UserViewModel extends ViewModel {
         }
     }
 
+    public void saveBestScore(int score, String idToken) {
+        if (idToken != null) {
+            userRepository.saveBestScore(score, idToken);
+        }
+    }
+
+    public void updateCategoryCounter(String category, String idToken) {
+        if (idToken != null) {
+            userRepository.updateCategoryCounter(category, idToken);
+        }
+    }
+
     public MutableLiveData<Result> getUserPreferences(String idToken) {
         if (idToken != null) {
             userPreferencesMutableLiveData = userRepository.getUserPreferences(idToken);
         }
         return userPreferencesMutableLiveData;
+    }
+
+    public MutableLiveData<Result> getUserImages(String idToken) {
+        if (idToken != null) {
+            userImagesMutableLiveData = userRepository.getUserImages(idToken);
+        }
+        Log.d(TAG, userImagesMutableLiveData.toString());
+        return userImagesMutableLiveData;
+    }
+
+    public MutableLiveData<Result> getUserBestScore(String idToken) {
+        if (idToken != null) {
+            userBestScoreMutableLiveData = userRepository.getUserBestScore(idToken);
+        }
+        Log.d(TAG, userBestScoreMutableLiveData.toString());
+        return userBestScoreMutableLiveData;
+    }
+
+    public MutableLiveData<Result> getCategoriesPodium(String idToken) {
+        if (idToken != null) {
+            userPodiumMutableLiveData = userRepository.getCategoriesPodium(idToken);
+        }
+        return userPodiumMutableLiveData;
     }
 
     //TODO getUserImage e cambiare i nomi
@@ -87,5 +128,10 @@ public class UserViewModel extends ViewModel {
 
     private void getUserData(String token) {
         userMutableLiveData = userRepository.getGoogleUser(token);
+    }
+
+    public MutableLiveData<Result> getLeaderboard() {
+        leaderboardMutableLiveData = userRepository.getLeaderboard();
+        return leaderboardMutableLiveData;
     }
 }

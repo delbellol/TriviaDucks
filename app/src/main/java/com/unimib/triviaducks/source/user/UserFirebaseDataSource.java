@@ -6,24 +6,26 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -87,6 +89,88 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
+    public void getUserImages(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_PROFILE_PICTURE).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String image = task.getResult().getValue(String.class);
+                        if (image != null) {
+                            sharedPreferencesUtil.writeStringData(
+                                    SHARED_PREFERENCES_FILENAME,
+                                    SHARED_PREFERENCES_PROFILE_PICTURE,
+                                    image);
+                            userResponseCallback.onSuccessFromGettingUserPreferences();
+                        } else {
+                            Log.e(TAG, "Image data from Firebase is null!");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUserBestScore(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_BEST_SCORE).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int score = 0;
+                        if (task.getResult().getValue(Integer.class) != null)
+                            score = task.getResult().getValue(Integer.class);
+                        sharedPreferencesUtil.writeIntData(
+                                SHARED_PREFERENCES_FILENAME,
+                                SHARED_PREFERENCES_BEST_SCORE,
+                                score);
+                        userResponseCallback.onSuccessFromGettingUserPreferences();
+                    }
+                });
+    }
+
+    @Override
+    public void getCategoriesPodium(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            DataSnapshot dataSnapshot = task.getResult();
+                            Map<String, Integer> categoryCountMap = new HashMap<>();
+
+                            for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                                String category = categorySnapshot.getKey();
+                                Integer count = categorySnapshot.getValue(Integer.class);
+                                categoryCountMap.put(category, count);
+                            }
+
+                            Set<String> topCategories = categoryCountMap
+                                    .entrySet()
+                                    .stream()
+                                    .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+                                    .limit(3)
+                                    .map(Map.Entry::getKey)
+                                    .collect(Collectors.toSet());
+
+//                            for (String category : topCategories) {
+//                                Log.d(TAG, "Categoria più giocata: " + category);
+//                            }
+
+                            sharedPreferencesUtil.writeStringSetData(
+                                    SHARED_PREFERENCES_FILENAME,
+                                    SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY,
+                                    topCategories
+                            );
+
+                            userResponseCallback.onSuccessFromGettingUserPreferences();
+                        }
+                        else {
+                            Log.d(TAG, "No data found for categories!");
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "Exception: "+task.getException());
+                    }
+                });
+    }
+
+    @Override
     public void saveUserPreferences(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -103,7 +187,66 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                 child(SHARED_PREFERENCES_PROFILE_PICTURE).setValue(imageName).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.i(TAG, "TEST");
+                    }
+                });
+    }
+
+    @Override
+    public void saveBestScore(int score, String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .child(idToken)
+                .child(SHARED_PREFERENCES_BEST_SCORE)
+                .setValue(score).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
+    }
+
+    @Override
+    public void updateCategoryCounter(String category, String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken)
+                .child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)
+                .child(category).setValue(ServerValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
+    }
+
+    @Override
+    public void getLeaderboard() {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
+                .limitToLast(10)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DataSnapshot dataSnapshot = task.getResult();
+
+                        HashSet<String> leaderboardSet = new HashSet<>();
+
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            String username = userSnapshot.child(SHARED_PREFERENCES_USERNAME).getValue(String.class);
+                            Integer bestScore = userSnapshot.child(SHARED_PREFERENCES_BEST_SCORE).getValue(Integer.class);
+                            String image = userSnapshot.child(SHARED_PREFERENCES_PROFILE_PICTURE).getValue(String.class);
+
+                            String topUserData = bestScore + ";" + username + ";" + image;
+
+                            if (username != null && image != null) {
+                                leaderboardSet.add(topUserData);
+                            }
+                        }
+
+                        sharedPreferencesUtil.writeStringSetData(
+                                SHARED_PREFERENCES_FILENAME,
+                                SHARED_PREFERENCES_LEADERBOARD,
+                                leaderboardSet
+                        );
+
+                        userResponseCallback.onSuccessFromGettingUserPreferences();
+                    } else {
+                        Log.d(TAG, "Exception: " + task.getException());
                     }
                 });
     }

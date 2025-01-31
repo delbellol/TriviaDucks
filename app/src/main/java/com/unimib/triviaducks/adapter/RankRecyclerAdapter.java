@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,27 @@ import com.unimib.triviaducks.model.Rank;
 
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapter.ViewHolder> {
     private List<Rank> rankList;
+    private Context context;
 
-    // La classe ViewHolder contiene la vista per ogni elemento in RecyclerView
+    public RankRecyclerAdapter(Context context, Set<String> leaderboardSet) {
+        this.context = context;
+        this.rankList = convertAndSortLeaderboard(leaderboardSet);
+    }
+
+    // Classe ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView positionText;
         private final ImageView profileImage;
         private final TextView nameText;
         private final TextView scoreText;
 
-        // Inizializza tutti i campi della vista
         public ViewHolder(@NonNull View view) {
             super(view);
             this.positionText = view.findViewById(R.id.rank_position);
@@ -33,7 +44,6 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
             this.scoreText = view.findViewById(R.id.rank_score);
         }
 
-        // metodi get
         public TextView getPositionText() {
             return positionText;
         }
@@ -51,9 +61,9 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         }
     }
 
-    // Costruttore per l'adapter
-    public RankRecyclerAdapter(List<Rank> rankList) {
-        this.rankList = rankList;
+    // Costruttore che accetta un Set<String>
+    public RankRecyclerAdapter(Set<String> leaderboardSet) {
+        this.rankList = convertAndSortLeaderboard(leaderboardSet);
     }
 
     @Override
@@ -68,15 +78,40 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Rank currentRankItem = rankList.get(position);
 
-        viewHolder.getPositionText().setText(String.valueOf(currentRankItem.getPosition()));
-        viewHolder.getProfileImage().setImageResource(currentRankItem.getProfileImage());
+        viewHolder.getPositionText().setText(String.valueOf(position + 1));
+
+        viewHolder.getProfileImage().setImageResource(
+                context.getResources().getIdentifier(
+                        currentRankItem.getProfileImage(),
+                        "drawable",
+                        context.getPackageName()
+                )
+        );
+
         viewHolder.getNameText().setText(currentRankItem.getName());
+
         viewHolder.getScoreText().setText(String.valueOf(currentRankItem.getScore()));
     }
 
-    // Ritorna il numero di elementi contenuti nella RecyclerView
     @Override
     public int getItemCount() {
         return rankList.size();
+    }
+
+    // Metodo per convertire e ordinare il Set<String>
+    private List<Rank> convertAndSortLeaderboard(Set<String> leaderboardSet) {
+        return leaderboardSet.stream()
+                .map(item -> {
+                    // Divide la stringa "bestScore;username;image"
+                    String[] parts = item.split(";");
+                    int bestScore = Integer.parseInt(parts[0]);
+                    String username = parts[1];
+                    String image = parts[2];
+
+                    // Crea un oggetto Rank
+                    return new Rank(image, username, bestScore);
+                })
+                .sorted((rank1, rank2) -> Integer.compare(rank2.getScore(), rank1.getScore())) // Ordina per bestScore decrescente
+                .collect(Collectors.toList());
     }
 }

@@ -32,6 +32,17 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
+    public void writeIntData(String sharedPreferencesFileName, String key, int value) {
+        // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
+        SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName,
+                Context.MODE_PRIVATE);
+        // Ottiene l'editor per modificare le SharedPreferences.
+        SharedPreferences.Editor editor = sharedPref.edit();
+        // Aggiunge un intero all'editor con la chiave e il valore specificato.
+        editor.putInt(key, value);
+        // Applica le modifiche in modo asincrono (senza bloccare il thread).
+        editor.apply();
+    }
 
 
     /**
@@ -87,6 +98,14 @@ public class SharedPreferencesUtils {
         // Restituisce il valore associato alla chiave, o null se non presente.
         return sharedPref.getString(key, null);
     }
+
+    public int readIntData(String sharedPreferencesFileName, String key) {
+        // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
+        SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE);
+        // Restituisce il valore intero associato alla chiave, o il valore di default se non presente.
+        return sharedPref.getInt(key, 0);
+    }
+
 
     /**
      * Legge un insieme di stringhe dalle SharedPreferences.

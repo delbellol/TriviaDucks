@@ -1,35 +1,32 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
 // Import delle costanti per l'uso nelle SharedPreferences
-import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_FILENAME;
-import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_PROFILE_PICTURE;
+
+import static com.unimib.triviaducks.util.Constants.*;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
@@ -39,7 +36,9 @@ import com.unimib.triviaducks.util.Converter;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 public class AccountInformationFragment extends Fragment {
@@ -50,9 +49,14 @@ public class AccountInformationFragment extends Fragment {
     private ImageButton profilePicture;
     private ImageView profileImageView; // Visualizzazione immagine profilo
     private TextView usernameTextView; // Visualizzazione nome utente
+    private TextView bestScoreTextView;
     private UserViewModel userViewModel; // ViewModel per gestire i dati utente
     private Converter converter; // Classe per conversioni
     private SharedPreferencesUtils sharedPreferencesUtils; // Utility per SharedPreferences
+    private CircularProgressIndicator circularProgressIndicator;
+    private ConstraintLayout accountLayout;
+    private LottieAnimationView first_place, second_place, third_place;
+    private Button logoutButton;
 
     public AccountInformationFragment() {
     }
@@ -76,55 +80,47 @@ public class AccountInformationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_account_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_account_information, container, false);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Scegliere immagine dalla galleria
-        ActivityResultLauncher<String> mGetContent = registerForActivityResult(
-            new ActivityResultContracts.GetContent(),
-                    new ActivityResultCallback<Uri>() {
-                        @Override
-                        public void onActivityResult(Uri uri) {
-                            if (uri != null) {
-                                handleGalleryImageResult(uri);
-                            }
-                        }
-                    }
-        );
-
         // Inizializzazione delle utility
-        converter = new Converter();
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
         // Collegamento della TextView per il nome utente
         usernameTextView = view.findViewById(R.id.username);
 
-        // Impostazione del nome utente letto dalle SharedPreferences
-        usernameTextView.setText(sharedPreferencesUtils.readStringData(Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_USERNAME));
-
         // Collegamento dell'ImageView per il profilo
         profileImageView = view.findViewById(R.id.profilePicture);
 
-        // Controllo se è salvata un'immagine di profilo e caricamento
-        if (sharedPreferencesUtils.readStringData(SHARED_PREFERENCES_FILENAME, SHARED_PREFERENCES_PROFILE_PICTURE) != null) {
-            loadProfileImageFromPreferences();
-        }
+        logoutButton = view.findViewById(R.id.logout);
+
+        bestScoreTextView = view.findViewById(R.id.best_score);
+
+        first_place = view.findViewById(R.id.first_place);
+        second_place = view.findViewById(R.id.second_place);
+        third_place = view.findViewById(R.id.third_place);
+
+        // Carico immagine profilo
+        loadInformation();
 
         // Collegamento dei pulsanti per cambiare immagine
         changePfPBtn = view.findViewById(R.id.ChangePfPBtn);
         profilePicture = view.findViewById(R.id.profilePicture);
 
         // Imposta i listener per aprire il dialog per cambiare immagine
-        changePfPBtn.setOnClickListener(v -> showProfileImageDialog(mGetContent));
-        profilePicture.setOnClickListener(v -> showProfileImageDialog(mGetContent));
+        changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
+        profilePicture.setOnClickListener(v -> showProfileImageDialog());
     }
 
-    private void showProfileImageDialog(ActivityResultLauncher<String> mGetContent) {
+    //TODO ce un metodo identico dentro pick username
+    //TODO da spostare tutti i metodi
+    private void showProfileImageDialog() {
         // Creazione e configurazione del dialog per la selezione immagine
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_profile_image_selection); // Imposta il layout del dialog
@@ -149,61 +145,11 @@ public class AccountInformationFragment extends Fragment {
             }
         }
 
-        // Pulsante per importare immagine dalla galleria
-        ImageButton importFromGalleryButton = dialog.findViewById(R.id.ImportPfpFromDeviceBtn);
-        if (importFromGalleryButton != null) {
-            importFromGalleryButton.setOnClickListener(v -> {
-                if (mGetContent != null) {
-                    mGetContent.launch("image/*");
-                } else {
-                    Log.e(TAG, "mGetContent is null!");
-                }
-                dialog.dismiss(); // Chiudi il dialog
-            });
-        }
-
         // Mostra il dialog
         dialog.show();
     }
 
-    // Metodo per gestire l'immagine caricata dalla galleria
-    private void handleGalleryImageResult(Uri selectedImageUri) {
-        if (selectedImageUri != null) {
-            try {
-                // Carica il Bitmap dall'Uri
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-
-                // Cambia l'immagine del profilo
-                profileImageView.setImageBitmap(bitmap);
-
-                // Salva l'immagine come bitmap
-                saveProfileImage(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Puoi gestire errori qui, ad esempio mostrando un messaggio all'utente
-            }
-        }
-    }
-
-
-    // Metodo per salvare l'immagine selezionata dalla galleria
-    private void saveProfileImage(Bitmap bitmap) {
-        if (bitmap != null) {
-            // Converte il bitmap in stringa Base64
-            String imageBase64 = converter.fromBitmapToBase64(bitmap);
-
-            // Salva l'immagine in Base64 nelle SharedPreferences
-            sharedPreferencesUtils.writeStringData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_PROFILE_PICTURE,
-                    imageBase64
-            );
-
-            // Carica l'immagine su Firebase
-            uploadImageToFirebase(imageBase64);
-        }
-    }
-
+    //TODO ce un metodo identico dentro pick username
 
     // Metodo per salvare il nome della risorsa selezionata
     private void saveResourceName(Drawable selectedDrawable) {
@@ -213,56 +159,79 @@ public class AccountInformationFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_PROFILE_PICTURE, resourceName); // Salva il nome della risorsa
 
             // Carica il nome su Firebase
-            uploadImageToFirebase(resourceName);
+            userViewModel.saveUserImage(
+                    resourceName,
+                    userViewModel.getLoggedUser().getIdToken()
+            );
         }
-    }
-
-    private void uploadImageToFirebase(String imageName) {
-        Log.d(TAG, userViewModel.getLoggedUser().getIdToken());
-        userViewModel.saveUserImage(
-                imageName,
-                userViewModel.getLoggedUser().getIdToken()
-        );
     }
 
     // Metodo per caricare l'immagine del profilo dalle SharedPreferences
-    private void loadProfileImageFromPreferences() {
-        String savedData = sharedPreferencesUtils.readStringData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_PROFILE_PICTURE
+    private void loadInformation() {
+        userViewModel.getUserImages(
+                userViewModel.getLoggedUser().getIdToken()
         );
 
-        Log.d("ProfileImage", "Saved data: " + savedData); // Log per verificare i dati salvati
+        userViewModel.getUserPreferences(
+                userViewModel.getLoggedUser().getIdToken()
+        );
 
-        if (savedData != null) {
-            if (isBase64String(savedData)) {
-                // La stringa è in formato Base64
-                Bitmap bitmap = converter.fromBase64ToBitmap(savedData); // Converte Base64 in bitmap
-                profileImageView.setImageBitmap(bitmap); // Imposta l'immagine nella ImageView
-            } else {
-                // La stringa è un nome di risorsa
-                int resourceId = getResourceIdByName(savedData); // Ottieni l'ID della risorsa
-                Log.d(TAG, resourceId + "");
-                if (resourceId != 0) {
-                    profileImageView.setImageResource(resourceId); // Imposta l'immagine della risorsa
+        userViewModel.getCategoriesPodium(
+                userViewModel.getLoggedUser().getIdToken()
+        );
+
+        userViewModel.getUserBestScore(
+                userViewModel.getLoggedUser().getIdToken()
+        );
+
+        if (sharedPreferencesUtils.readStringSetData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null)
+            Log.d(TAG, "null");
+        else
+            Log.d(TAG, String.valueOf(sharedPreferencesUtils.readStringSetData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)));
+
+
+        Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
+
+        if (matchPlayedSet == null || matchPlayedSet.isEmpty()) {
+            Log.e(TAG, "The set is empty");
+        } else {
+            List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
+
+            if (matchPlayedList.size() >= 1) {
+                first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
+                if (matchPlayedList.size() >= 2) {
+                    second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
+                    if (matchPlayedList.size() > 2) {
+                        third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
+                    }
                 }
             }
         }
-    }
 
-    // Verifica se la stringa è una stringa Base64 valida
-    private boolean isBase64String(String input) {
-        if (input == null || input.isEmpty()) {
-            return false;
-        }
-        try {
-            byte[] decodedBytes = Base64.decode(input, Base64.DEFAULT); // Decodifica la stringa Base64
-            // Controlla se i byte possono essere ricodificati in Base64
-            String reEncoded = Base64.encodeToString(decodedBytes, Base64.DEFAULT).trim();
-            return input.trim().equals(reEncoded);
-        } catch (IllegalArgumentException e) {
-            return false; // La stringa non è una Base64 valida
-        }
+        usernameTextView.setText(
+                sharedPreferencesUtils.readStringData(
+                        Constants.SHARED_PREFERENCES_FILENAME,
+                        Constants.SHARED_PREFERENCES_USERNAME));
+
+        profileImageView.setImageResource(
+                getResourceIdByName(
+                        sharedPreferencesUtils.readStringData(
+                                Constants.SHARED_PREFERENCES_FILENAME,
+                                Constants.SHARED_PREFERENCES_PROFILE_PICTURE
+                        )
+                )
+        );
+
+        bestScoreTextView.setText(
+                String.valueOf(sharedPreferencesUtils.readIntData(
+                        Constants.SHARED_PREFERENCES_FILENAME,
+                        Constants.SHARED_PREFERENCES_BEST_SCORE)));
     }
 
     // Metodo per ottenere l'ID della risorsa dal nome
@@ -272,6 +241,21 @@ public class AccountInformationFragment extends Fragment {
                 "drawable", // Ricerca nelle risorse di tipo drawable
                 requireContext().getPackageName() // Nome del pacchetto
         );
+    }
+
+    private int getCategoryIconFromCode(int code) {
+        switch (code) {
+            default:
+                return R.raw.category_all;
+            case HISTORY_CODE:
+                return R.raw.category_science;
+            case SCIENCE_NATURE_CODE:
+                return R.raw.category_geography;
+            case GEOGRAPHY_CODE:
+                return R.raw.category_history;
+            case SPORTS_CODE:
+                return R.raw.category_sport;
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

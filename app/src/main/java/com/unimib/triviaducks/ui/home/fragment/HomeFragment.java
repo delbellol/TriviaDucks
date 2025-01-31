@@ -52,10 +52,10 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Inizializza il TextView
-        TextView descriptionTextView = view.findViewById(R.id.categoryDescription);
+        // TextView descriptionTextView = view.findViewById(R.id.categoryDescription);
 
         // Imposta una descrizione iniziale
-        descriptionTextView.setText("Descrizione iniziale della categoria");
+        //descriptionTextView.setText("Descrizione iniziale della categoria");
 
         List<Integer> lottieAnimations = Arrays.asList(
                 R.raw.category_all,
@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
 
         ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
         TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
-        TextView categoryDescription = view.findViewById(R.id.categoryDescription);
+        //TextView categoryDescription = view.findViewById(R.id.categoryDescription);
 
         CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(lottieAnimations, categoryDescriptions);
         viewPager.setAdapter(adapter);
@@ -84,8 +84,8 @@ public class HomeFragment extends Fragment {
         }).attach();
 
         // Imposta il testo iniziale
-        categoryDescription.setSelected(true); // Necessario per il marquee (scorrimento del testo)
-        categoryDescription.setText(categoryDescriptions.get(0));
+        //categoryDescription.setSelected(true); // Necessario per il marquee (scorrimento del testo)
+        //categoryDescription.setText(categoryDescriptions.get(0));
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
                 super.onPageSelected(position);
                 selectedCategory = getCategoryFromPosition(position);
                 // Aggiorna il testo in base alla categoria selezionata
-                categoryDescription.setText(categoryDescriptions.get(position));
+                //categoryDescription.setText(categoryDescriptions.get(position));
             }
         });
 

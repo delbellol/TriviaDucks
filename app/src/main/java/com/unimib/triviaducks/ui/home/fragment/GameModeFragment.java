@@ -9,12 +9,15 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.MediaStore;
@@ -25,9 +28,15 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.adapter.DifficultyAdapter;
 import com.unimib.triviaducks.ui.game.QuestionActivity;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
+import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
+import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
+import com.unimib.triviaducks.util.Constants;
+import com.unimib.triviaducks.util.ServiceLocator;
+import com.unimib.triviaducks.util.SharedPreferencesUtils;
 import com.unimib.triviaducks.util.Constants;
 
 import java.util.Arrays;
@@ -40,6 +49,9 @@ public class GameModeFragment extends DialogFragment {
     private Button minus_button;
     private ViewPager2 viewPager2;
     private String selectedDifficulty = "random";
+    private static final String TAG = HomeFragment.class.getSimpleName();
+    private SharedPreferencesUtils sharedPreferencesUtils;
+    private UserViewModel userViewModel;
 
     public GameModeFragment() {
         // Required empty public constructor
@@ -56,6 +68,13 @@ public class GameModeFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
+
+        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
+
+        userViewModel.setAuthenticationError(false);
+
         setCancelable(false);
     }
 
@@ -64,6 +83,8 @@ public class GameModeFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
         View view = getLayoutInflater().inflate(R.layout.fragment_game_mode, null);
         builder.setView(view);
@@ -114,6 +135,7 @@ public class GameModeFragment extends DialogFragment {
             intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
             intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
             startActivity(intent);
+            increaseCategoryGameCounter(selectedCategory);
             dismiss();
         });
         plus_button = view.findViewById(R.id.plus_button);
@@ -149,5 +171,23 @@ public class GameModeFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void increaseCategoryGameCounter(int selectedCategory) {
+        String selectedCategoryString = String.valueOf(selectedCategory);
+//        sharedPreferencesUtils.writeIntData(
+//                Constants.SHARED_PREFERENCES_FILENAME,
+//                selectedCategoryString,
+//                sharedPreferencesUtils.readIntData(
+//                        Constants.SHARED_PREFERENCES_FILENAME,
+//                        Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY+"/"+selectedCategoryString
+//                ) + 1
+//        ); // Salva il nome della risorsa
+
+        // Carica il nome su Firebase
+        userViewModel.updateCategoryCounter(
+                selectedCategoryString,
+                userViewModel.getLoggedUser().getIdToken()
+        );
     }
 }
