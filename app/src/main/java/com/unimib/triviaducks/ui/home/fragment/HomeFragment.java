@@ -92,20 +92,13 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 selectedCategory = getCategoryFromPosition(position);
-                //SharedPreferencesUtils.setCategory(getCategoryFromPosition(position));
                 // Aggiorna il testo in base alla categoria selezionata
                 categoryDescription.setText(categoryDescriptions.get(position));
             }
         });
 
-        Button oneShot = view.findViewById(R.id.oneShot);
-        oneShot.setOnClickListener(v -> {
-            GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
-            gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
-        });
-
-        Button trials = view.findViewById(R.id.trials);
-        trials.setOnClickListener(v -> {
+        Button play = view.findViewById(R.id.play);
+        play.setOnClickListener(v -> {
             GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
             gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
         });

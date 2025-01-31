@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
 
 import java.util.Timer;
@@ -17,7 +18,7 @@ import java.util.TimerTask;
 public class TimerUtils {
 
     private CountDownTimer timer;
-    private Fragment fragment;
+    private GameFragment fragment;
     private Context context;
     private MutableLiveData<Long> mutableSecondsRemaining;
     private int score;
@@ -26,7 +27,7 @@ public class TimerUtils {
     public TimerUtils() {
         //required empty public constructor
     }
-    public TimerUtils(Fragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining) {
+    public TimerUtils(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining) {
         this.fragment = fragment;
         this.context = context;
         this.mutableSecondsRemaining = mutableSecondsRemaining;
@@ -43,20 +44,19 @@ public class TimerUtils {
             @Override
             public void onTick(long millisUntilFinished) {
                 mutableSecondsRemaining.postValue(millisUntilFinished / COUNTDOWN_INTERVAL);
-                //Log.d("Timer",""+millisUntilFinished / COUNTDOWN_INTERVAL);
             }
 
             @Override
             public void onFinish() {
-                endTimer(score);
+                endTimer();
                 showGameOver();
             }
         }.start();
     }
 
-    public void endTimer(int score) {
+    public void endTimer() {
         if (timer != null) {
-            this.score = score;
+            this.score = fragment.getScore();
             timer.cancel();
             timer = null;
         }

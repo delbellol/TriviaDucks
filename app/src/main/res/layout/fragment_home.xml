@@ -86,28 +86,17 @@
 
 
                 <Button
-                    android:id="@+id/trials"
+                    android:id="@+id/play"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:text="@string/trials"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="44dp"
+                    android:text="@string/play"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/gameButtonLayout"
-                    app:layout_constraintBottom_toTopOf="@id/oneShot"
                     app:layout_constraintHeight_percent="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/gameButtonLayout"
                     app:layout_constraintWidth_percent="0.6" />
 
-                <Button
-                    android:id="@+id/oneShot"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="@string/one_shot"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/trials"
-                    app:layout_constraintBottom_toBottomOf="@id/gameButtonLayout"
-                    app:layout_constraintHeight_percent="0.3"
-                    app:layout_constraintWidth_percent="0.6"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

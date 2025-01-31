@@ -3,11 +3,8 @@ package com.unimib.triviaducks.repository.user;
 import androidx.lifecycle.MutableLiveData;
 
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.model.QuestionAPIResponse;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
-import com.unimib.triviaducks.repository.question.QuestionResponseCallback;
-import com.unimib.triviaducks.source.question.BaseQuestionLocalDataSource;
 import com.unimib.triviaducks.source.user.BaseUserAuthenticationRemoteDataSource;
 import com.unimib.triviaducks.source.user.BaseUserDataRemoteDataSource;
 
@@ -16,25 +13,21 @@ import java.util.List;
 /**
  * Repository class to get the user information.
  */
-public class UserRepository implements IUserRepository, UserResponseCallback, QuestionResponseCallback {
+public class UserRepository implements IUserRepository, UserResponseCallback {
     private static final String TAG = UserRepository.class.getSimpleName();
     private final BaseUserAuthenticationRemoteDataSource userRemoteDataSource;
     private final BaseUserDataRemoteDataSource userDataRemoteDataSource;
-    private final BaseQuestionLocalDataSource questionLocalDataSource;
     private final MutableLiveData<Result> userMutableLiveData;
     private final MutableLiveData<Result> userPreferencesMutableLiveData;
 
     public UserRepository(BaseUserAuthenticationRemoteDataSource userRemoteDataSource,
-                          BaseUserDataRemoteDataSource userDataRemoteDataSource,
-                          BaseQuestionLocalDataSource questionLocalDataSource) {
+                          BaseUserDataRemoteDataSource userDataRemoteDataSource) {
         this.userRemoteDataSource = userRemoteDataSource;
         this.userDataRemoteDataSource = userDataRemoteDataSource;
-        this.questionLocalDataSource = questionLocalDataSource;
         this.userMutableLiveData = new MutableLiveData<>();
         this.userPreferencesMutableLiveData = new MutableLiveData<>();
         this.userRemoteDataSource.setUserResponseCallback(this);
         this.userDataRemoteDataSource.setUserResponseCallback(this);
-        this.questionLocalDataSource.setQuestionCallback(this);
     }
 
     @Override
@@ -112,10 +105,6 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
         Result.UserSuccess result = new Result.UserSuccess(user);
         userMutableLiveData.postValue(result);
     }
-    @Override
-    public void onSuccessFromRemoteDatabase(List<Question> questionList) {
-        questionLocalDataSource.insertQuestions(questionList);
-    }
 
     @Override
     public void onSuccessFromGettingUserPreferences() {
@@ -130,22 +119,6 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Qu
 
     @Override
     public void onSuccessLogout() {
-    }
-
-    @Override
-    public void onSuccessFromRemote(QuestionAPIResponse questionAPIResponse, long lastUpdate) {
-    }
-
-    @Override
-    public void onFailureFromRemote(Exception exception) {
-    }
-
-    @Override
-    public void onSuccessFromLocal(List<Question> questionList) {
-    }
-
-    @Override
-    public void onFailureFromLocal(Exception exception) {
     }
 
     //@Override

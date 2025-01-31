@@ -23,6 +23,7 @@ public class GameOverFragment extends DialogFragment {
     TextView scoreView;
     String reason;
     int score;
+    boolean end=false;
 
     public GameOverFragment() {
         reason = getString(R.string.wrong_answer);
@@ -30,6 +31,11 @@ public class GameOverFragment extends DialogFragment {
     public GameOverFragment(String reason, int score) {
         this.reason = reason;
         this.score = score;
+    }
+    public GameOverFragment(String reason, int score, boolean end) {
+        this.reason = reason;
+        this.score = score;
+        this.end=end;
     }
 
 
@@ -64,6 +70,11 @@ public class GameOverFragment extends DialogFragment {
 
         scoreView = view.findViewById(R.id.score);
         scoreView.setText("Score: "+score);
+
+        if (end) {
+            TextView dialogQuestion = view.findViewById(R.id.dialog_question);
+            dialogQuestion.setVisibility(View.GONE);
+        }
 
         return builder.create();
     }

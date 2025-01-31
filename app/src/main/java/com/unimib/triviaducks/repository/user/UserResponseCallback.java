@@ -9,7 +9,6 @@ public interface UserResponseCallback {
     void onSuccessFromAuthentication(User user);
     void onFailureFromAuthentication(String message);
     void onSuccessFromRemoteDatabase(User user);
-    void onSuccessFromRemoteDatabase(List<Question> questionList);
     void onSuccessFromGettingUserPreferences();
     void onFailureFromRemoteDatabase(String message);
     void onSuccessLogout();

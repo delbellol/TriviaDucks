@@ -2,15 +2,11 @@ package com.unimib.triviaducks.util;
 
 import android.app.Application;
 
-import com.unimib.triviaducks.database.QuestionRoomDatabase;
 import com.unimib.triviaducks.repository.question.QuestionRepository;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.repository.user.UserRepository;
 import com.unimib.triviaducks.service.QuestionAPIService;
-import com.unimib.triviaducks.source.question.BaseQuestionLocalDataSource;
 import com.unimib.triviaducks.source.question.BaseQuestionRemoteDataSource;
-import com.unimib.triviaducks.source.question.QuestionLocalDataSource;
-import com.unimib.triviaducks.source.question.QuestionMockDataSource;
 import com.unimib.triviaducks.source.question.QuestionRemoteDataSource;
 import com.unimib.triviaducks.source.user.BaseUserAuthenticationRemoteDataSource;
 import com.unimib.triviaducks.source.user.BaseUserDataRemoteDataSource;
@@ -70,15 +66,6 @@ public class ServiceLocator {
     }
 
     /**
-     * Restituisce un'istanza di QuestionRoomDatabase per la gestione del database Room.
-     * @param application Parametro per accedere allo stato globale dell'applicazione.
-     * @return Un'istanza di QuestionRoomDatabase.
-     */
-    public QuestionRoomDatabase getQuestionsDB(Application application) {
-        return QuestionRoomDatabase.getDatabase(application); // Restituisce l'istanza del database Room.
-    }
-
-    /**
      * Restituisce un'istanza di QuestionRepository, che funge da fonte di dati per le domande.
      * @param application Parametro per accedere allo stato globale dell'applicazione.
      * @param debugMode Parametro per stabilire se l'applicazione è in modalità di debug.
@@ -86,23 +73,12 @@ public class ServiceLocator {
      */
     public QuestionRepository getQuestionsRepository(Application application, boolean debugMode) {
         BaseQuestionRemoteDataSource questionRemoteDataSource; // Fonte remota delle domande.
-        BaseQuestionLocalDataSource questionLocalDataSource; // Fonte locale delle domande.
         SharedPreferencesUtils sharedPreferencesUtil = new SharedPreferencesUtils(application); // Utility per SharedPreferences.
 
-        if (debugMode) {
-            // In modalità debug, usa un mock per le domande (JSON mock).
-            JSONParserUtils jsonParserUtil = new JSONParserUtils(application);
-            questionRemoteDataSource = new QuestionMockDataSource(jsonParserUtil); // Usa i dati mock.
-        } else {
-            // In modalità di produzione, usa una fonte remota vera.
-            questionRemoteDataSource = new QuestionRemoteDataSource();
-        }
-
-        // Crea la fonte locale per il database Room.
-        questionLocalDataSource = new QuestionLocalDataSource(getQuestionsDB(application), sharedPreferencesUtil);
+        questionRemoteDataSource = new QuestionRemoteDataSource();
 
         // Restituisce un'istanza di QuestionRepository con le sorgenti remote e locali.
-        return new QuestionRepository(questionRemoteDataSource, questionLocalDataSource);
+        return new QuestionRepository(questionRemoteDataSource);
     }
 
     public IUserRepository getUserRepository(Application application) {
@@ -114,10 +90,7 @@ public class ServiceLocator {
         BaseUserDataRemoteDataSource userDataRemoteDataSource =
                 new UserFirebaseDataSource(sharedPreferencesUtil);
 
-        BaseQuestionLocalDataSource newsLocalDataSource =
-                new QuestionLocalDataSource(getQuestionsDB(application), sharedPreferencesUtil);
-
         return new UserRepository(userRemoteAuthenticationDataSource,
-                userDataRemoteDataSource, newsLocalDataSource);
+                userDataRemoteDataSource);
     }
 }

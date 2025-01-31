@@ -1,10 +1,20 @@
 package com.unimib.triviaducks.ui.game.viewmodel;
 
+import static com.unimib.triviaducks.util.Constants.COUNTDOWN_INTERVAL;
+import static com.unimib.triviaducks.util.Constants.FRESH_TIMEOUT;
+
+import android.os.CountDownTimer;
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.question.QuestionRepository;
+
+import java.util.List;
 
 // ViewModel che gestisce la logica delle domande e comunica con il repository
 public class QuestionViewModel extends ViewModel {
@@ -19,23 +29,24 @@ public class QuestionViewModel extends ViewModel {
     }
 
     // Metodo per ottenere le domande, crea la LiveData se non esiste e la aggiorna
-    public MutableLiveData<Result> getQuestions(int amount, String type, int category, long lastUpdate) {
-        // Se questionListLiveData è null, esegui il fetch delle domande
-        if (questionListLiveData == null) {
-            fetchQuestions(amount, type, category, lastUpdate);
-        }
-        return questionListLiveData; // Ritorna la LiveData con le domande
+    public MutableLiveData<Result> getQuestions() {
+        return questionListLiveData;
     }
 
     // Metodo privato per chiamare il repository e ottenere le domande
-    private void fetchQuestions(int amount, String type, int category, long lastUpdate) {
+    public MutableLiveData<Result> fetchQuestions(int category, int questionAmount, String difficulty) {
         // Chiamata al repository per ottenere le domande e aggiornare questionListLiveData
-        questionListLiveData = questionRepository.fetchQuestions(amount, type, category, lastUpdate);
+        if (questionListLiveData == null) {
+            questionListLiveData = questionRepository.fetchQuestions(category,questionAmount, difficulty);
+        }
+        return getQuestions();
     }
 
+
+
     // Metodo privato per ottenere le domande senza parametri (probabilmente non usato)
-    private void getQuestions() {
-        // Chiamata al repository per ottenere tutte le domande
-        questionListLiveData = questionRepository.getQuestions();
-    }
+//    private MutableLiveData<Result> getQuestions() {
+//        // Chiamata al repository per ottenere tutte le domande
+//        return questionRepository.getQuestions();
+//    }
 }

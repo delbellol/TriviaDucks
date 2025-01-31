@@ -40,7 +40,7 @@ public class Constants {
     public static final String ANIME_MANGA = "Entertainment: Japanese Anime & Manga";
     public static final String CARTOON = "Entertainment: Cartoon & Animations";
 
-    public static final String CATEGORY = "category";
+    public static final String DIFFICULTY = "difficulty";
 
     //Codice per le categorie dell'API
     public static final int ANY_CATEGORIES_CODE = 0;
@@ -50,7 +50,7 @@ public class Constants {
     public static final int SPORTS_CODE = 21;
 
     // Liste di difficoltà e categorie
-    public static final List<String> DIFFICULTY = Arrays.asList(
+    public static final List<String> DIFFICULTY_LIST = Arrays.asList(
             EASY_DIFFICULTY, MEDIUM_DIFFICULTY, HARD_DIFFICULTY
     );
 
@@ -81,7 +81,7 @@ public class Constants {
     public static final int COUNTDOWN_INTERVAL = 1000;
 
     // Timeout per la freschezza dei dati
-    public static final int FRESH_TIMEOUT = 1000 * 60;
+    public static final int FRESH_TIMEOUT = 1000;
 
     // Configurazione API Trivia
     public static final String TRIVIA_API_BASE_URL = "https://opentdb.com/";
@@ -91,6 +91,7 @@ public class Constants {
     public static final String TRIVIA_CATEGORY_PARAMETER = "category";
     public static final int TRIVIA_AMOUNT_VALUE = 50;
     public static final String TRIVIA_TYPE_VALUE = "multiple";
+    public static final String TRIVIA_DIFFICULTY_PARAMETER = "difficulty";
 
     // File di SharedPreferences
     public static final String SHARED_PREFERENCES_FILENAME = "com.unimib.triviaducks.preferences";

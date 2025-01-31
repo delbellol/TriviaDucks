@@ -1,6 +1,5 @@
 package com.unimib.triviaducks.ui.game;
 
-import static com.unimib.triviaducks.util.Constants.CATEGORY;
 
 import android.os.Bundle;
 import android.util.Log;

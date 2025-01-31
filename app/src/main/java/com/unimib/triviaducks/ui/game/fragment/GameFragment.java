@@ -1,8 +1,13 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
+import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
 import android.content.Intent;
-import static com.unimib.triviaducks.util.Constants.CATEGORY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +30,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.ui.home.fragment.GameModeFragment;
-import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
-import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import org.jsoup.Jsoup;
 
@@ -40,7 +42,7 @@ public class GameFragment extends Fragment {
     private CircularProgressIndicator circularProgressIndicator;
     private ConstraintLayout gameLayout;
 
-    private TextView questionTextView, counterTextView, countdownTextView;
+    private TextView questionTextView, counterTextView, countdownTextView, difficultyTextView;
     private Button answerButton1, answerButton2, answerButton3, answerButton4;
     private ImageButton closeImageButton;
 
@@ -52,8 +54,14 @@ public class GameFragment extends Fragment {
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
 
     private int category; //categoria delle domande da passare al GameHandler
+    String difficulty;
 
     private int errorsCount = 0;
+
+    private int score;
+
+
+    private int questionAmount;
 
     public GameFragment() {
     }
@@ -64,8 +72,14 @@ public class GameFragment extends Fragment {
         super.onCreate(savedInstanceState);
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
 
-        category = getActivity().getIntent().getIntExtra(CATEGORY,0);
+        category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
         Log.d("GameFragment","Category " + category);
+
+        difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
+        Log.d("GameFragment","Difficulty " + difficulty);
+        category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
+        questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_AMOUNT_PARAMETER,10);
+        //Log.d("GameFragment","Category " + category);
     }
 
     @Override
@@ -90,7 +104,6 @@ public class GameFragment extends Fragment {
         lottieHeart3 = view.findViewById(R.id.lottie_heart3);
 
         //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
-        //TODO probabilmente per i bottoni delle risposte conviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
         answerButton2 = view.findViewById(R.id.answer2);
         answerButton3 = view.findViewById(R.id.answer3);
@@ -115,7 +128,7 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(TRIVIA_AMOUNT_VALUE, "multiple", category, System.currentTimeMillis());
+        gameHandler.loadQuestions(category,questionAmount, difficulty);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -131,7 +144,14 @@ public class GameFragment extends Fragment {
             }
         });
 
-        //Log.d("GameFragment","Categoria: "+SharedPreferencesUtils.getCategory());
+        difficultyTextView = view.findViewById(R.id.difficulty);
+
+        mutableScore.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String text) {
+                difficultyTextView.setText(text);
+            }
+        });
 
         return view;
     }
@@ -192,6 +212,34 @@ public class GameFragment extends Fragment {
         } else if (errorsCount == 3) {
             lottieHeart1.setVisibility(View.GONE); // Nascondi il cuore 1
         }
+    }
+
+    public void showLoadingScreen() {
+        gameLayout.setVisibility(View.GONE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public void AddScore(String difficulty) {
+
+        switch (difficulty) {
+            case "easy":
+                score += EASY_QUESTION_POINTS;
+                break;
+            case "medium":
+                score += MEDIUM_QUESTION_POINTS;
+                break;
+            case "hard":
+                score += HARD_QUESTION_POINTS;
+                break;
+            default:
+                Log.e(TAG,"Error obtaing question difficulty");
+                break;
+        }
+        Log.d(TAG, "Score: "+score);
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }

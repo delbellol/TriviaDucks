@@ -8,11 +8,16 @@ import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
+import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.QuestionAPIResponse;
+import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.service.QuestionAPIService;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,24 +31,30 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
 
     private final QuestionAPIService questionAPIService; // Servizio Retrofit per l'API delle domande.
 
+    private MutableLiveData<Result> resultMutableLiveData;
+
     /**
      * Costruttore: ottiene un'istanza del servizio Retrofit tramite ServiceLocator.
      */
     public QuestionRemoteDataSource() {
         this.questionAPIService = ServiceLocator.getInstance().getQuestionAPIService();
+        resultMutableLiveData = new MutableLiveData<Result>();
     }
 
     /**
      * Metodo per recuperare le domande dall'API remota.
      */
     @Override
-    public void getQuestions(int category) {
+    public void fetchQuestions(int category, int questionAmount, String difficulty) {
         // Crea una chiamata Retrofit per ottenere le domande.
-        Log.d("QuestionRemoteDataSource","" + category);
+        Log.d(TAG,"Category: " + category);
+        Log.d(TAG,"Difficulty: " + difficulty);
+        Log.d(TAG,"Question amount: " + questionAmount);
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
-                TRIVIA_AMOUNT_VALUE, // Quantità di domande.
+                questionAmount, // Quantità di domande.
                 TRIVIA_TYPE_VALUE,    // Tipo di domande.
-                category
+                category,
+                difficulty
         );
 
         // Esegue la chiamata in modo asincrono.
@@ -60,6 +71,7 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
                         response.body().getResponseCode() == 0) {
                     // Notifica il successo al callback con la risposta e il timestamp corrente.
                     questionCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
+                    resultMutableLiveData.postValue(new Result.QuestionSuccess(response.body()));
                 } else {
                     // TODO: Cambiare tipo di errore specifico se necessario.
                     questionCallback.onFailureFromRemote(new Exception(UNEXPECTED_ERROR));
@@ -75,5 +87,8 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
                 questionCallback.onFailureFromRemote(new Exception(RETROFIT_ERROR));
             }
         });
+    }
+    public MutableLiveData<Result> getQuestions(){
+        return resultMutableLiveData;
     }
 }

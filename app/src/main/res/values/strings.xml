@@ -22,9 +22,9 @@
     <string name="profile_description">bottone per accedere al proprio profilo</string>
     <string name="ranking_description">bottone per accedere alla sezione classifica</string>
     <string name="close_description">bottone per tornare alla schermata principale</string>
-    <string name="play">Gioca</string>
-    <string name="default_description">Descrizione della modalità di gioco</string>
-    <string name="default_title">Modalità</string>
+    <string name="play">Play</string>
+    <string name="default_description">You have some questions, three lives and you have to reply within 30 seconds each question. Do your best!</string>
+    <string name="default_title">Get Ready!</string>
     <string name="account">Account</string>
     <string name="change_password">Password</string>
     <string name="change_number">Phone number</string>
@@ -36,9 +36,9 @@
     <string name="answer3">Risposta 3</string>
     <string name="answer4">Risposta 4</string>
     <string name="time_out">Tempo Scaduto</string>
-    <string name="quit_game_description">Sei sicuro di voler uscire dalla partita?</string>
-    <string name="quit_game">Esci</string>
-    <string name="cancel_quit_game">Annulla</string>
+    <string name="quit_game_description">Are you sure you want to quit?</string>
+    <string name="quit_game">Exit</string>
+    <string name="cancel_quit_game">Cancel</string>
     <string name="default_gameover">GameOver</string>
     <string name="back_home">Go back to the home page</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -78,6 +78,12 @@
     <string name="create_a_new_account">Create a new account</string>
     <string name="signup">Signup</string>
 
+    <!--Difficulty -->
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="random">Random</string>
+
     <!-- Errors -->
     <string name="error_email_login">Check the email address</string>
     <string name="error_password_login">The password must have at least 8 characters</string>
@@ -91,4 +97,13 @@
     <string name="volume">Volume:</string>
     <string name="day_night_mode">Day / Night mode</string>
     <string name="mode">Mode:</string>
+
+
+    <string name="number_picker_description">Choose a number between 5 and 50</string>
+    <string name="minus">–</string>
+    <string name="plus">+</string>
+    <string name="default_picker_value">10</string>
+    <string name="default_difficulty_text_value">Swipe to pick difficulty</string>
+
+    <string name="default_difficulty_question">Difficulty: random</string>
 </resources>

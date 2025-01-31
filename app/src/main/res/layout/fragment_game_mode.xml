@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/gameModeFragment"
     android:orientation="vertical"
     android:background="@android:color/holo_green_light"
@@ -26,11 +27,99 @@
         android:layout_marginTop="8dp"
         android:layout_gravity="center" />
 
+    <!--Difficulty picker-->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/difficultyPickerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/default_difficulty_text_value"
+            android:textStyle="bold"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+    <!--Question number picker-->
     <LinearLayout
         android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="40dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/questionPickerDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/number_picker_description"
+            android:textStyle="bold"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/account_background_white">
+
+            <Button
+                android:id="@+id/minus_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:text="@string/minus" />
+
+            <TextView
+                android:id="@+id/questionPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="30sp"
+                android:text="@string/default_picker_value"/>
+
+            <Button
+                android:id="@+id/plus_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:text="@string/plus" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/play"
@@ -39,9 +128,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
             android:text="@string/play" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Button
