@@ -230,25 +230,6 @@ public class GameFragment extends Fragment {
         circularProgressIndicator.setVisibility(View.VISIBLE);
     }
 
-    public void AddScore(String difficulty) {
-
-        switch (difficulty) {
-            case "easy":
-                score += EASY_QUESTION_POINTS;
-                break;
-            case "medium":
-                score += MEDIUM_QUESTION_POINTS;
-                break;
-            case "hard":
-                score += HARD_QUESTION_POINTS;
-                break;
-            default:
-                Log.e(TAG,"Error obtaing question difficulty");
-                break;
-        }
-        Log.d(TAG, "Score: "+score);
-    }
-
     public int getScore() {
         return score;
     }
