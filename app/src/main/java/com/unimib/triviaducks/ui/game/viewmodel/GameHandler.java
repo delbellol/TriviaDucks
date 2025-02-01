@@ -1,10 +1,17 @@
 package com.unimib.triviaducks.ui.game.viewmodel;
 
+import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
 import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.END;
 import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.QUIZ_FINISHED;
+import static com.unimib.triviaducks.util.Constants.REASON;
+import static com.unimib.triviaducks.util.Constants.SCORE;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
+import static com.unimib.triviaducks.util.Constants.TIME_EXPIRED;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
+import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
 
 import android.content.Context;
 import android.content.Intent;
@@ -158,9 +165,9 @@ public class GameHandler {
 //                gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
                 GameOverFragment gameOverDialog = new GameOverFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("reason","Quiz finished");
-                bundle.putInt("score",score);
-                bundle.putBoolean("end",true);
+                bundle.putString(REASON,QUIZ_FINISHED);
+                bundle.putInt(SCORE,score);
+                bundle.putBoolean(END,true);
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             }
@@ -171,15 +178,15 @@ public class GameHandler {
             if (wrongAnswersCounter >= 3){
                 GameOverFragment gameOverDialog = new GameOverFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("reason","Wrong Answer");
-                bundle.putInt("score",score);
-                bundle.putString("correct_answer",correctAnswer);
-                bundle.putBoolean("end",false);
+                bundle.putString(REASON,WRONG_ANSWER);
+                bundle.putInt(SCORE,score);
+                bundle.putString(CORRECT_ANSWER,correctAnswer);
+                bundle.putBoolean(END,false);
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
 
             }else{
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.wrong_answer), correctAnswer);
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, WRONG_ANSWER, correctAnswer);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }
 
@@ -216,10 +223,10 @@ public class GameHandler {
         if (wrongAnswersCounter >= 3) {
             GameOverFragment gameOverDialog = new GameOverFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("reason","Time Expired");
-            bundle.putInt("score",score);
-            bundle.putString("correct_answer",correctAnswer);
-            bundle.putBoolean("end",false);
+            bundle.putString(REASON,TIME_EXPIRED);
+            bundle.putInt(SCORE,score);
+            bundle.putString(CORRECT_ANSWER,correctAnswer);
+            bundle.putBoolean(END,false);
             gameOverDialog.setArguments(bundle);
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         } else {

@@ -1,6 +1,11 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
+import static com.unimib.triviaducks.util.Constants.END;
+import static com.unimib.triviaducks.util.Constants.REASON;
+import static com.unimib.triviaducks.util.Constants.SCORE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -66,11 +71,10 @@ public class GameOverFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        Log.d(TAG,"Sono arrivato qui");
-        reason = getArguments().getString("reason", "Wrong Answer");
-        score = getArguments().getInt("score",0);
-        correctAnswer = getArguments().getString("correct_answer","");
-        end = getArguments().getBoolean("end",false);
+        reason = getArguments().getString(REASON, WRONG_ANSWER);
+        score = getArguments().getInt(SCORE,0);
+        correctAnswer = getArguments().getString(CORRECT_ANSWER,"");
+        end = getArguments().getBoolean(END,false);
 
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 

@@ -121,4 +121,12 @@ public class Constants {
     public static final int EASY_QUESTION_POINTS = 10;
     public static final int MEDIUM_QUESTION_POINTS = 25;
     public static final int HARD_QUESTION_POINTS = 50;
+
+    public static final String REASON = "reason";
+    public static final String SCORE = "score";
+    public static final String CORRECT_ANSWER = "correct_answer";
+    public static final String END = "end";
+    public static final String WRONG_ANSWER = "Wrong answer";
+    public static final String TIME_EXPIRED = "Time expired";
+    public static final String QUIZ_FINISHED = "Quiz finished";
 }
