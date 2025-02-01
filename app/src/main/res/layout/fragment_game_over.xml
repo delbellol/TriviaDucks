@@ -1,7 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:textAlignment="center"
     android:background="@android:color/holo_green_light"
     android:elevation="4dp"
     android:padding="16dp">
@@ -17,26 +19,26 @@
 
     <TextView
         android:id="@+id/score"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:text="Score: " />
-
-    <Button
-        android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/back_home"
-        android:layout_gravity="center"/>
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:text="@string/score_description" />
+
+    <!--TODO replace 300dp with something other-->
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        app:srcCompat="@drawable/you_lost" />
 
     <TextView
         android:id="@+id/dialog_question"
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The correct answer was:"
+        android:text="@string/dialog_question_description"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center" />
@@ -45,8 +47,16 @@
         android:id="@+id/correct_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Correct answer will be shown here."
+        android:text="@string/correct_answer_description"
         android:layout_gravity="center"
         android:textSize="18sp"
         android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/back_home"
+        android:layout_gravity="center"/>
 </LinearLayout>

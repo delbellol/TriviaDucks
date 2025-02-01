@@ -3,10 +3,13 @@ package com.unimib.triviaducks.ui.game.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
@@ -118,17 +121,23 @@ public class GameOverFragment extends DialogFragment {
         scoreView = view.findViewById(R.id.score);
         scoreView.setText("Score: "+score);
 
-        if (end) {
-            TextView dialogQuestion = view.findViewById(R.id.dialog_question);
-            dialogQuestion.setVisibility(View.GONE);
-        }
-
         TextView correctAnswerView = view.findViewById(R.id.correct_answer);
-        // Mostra la risposta corretta, se disponibile
-        if (correctAnswer != null && !correctAnswer.isEmpty()) {
+        TextView dialogQuestion = view.findViewById(R.id.dialog_question);
+        ImageView image = view.findViewById(R.id.image);
+        if (end) {
+            dialogQuestion.setVisibility(View.GONE);
+            correctAnswerView.setVisibility(View.GONE);
+            image.setImageResource(R.drawable.you_won);
+        }
+        else if (correctAnswer != null && !correctAnswer.isEmpty()) {
+            // Mostra la risposta corretta, se disponibile
             correctAnswerView.setText(correctAnswer);
             correctAnswerView.setVisibility(View.VISIBLE); // Rendi visibile la TextView
         }
+        else {
+            Log.d(TAG,"CorrectAnswer is null or empty");
+        }
+
         return builder.create();
     }
 }

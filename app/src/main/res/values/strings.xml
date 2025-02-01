@@ -107,4 +107,9 @@
 
     <string name="default_difficulty_question">Difficulty: random</string>
     <string name="all_categories">All Categories</string>
+
+    <string name="correct_answer_description">Correct answer will be shown here.</string>
+    <string name="dialog_question_description">The correct answer was:</string>
+    <string name="score_description">Score:</string>
+
 </resources>
