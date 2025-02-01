@@ -61,8 +61,9 @@ public class GameFragment extends Fragment {
 
     private int score;
 
-
     private int questionAmount;
+
+    private static boolean canPlay = false; //Variabile per impedire che il gioco possa iniziare se è già finito
 
     public GameFragment() {
     }
@@ -74,12 +75,11 @@ public class GameFragment extends Fragment {
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
 
         category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
-        Log.d("GameFragment","Category " + category);
-
         difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
-        Log.d("GameFragment","Difficulty " + difficulty);
         category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
         questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_AMOUNT_PARAMETER,10);
+        canPlay = getActivity().getIntent().getBooleanExtra("can_play",false);
+
         //Log.d("GameFragment","Category " + category);
     }
 
@@ -88,81 +88,86 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
-        // Inizializza gli elementi della vista
-        circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
-        gameLayout = view.findViewById(R.id.gameLayout);
-
-        closeImageButton = view.findViewById(R.id.close_game);
-
-        counterTextView = view.findViewById(R.id.counter);
-
-        questionTextView = view.findViewById(R.id.question);
-
-        countdownTextView = view.findViewById(R.id.countdown);
-
-        lottieHeart1 = view.findViewById(R.id.lottie_heart1);
-        lottieHeart2 = view.findViewById(R.id.lottie_heart2);
-        lottieHeart3 = view.findViewById(R.id.lottie_heart3);
-        lottieHeartBlack1 = view.findViewById(R.id.lottie_heart_black1);
-        lottieHeartBlack2 = view.findViewById(R.id.lottie_heart_black2);
-        lottieHeartBlack3 = view.findViewById(R.id.lottie_heart_black3);
-
-        //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
-        answerButton1 = view.findViewById(R.id.answer1);
-        answerButton2 = view.findViewById(R.id.answer2);
-        answerButton3 = view.findViewById(R.id.answer3);
-        answerButton4 = view.findViewById(R.id.answer4);
-
-        // Gestisce l'evento di clic sul bottone per chiudere il gioco
-        closeImageButton.setOnClickListener(v -> {
-            GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
-            gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
-        });
-
-        // Gestisce l'evento di clic sui bottoni di risposta
-        View.OnClickListener answerClickListener = v -> {
-            Button clickedButton = (Button) v;
-            disableAnswerButtons();
-            gameHandler.checkAnswer(clickedButton.getText().toString(), view);
-        };
-
-        // Assegna l'ascoltatore agli altri bottoni di risposta
-        answerButton1.setOnClickListener(answerClickListener);
-        answerButton2.setOnClickListener(answerClickListener);
-        answerButton3.setOnClickListener(answerClickListener);
-        answerButton4.setOnClickListener(answerClickListener);
-
-        gameHandler.loadQuestions(category,questionAmount, difficulty);
-
-        mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
-            @Override
-            public void onChanged(Long seconds) {
-                countdownTextView.setText(String.valueOf(seconds));
-            }
-        });
-
-        mutableQuestionCounter.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String text) {
-                counterTextView.setText(text);
-            }
-        });
-
-        difficultyTextView = view.findViewById(R.id.difficulty);
-
-        mutableScore.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String text) {
-                difficultyTextView.setText(text);
-            }
-        });
-
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (canPlay) {
+            // Inizializza gli elementi della vista
+            circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
+            gameLayout = view.findViewById(R.id.gameLayout);
+
+            closeImageButton = view.findViewById(R.id.close_game);
+
+            counterTextView = view.findViewById(R.id.counter);
+
+            questionTextView = view.findViewById(R.id.question);
+
+            countdownTextView = view.findViewById(R.id.countdown);
+
+            lottieHeart1 = view.findViewById(R.id.lottie_heart1);
+            lottieHeart2 = view.findViewById(R.id.lottie_heart2);
+            lottieHeart3 = view.findViewById(R.id.lottie_heart3);
+            lottieHeartBlack1 = view.findViewById(R.id.lottie_heart_black1);
+            lottieHeartBlack2 = view.findViewById(R.id.lottie_heart_black2);
+            lottieHeartBlack3 = view.findViewById(R.id.lottie_heart_black3);
+
+            //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
+            answerButton1 = view.findViewById(R.id.answer1);
+            answerButton2 = view.findViewById(R.id.answer2);
+            answerButton3 = view.findViewById(R.id.answer3);
+            answerButton4 = view.findViewById(R.id.answer4);
+
+            // Gestisce l'evento di clic sul bottone per chiudere il gioco
+            closeImageButton.setOnClickListener(v -> {
+                GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
+                gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+            });
+
+            // Gestisce l'evento di clic sui bottoni di risposta
+            View.OnClickListener answerClickListener = v -> {
+                Button clickedButton = (Button) v;
+                disableAnswerButtons();
+                gameHandler.checkAnswer(clickedButton.getText().toString(), view);
+            };
+
+            // Assegna l'ascoltatore agli altri bottoni di risposta
+            answerButton1.setOnClickListener(answerClickListener);
+            answerButton2.setOnClickListener(answerClickListener);
+            answerButton3.setOnClickListener(answerClickListener);
+            answerButton4.setOnClickListener(answerClickListener);
+
+            gameHandler.loadQuestions(category, questionAmount, difficulty);
+
+            mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
+                @Override
+                public void onChanged(Long seconds) {
+                    countdownTextView.setText(String.valueOf(seconds));
+                }
+            });
+
+            mutableQuestionCounter.observe(getViewLifecycleOwner(), new Observer<String>() {
+                @Override
+                public void onChanged(String text) {
+                    counterTextView.setText(text);
+                }
+            });
+
+            difficultyTextView = view.findViewById(R.id.difficulty);
+
+            mutableScore.observe(getViewLifecycleOwner(), new Observer<String>() {
+                @Override
+                public void onChanged(String text) {
+                    difficultyTextView.setText(text);
+                }
+            });
+
+            Log.d(TAG, "Sono entrato nel GameFragment");
+            canPlay = false;
+        }
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
@@ -232,6 +237,10 @@ public class GameFragment extends Fragment {
 
     public int getScore() {
         return score;
+    }
+
+    public static void setCanPlay(boolean value) {
+        canPlay = value;
     }
 
 }

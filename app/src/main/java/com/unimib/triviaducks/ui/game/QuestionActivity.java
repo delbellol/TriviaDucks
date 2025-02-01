@@ -37,6 +37,8 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
+        GameFragment.setCanPlay(false);
+
         sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
 
         volume = sharedPreferencesUtils.readIntData(

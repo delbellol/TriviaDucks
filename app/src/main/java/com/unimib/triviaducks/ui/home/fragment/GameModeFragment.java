@@ -133,6 +133,7 @@ public class GameModeFragment extends DialogFragment {
             intent.putExtra(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
             intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
             intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
+            intent.putExtra("can_play", true);
             startActivity(intent);
             increaseCategoryGameCounter(selectedCategory);
             dismiss();
