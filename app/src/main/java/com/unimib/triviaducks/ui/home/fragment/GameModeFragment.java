@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
+import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
@@ -133,7 +134,7 @@ public class GameModeFragment extends DialogFragment {
             intent.putExtra(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
             intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
             intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
-            intent.putExtra("can_play", true);
+            intent.putExtra(CAN_PLAY, true);
             startActivity(intent);
             increaseCategoryGameCounter(selectedCategory);
             dismiss();

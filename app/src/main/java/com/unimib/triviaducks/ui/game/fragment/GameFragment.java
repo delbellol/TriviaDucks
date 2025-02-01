@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
@@ -78,9 +79,7 @@ public class GameFragment extends Fragment {
         difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
         category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
         questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_AMOUNT_PARAMETER,10);
-        canPlay = getActivity().getIntent().getBooleanExtra("can_play",false);
-
-        //Log.d("GameFragment","Category " + category);
+        canPlay = getActivity().getIntent().getBooleanExtra(CAN_PLAY,false);
     }
 
     @Override
@@ -165,7 +164,6 @@ public class GameFragment extends Fragment {
                 }
             });
 
-            Log.d(TAG, "Sono entrato nel GameFragment");
             canPlay = false;
         }
 

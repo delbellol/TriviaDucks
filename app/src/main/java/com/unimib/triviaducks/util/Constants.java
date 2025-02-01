@@ -121,4 +121,6 @@ public class Constants {
     public static final int EASY_QUESTION_POINTS = 10;
     public static final int MEDIUM_QUESTION_POINTS = 25;
     public static final int HARD_QUESTION_POINTS = 50;
+
+    public static final String CAN_PLAY = "can_play";
 }

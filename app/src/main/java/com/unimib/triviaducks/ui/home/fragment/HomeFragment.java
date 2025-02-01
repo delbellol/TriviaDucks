@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
+import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -99,7 +101,10 @@ public class HomeFragment extends Fragment {
 
         Button play = view.findViewById(R.id.play);
         play.setOnClickListener(v -> {
-            GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
+            GameModeFragment gameModeDialog = new GameModeFragment();
+            Bundle args = new Bundle();
+            args.putInt(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
+            gameModeDialog.setArguments(args);
             gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
         });
     }
