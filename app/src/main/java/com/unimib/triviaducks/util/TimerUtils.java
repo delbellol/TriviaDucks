@@ -64,12 +64,6 @@ public class TimerUtils {
 
     }
 
-    //TODO questo non si usa più, si può togliere
-    private void showGameOver(){
-        GameOverFragment gameOverDialog = new GameOverFragment(context.getString(R.string.time_expired),score);
-        gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
-    }
-
     public void notifyTimerExpired() {
             fragment.handleTimerExpired(); // Notifica al GameFragment
     }

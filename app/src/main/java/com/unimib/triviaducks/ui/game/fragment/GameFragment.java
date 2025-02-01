@@ -74,13 +74,9 @@ public class GameFragment extends Fragment {
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
 
         category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
-        Log.d("GameFragment","Category " + category);
-
         difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
-        Log.d("GameFragment","Difficulty " + difficulty);
         category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
         questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_AMOUNT_PARAMETER,10);
-        //Log.d("GameFragment","Category " + category);
     }
 
     @Override
