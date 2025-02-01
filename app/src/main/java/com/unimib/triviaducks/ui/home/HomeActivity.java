@@ -108,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
         isMusicOFF = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
-        Log.d(TAG, String.valueOf(isMusicOFF));
+        //Log.d(TAG, String.valueOf(isMusicOFF));
 
         Intent intent = new Intent(this, MusicService.class);
 
