@@ -1,7 +1,5 @@
 package com.unimib.triviaducks.ui.welcome.fragment;
 
-import static com.unimib.triviaducks.R.*;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -20,10 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.home.HomeActivity;
@@ -119,7 +115,7 @@ public class PickUsernameFragment extends Fragment {
         sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_PROFILE_PICTURE, resourceName);
         sharedPreferencesUtils.writeIntData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_BEST_SCORE, 0);
 
-        userViewModel.saveUserPreferences(username, userViewModel.getLoggedUser().getIdToken());
+        userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
 
         if (resourceName != null) {
             userViewModel.saveUserImage(resourceName, userViewModel.getLoggedUser().getIdToken());

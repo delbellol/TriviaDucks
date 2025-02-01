@@ -41,9 +41,9 @@ public class UserViewModel extends ViewModel {
         return userMutableLiveData;
     }
 
-    public void saveUserPreferences(String username, String idToken) {
+    public void saveUserUsername(String username, String idToken) {
         if (idToken != null) {
-            userRepository.saveUserPreferences(username, idToken);
+            userRepository.saveUserUsername(username, idToken);
         }
     }
 
@@ -65,9 +65,9 @@ public class UserViewModel extends ViewModel {
         }
     }
 
-    public MutableLiveData<Result> getUserPreferences(String idToken) {
+    public MutableLiveData<Result> getUserUsername(String idToken) {
         if (idToken != null) {
-            userPreferencesMutableLiveData = userRepository.getUserPreferences(idToken);
+            userPreferencesMutableLiveData = userRepository.getUserUsername(idToken);
         }
         return userPreferencesMutableLiveData;
     }
@@ -94,8 +94,6 @@ public class UserViewModel extends ViewModel {
         }
         return userPodiumMutableLiveData;
     }
-
-    //TODO getUserImage e cambiare i nomi
 
     public User getLoggedUser() {
         return userRepository.getLoggedUser();
