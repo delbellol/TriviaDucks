@@ -1,4 +1,4 @@
-package com.unimib.triviaducks.ui.home;
+package com.unimib.triviaducks.ui.connection;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +20,8 @@ import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
-public class HomeActivity extends AppCompatActivity {
-    private static final String TAG = HomeActivity.class.getSimpleName();
+public class ConnectionErrorActivity extends AppCompatActivity {
+    private static final String TAG = com.unimib.triviaducks.ui.connection.ConnectionErrorActivity.class.getSimpleName();
 
     private SharedPreferencesUtils sharedPreferencesUtils;
 
@@ -64,11 +64,13 @@ public class HomeActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
-        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        NavController navController = navHostFragment.getNavController();
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
-        NavigationUI.setupWithNavController(bottomNav, navController);
+        setContentView(R.layout.activity_error); //il layout viene settato dopo aver impostato il tema
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_connection_error, new ConnectionErrorFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -121,3 +123,4 @@ public class HomeActivity extends AppCompatActivity {
         startService(intent);
     }
 }
+

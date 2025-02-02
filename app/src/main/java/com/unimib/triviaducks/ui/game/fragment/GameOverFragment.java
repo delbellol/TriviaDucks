@@ -67,6 +67,8 @@ public class GameOverFragment extends DialogFragment {
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
         userViewModel.setAuthenticationError(false);
+        //NON ELIMINARE: Serve a impedire che la gente schiacci indietro
+        setCancelable(false);
     }
 
     @Override

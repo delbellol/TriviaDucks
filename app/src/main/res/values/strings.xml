@@ -107,4 +107,9 @@
 
     <string name="default_difficulty_question">Difficulty: random</string>
     <string name="all_categories">All Categories</string>
+
+    <string name="connection_error">Connection Error</string>
+    <string name="connection_error_description">Check your internet connection and try again</string>
+    <string name="try_again">Try Again</string>
+    <string name="close_app">Close app</string>
 </resources>

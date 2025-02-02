@@ -1,10 +1,13 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -14,11 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
+import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.Arrays;
@@ -56,6 +61,13 @@ public class HomeFragment extends Fragment {
 
         // Imposta una descrizione iniziale
         //descriptionTextView.setText("Descrizione iniziale della categoria");
+
+        Log.d(TAG,"pippo");
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            Log.d(TAG,"pluto");
+            Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
+            startActivity(intent);
+        }
 
         List<Integer> lottieAnimations = Arrays.asList(
                 R.raw.category_all,
