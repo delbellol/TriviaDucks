@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +65,8 @@ public class ConnectionErrorFragment extends Fragment {
         tryAgain.setOnClickListener(v -> {
             if (getContext() != null) {
                 if (NetworkUtil.isInternetAvailable(getContext())) {
+                    //TODO sostituire intent con riga commentata, attualmente crasha
+                    //NavHostFragment.findNavController(this).navigate(R.id.action_connectionErrorFragment_to_homeActivity);
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     startActivity(intent);
                 }

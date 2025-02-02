@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -63,8 +64,7 @@ public class HomeFragment extends Fragment {
         //descriptionTextView.setText("Descrizione iniziale della categoria");
 
         if (!NetworkUtil.isInternetAvailable(getContext())) {
-            Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
-            startActivity(intent);
+            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_connectionErrorActivity);
         }
 
         List<Integer> lottieAnimations = Arrays.asList(
