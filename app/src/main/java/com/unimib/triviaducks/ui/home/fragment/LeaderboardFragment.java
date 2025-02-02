@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
+import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
@@ -52,6 +54,9 @@ public class LeaderboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            NavHostFragment.findNavController(this).navigate(R.id.action_leaderboardFragment_to_connectionErrorActivity);
+        }
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
 
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
@@ -81,14 +86,15 @@ public class LeaderboardFragment extends Fragment {
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_LEADERBOARD);
 
-        if (leaderboardSet==null)
+        if (leaderboardSet==null) {
             Log.d(TAG, "null");
-        else
+        }
+        else {
             Log.d(TAG, String.valueOf(leaderboardSet));
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new RankRecyclerAdapter(getContext(), leaderboardSet);
-        recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            adapter = new RankRecyclerAdapter(getContext(), leaderboardSet);
+            recyclerView.setAdapter(adapter);
+        }
 
     }
 }
