@@ -62,9 +62,7 @@ public class HomeFragment extends Fragment {
         // Imposta una descrizione iniziale
         //descriptionTextView.setText("Descrizione iniziale della categoria");
 
-        Log.d(TAG,"pippo");
         if (!NetworkUtil.isInternetAvailable(getContext())) {
-            Log.d(TAG,"pluto");
             Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
             startActivity(intent);
         }

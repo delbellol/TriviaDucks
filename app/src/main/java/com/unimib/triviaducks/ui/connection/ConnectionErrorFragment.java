@@ -3,6 +3,7 @@ package com.unimib.triviaducks.ui.connection;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,13 +37,21 @@ public class ConnectionErrorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,"paperino 1");
-    }
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getView() != null) {
+                    if (getActivity() != null) {
+                        getActivity().moveTaskToBack(true);
+                    }
+                }
+            }
+        });
+        }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG,"paperino2");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_connection_error, container, false);
     }
@@ -51,7 +60,6 @@ public class ConnectionErrorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.d(TAG,"paperino3");
         Button tryAgain = view.findViewById(R.id.tryAgain);
         tryAgain.setOnClickListener(v -> {
             if (getContext() != null) {
