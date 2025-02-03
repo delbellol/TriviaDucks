@@ -45,6 +45,7 @@ public class GameQuitFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //NON ELIMINARE: Serve a impedire che la gente schiacci indietro
         setCancelable(false);
     }
 

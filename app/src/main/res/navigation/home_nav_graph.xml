@@ -9,7 +9,11 @@
         android:id="@+id/accountInformationFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.AccountInformationFragment"
         android:label="Preferences"
-        tools:layout="@layout/fragment_account_information" />
+        tools:layout="@layout/fragment_account_information" >
+        <action
+            android:id="@+id/action_accountInformationFragment_to_connectionErrorActivity"
+            app:destination="@id/connectionErrorActivity" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.SettingsFragment"
@@ -23,12 +27,19 @@
         <action
             android:id="@+id/action_homeFragment_to_gameModeFragment"
             app:destination="@id/gameModeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_connectionErrorActivity"
+            app:destination="@id/connectionErrorActivity" />
     </fragment>
     <fragment
         android:id="@+id/leaderboardFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.LeaderboardFragment"
         android:label="fragment_leaderboard"
-        tools:layout="@layout/fragment_leaderboard" />
+        tools:layout="@layout/fragment_leaderboard" >
+        <action
+            android:id="@+id/action_leaderboardFragment_to_connectionErrorActivity"
+            app:destination="@id/connectionErrorActivity" />
+    </fragment>
     <fragment
         android:id="@+id/gameModeFragment"
         android:name="com.unimib.triviaducks.ui.home.fragment.GameModeFragment"
@@ -46,4 +57,9 @@
         android:name="com.unimib.triviaducks.ui.game.QuestionActivity"
         android:label="fragment_game_question"
         tools:layout="@layout/fragment_game" />
+    <activity
+        android:id="@+id/connectionErrorActivity"
+        android:name="com.unimib.triviaducks.ui.connection.ConnectionErrorActivity"
+        android:label="activity_error"
+        tools:layout="@layout/activity_error" />
 </navigation>

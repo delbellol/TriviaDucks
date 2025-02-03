@@ -65,6 +65,8 @@ public class GameOverFragment extends DialogFragment {
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
         userViewModel.setAuthenticationError(false);
+        //NON ELIMINARE: Serve a impedire che la gente schiacci indietro
+        setCancelable(false);
     }
 
     @Override
@@ -109,7 +111,6 @@ public class GameOverFragment extends DialogFragment {
 
         home.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
-            //Per spostarsi tra tra activity diverse a quanto pare bisogna usare questi intent maledetti
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
             dismiss(); //chiude la finestra di dialogo

@@ -13,15 +13,10 @@
     <string name="profile">Profile</string>
     <string name="ranking">Ranking</string>
     <string name="cover">cover</string>
-    <string name="one_shot">One Shot</string>
-    <string name="one_shot_description">1 vita, domande infinite -> ritorna il punteggio che hai fatto, tempo per domanda: 20 sec (massimo 1 vita bonus), si possono utilizzare potenziamenti al costo di punti </string>
-    <string name="trials">Trials</string>
-    <string name="trials_description">vite infinite, set di domande finito (10, 20 … 50), mostra il punteggio al termine della partita,  con un messaggio personalizzato in base al numero di risposte corrette</string>
-    <string name="monete">Monete</string>
-    <string name="settings_description">bottone per accedere alle impostazioni</string>
-    <string name="profile_description">bottone per accedere al proprio profilo</string>
-    <string name="ranking_description">bottone per accedere alla sezione classifica</string>
-    <string name="close_description">bottone per tornare alla schermata principale</string>
+    <string name="settings_description">Setting button</string>
+    <string name="profile_description">Profile button</string>
+    <string name="ranking_description">Scorebord button</string>
+    <string name="close_description">Home button</string>
     <string name="play">Play</string>
     <string name="default_description">You have some questions, three lives and you have to reply within 30 seconds each question. Do your best!</string>
     <string name="default_title">Get Ready!</string>
@@ -29,20 +24,20 @@
     <string name="change_password">Password</string>
     <string name="change_number">Phone number</string>
     <string name="mail">E-mail</string>
-    <string name="question_text">Testo della Domanda</string>
+    <string name="question_text">Question text</string>
     <string name="default_countdown">00</string>
-    <string name="answer1">Risposta 1</string>
-    <string name="answer2">Risposta 2</string>
-    <string name="answer3">Risposta 3</string>
-    <string name="answer4">Risposta 4</string>
-    <string name="time_out">Tempo Scaduto</string>
+    <string name="answer1">Answer 1</string>
+    <string name="answer2">Answer 2</string>
+    <string name="answer3">Answer 3</string>
+    <string name="answer4">Answer 4</string>
+    <string name="time_out">Time expired</string>
     <string name="quit_game_description">Are you sure you want to quit?</string>
     <string name="quit_game">Exit</string>
     <string name="cancel_quit_game">Cancel</string>
     <string name="default_gameover">GameOver</string>
     <string name="back_home">Go back to the home page</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Categories-->
     <string name="general_knowledge">General Knowledge</string>
     <string name="books">Books</string>
     <string name="film">Film</string>
@@ -67,12 +62,13 @@
     <string name="gadgets">Gadgets</string>
     <string name="anime">Anime and Manga</string>
     <string name="cartoon">Cartoon and Animations</string>
-    <string name="default_counter">Domanda 1</string>
+
+    <string name="default_counter">Question 1</string>
     <string name="home">Home</string>
-    <string name="home_swipe_warning">Swipe per cambiare categoria</string>
+    <string name="home_swipe_warning">Swipe to change category</string>
     <string name="error_retrieving_news">There was an error retrieving the questions</string>
-    <string name="wrong_answer">Wrong answer</string>
-    <string name="correct_answer">Correct answer!!</string>
+    <string name="wrong_answer">Wrong answer!</string>
+    <string name="correct_answer">Correct answer!</string>
     <string name="time_expired">Time expired</string>
     <string name="next_question"><![CDATA[Next question -->]]></string>
     <string name="create_a_new_account">Create a new account</string>
@@ -113,4 +109,10 @@
     <string name="score_description">Score:</string>
 
     <string name="username">USERNAME</string>
+
+    <!--Connection Error Fragment-->
+    <string name="connection_error">Connection Error</string>
+    <string name="connection_error_description">Check your internet connection and try again</string>
+    <string name="try_again">Try Again</string>
+    <string name="close_app">Close app</string>
 </resources>

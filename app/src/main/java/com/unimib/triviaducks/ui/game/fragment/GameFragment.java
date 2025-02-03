@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.CONNECTION_ERROR_TEXT;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
@@ -30,7 +31,9 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
+import com.unimib.triviaducks.util.NetworkUtil;
 
 import org.jsoup.Jsoup;
 
@@ -52,7 +55,6 @@ public class GameFragment extends Fragment {
 
     private GameHandler gameHandler;
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
-    private LottieAnimationView lottieHeartBlack1, lottieHeartBlack2, lottieHeartBlack3;
 
     private int category; //categoria delle domande da passare al GameHandler
     String difficulty;
@@ -99,9 +101,6 @@ public class GameFragment extends Fragment {
         lottieHeart1 = view.findViewById(R.id.lottie_heart1);
         lottieHeart2 = view.findViewById(R.id.lottie_heart2);
         lottieHeart3 = view.findViewById(R.id.lottie_heart3);
-        lottieHeartBlack1 = view.findViewById(R.id.lottie_heart_black1);
-        lottieHeartBlack2 = view.findViewById(R.id.lottie_heart_black2);
-        lottieHeartBlack3 = view.findViewById(R.id.lottie_heart_black3);
 
         //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
@@ -128,7 +127,11 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(category,questionAmount, difficulty);
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
+            startActivity(intent);
+        }
+        else gameHandler.loadQuestions(category,questionAmount, difficulty);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override
@@ -171,6 +174,13 @@ public class GameFragment extends Fragment {
     }
 
     public void nextBtnPressed() {
+        TextView bottomMargin = getView().findViewById(R.id.bottomMargin);
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            bottomMargin.setText(CONNECTION_ERROR_TEXT);
+        }
+        else {
+            bottomMargin.setText("");
+        }
         gameHandler.loadNextQuestion();
     }
 
@@ -206,14 +216,14 @@ public class GameFragment extends Fragment {
     public void handleWrongAnswer() {
         errorsCount++; // Incrementa il numero di errori
         if (errorsCount == 1) {
-            lottieHeart3.setVisibility(View.INVISIBLE); // Nascondi il cuore 3
-            lottieHeartBlack3.setVisibility(View.VISIBLE); //Mostra il cuore nero 3
+            lottieHeart3.setAnimation(R.raw.heart_black);
+            lottieHeart3.playAnimation();
         } else if (errorsCount == 2) {
-            lottieHeart2.setVisibility(View.INVISIBLE); // Nascondi il cuore 2
-            lottieHeartBlack2.setVisibility(View.VISIBLE); //Mostra il cuore nero 2
+            lottieHeart2.setAnimation(R.raw.heart_black);
+            lottieHeart2.playAnimation();
         } else if (errorsCount == 3) {
-            lottieHeart1.setVisibility(View.INVISIBLE); // Nascondi il cuore 1
-            lottieHeartBlack1.setVisibility(View.VISIBLE); //Mostra il cuore nero 1
+            lottieHeart1.setAnimation(R.raw.heart_black);
+            lottieHeart1.playAnimation();
         }
     }
 

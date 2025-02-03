@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.MediaStore;
@@ -30,11 +31,14 @@ import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.adapter.DifficultyAdapter;
+import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.QuestionActivity;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
+import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
+import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 import com.unimib.triviaducks.util.Constants;
@@ -73,7 +77,7 @@ public class GameModeFragment extends DialogFragment {
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
         userViewModel.setAuthenticationError(false);
-
+        //NON ELIMINARE: Serve a impedire che la gente schiacci indietro
         setCancelable(false);
     }
 
@@ -129,13 +133,20 @@ public class GameModeFragment extends DialogFragment {
 
         Button play = view.findViewById(R.id.play);
         play.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), QuestionActivity.class);
-            intent.putExtra(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
-            intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
-            intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
-            startActivity(intent);
-            increaseCategoryGameCounter(selectedCategory);
-            dismiss();
+
+            if (!NetworkUtil.isInternetAvailable(getContext())) {
+                Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(getActivity(), QuestionActivity.class);
+                intent.putExtra(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
+                intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
+                intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
+                startActivity(intent);
+                increaseCategoryGameCounter(selectedCategory);
+                dismiss();
+            }
         });
         plus_button = view.findViewById(R.id.plus_button);
         plus_button.setOnClickListener(v -> {

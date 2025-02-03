@@ -19,6 +19,9 @@
         >
 
         <activity
+            android:name=".ui.connection.ConnectionErrorActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.game.QuestionActivity"
             android:exported="true" />
         <activity
