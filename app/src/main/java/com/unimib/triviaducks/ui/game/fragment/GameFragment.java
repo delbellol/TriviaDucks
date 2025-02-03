@@ -139,12 +139,11 @@ public class GameFragment extends Fragment {
             answerButton3.setOnClickListener(answerClickListener);
             answerButton4.setOnClickListener(answerClickListener);
 
-            gameHandler.loadQuestions(category, questionAmount, difficulty);
-        if (!NetworkUtil.isInternetAvailable(getContext())) {
-            Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
-            startActivity(intent);
-        }
-        else gameHandler.loadQuestions(category,questionAmount, difficulty);
+            if (!NetworkUtil.isInternetAvailable(getContext())) {
+                Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
+                startActivity(intent);
+            }
+            else gameHandler.loadQuestions(category,questionAmount, difficulty);
 
             mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
                 @Override

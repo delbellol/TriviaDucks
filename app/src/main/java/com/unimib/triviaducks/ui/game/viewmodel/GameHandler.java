@@ -186,7 +186,7 @@ public class GameHandler {
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
 
             }else{
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, WRONG_ANSWER, correctAnswer);
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(fragment, WRONG_ANSWER, correctAnswer);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }
 
@@ -231,7 +231,7 @@ public class GameHandler {
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         } else {
             GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(
-                    (GameFragment) fragment, context.getString(R.string.time_expired), correctAnswer);
+                    fragment, context.getString(R.string.time_expired), correctAnswer);
             nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
         }
     }
