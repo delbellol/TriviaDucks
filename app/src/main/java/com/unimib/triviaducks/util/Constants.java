@@ -121,4 +121,6 @@ public class Constants {
     public static final int EASY_QUESTION_POINTS = 10;
     public static final int MEDIUM_QUESTION_POINTS = 25;
     public static final int HARD_QUESTION_POINTS = 50;
+
+    public static final String CONNECTION_ERROR_TEXT = "Warning: you are offline, you can end the quiz, then you have to go online.";
 }

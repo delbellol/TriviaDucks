@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.CONNECTION_ERROR_TEXT;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
 import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
@@ -181,6 +182,13 @@ public class GameFragment extends Fragment {
     }
 
     public void nextBtnPressed() {
+        TextView bottomMargin = getView().findViewById(R.id.bottomMargin);
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            bottomMargin.setText(CONNECTION_ERROR_TEXT);
+        }
+        else {
+            bottomMargin.setText("");
+        }
         gameHandler.loadNextQuestion();
     }
 
