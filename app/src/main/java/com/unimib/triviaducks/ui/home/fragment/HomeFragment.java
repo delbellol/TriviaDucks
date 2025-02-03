@@ -109,8 +109,13 @@ public class HomeFragment extends Fragment {
 
         Button play = view.findViewById(R.id.play);
         play.setOnClickListener(v -> {
-            GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
-            gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
+            if (!NetworkUtil.isInternetAvailable(getContext())) {
+                NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_connectionErrorActivity);
+            }
+            else{
+                GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
+                gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
+            }
         });
     }
 

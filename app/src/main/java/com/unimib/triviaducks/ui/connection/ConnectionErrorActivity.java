@@ -32,44 +32,49 @@ public class ConnectionErrorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
 
-        sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
+            sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
 
-        volume = sharedPreferencesUtils.readIntData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_VOLUME);
-        //Log.d(TAG, String.valueOf(volume));
+            volume = sharedPreferencesUtils.readIntData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_VOLUME);
+            //Log.d(TAG, String.valueOf(volume));
 
-        isMusicOFF = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
-        //Log.d(TAG, String.valueOf(isMusicOFF));
+            isMusicOFF = sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
+            //Log.d(TAG, String.valueOf(isMusicOFF));
 
-        isNightMode = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
-        //Log.d(TAG, String.valueOf(isNightMode));
+            isNightMode = sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
+            //Log.d(TAG, String.valueOf(isNightMode));
 
 
-        Intent intent = new Intent(this, MusicService.class);
+            Intent intent = new Intent(this, MusicService.class);
 
-        if (isMusicOFF)
-            intent.setAction("OFF"); // Usa l'azione ON per avviare la musica
-        else
-            intent.setAction("ON");
-        startService(intent);
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+            if (isMusicOFF)
+                intent.setAction("OFF"); // Usa l'azione ON per avviare la musica
+            else
+                intent.setAction("ON");
+            startService(intent);
+            if (isNightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
 
-        setContentView(R.layout.activity_error); //il layout viene settato dopo aver impostato il tema
+            setContentView(R.layout.activity_error); //il layout viene settato dopo aver impostato il tema
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_connection_error, new ConnectionErrorFragment())
-                    .commit();
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_connection_error, new ConnectionErrorFragment())
+                        .commit();
+            }
+        }catch (Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            else Log.e(TAG,"Errore strano");
         }
     }
 

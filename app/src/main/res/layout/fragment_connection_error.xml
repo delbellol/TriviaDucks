@@ -40,7 +40,7 @@
             android:contentDescription="@string/connection_error"
             android:paddingTop="40dp"
             android:layout_height="550dp"
-            android:src="@drawable/no_connection" />
+            android:src="@drawable/no_connection_no_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"

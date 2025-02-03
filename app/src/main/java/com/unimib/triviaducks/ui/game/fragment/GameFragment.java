@@ -30,7 +30,9 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
+import com.unimib.triviaducks.util.NetworkUtil;
 
 import org.jsoup.Jsoup;
 
@@ -132,7 +134,11 @@ public class GameFragment extends Fragment {
         answerButton3.setOnClickListener(answerClickListener);
         answerButton4.setOnClickListener(answerClickListener);
 
-        gameHandler.loadQuestions(category,questionAmount, difficulty);
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            Intent intent = new Intent(getActivity(), ConnectionErrorActivity.class);
+            startActivity(intent);
+        }
+        else gameHandler.loadQuestions(category,questionAmount, difficulty);
 
         mutableSecondsRemaining.observe(getViewLifecycleOwner(), new Observer<Long>() {
             @Override

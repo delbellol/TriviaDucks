@@ -6,7 +6,7 @@
     tools:context=".ui.connection.ConnectionErrorActivity">
 
     <!-- Contenuto del layout -->
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_connection_error"
         android:name="com.unimib.triviaducks.ui.connection.ConnectionErrorFragment"
         android:layout_width="match_parent"

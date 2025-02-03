@@ -75,6 +75,7 @@ public class AccountInformationFragment extends Fragment {
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             NavHostFragment.findNavController(this).navigate(R.id.action_accountInformationFragment_to_connectionErrorActivity);
         }
+
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
 
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
