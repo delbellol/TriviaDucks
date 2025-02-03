@@ -115,4 +115,6 @@
     <string name="connection_error_description">Check your internet connection and try again</string>
     <string name="try_again">Try Again</string>
     <string name="close_app">Close app</string>
+    <string name="top_accounts">Top Accounts</string>
+    <string name="nome_account">Nome Account</string>
 </resources>

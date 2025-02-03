@@ -181,7 +181,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        Log.d(TAG, String.valueOf(userViewModel.getLoggedUser() != null));
 
         if (userViewModel.getLoggedUser() != null) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();

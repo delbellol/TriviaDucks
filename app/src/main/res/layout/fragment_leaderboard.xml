@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_theme_background"
     tools:context=".ui.home.fragment.LeaderboardFragment">
     <TextView
         android:id="@+id/marginTop"
@@ -35,17 +36,15 @@
         android:id="@+id/rankTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="Top Accounts"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="@string/top_accounts"
         android:gravity="center"
-        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/lottieAnimationFirstPlace"
         app:layout_constraintBottom_toTopOf="@id/rankList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.10"
-        app:layout_constraintWidth_percent="1" />
+        app:layout_constraintWidth_percent="1"
+        style="@style/TextAppearance.Material3.TitleLarge"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

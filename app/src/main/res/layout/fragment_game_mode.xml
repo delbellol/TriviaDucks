@@ -1,149 +1,143 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/gameModeFragment"
-    android:orientation="vertical"
-    android:background="@android:color/holo_green_light"
-    android:elevation="4dp"
-    android:padding="16dp"
-    tools:context=".ui.home.fragment.GameModeFragment">
-
-    <TextView
-        android:id="@+id/dialog_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/default_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/dialog_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/default_description"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center" />
-
-    <!--Difficulty picker-->
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        tools:context=".MainActivity">
-
-        <TextView
-            android:id="@+id/difficultyPickerTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/default_difficulty_text_value"
-            android:textStyle="bold"/>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewpager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center" />
-
-    </LinearLayout>
-
-    <!--Question number picker-->
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".ui.home.fragment.GameModeFragment"
+    style="@style/Widget.Material3.CardView.Outlined">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_margin="30dp"
         android:orientation="vertical">
-
         <TextView
-            android:id="@+id/questionPickerDescription"
+            android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/default_title"
             android:layout_gravity="center"
-            android:text="@string/number_picker_description"
-            android:textStyle="bold"/>
+            style="@style/MaterialAlertDialog.Material3.Title.Text"/>
 
+        <TextView
+            android:id="@+id/dialog_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_description"
+            android:layout_gravity="center"
+            style="@style/MaterialAlertDialog.Material3.Body.Text"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:id="@+id/difficultyPickerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/default_difficulty_text_value"
+                style="@style/MaterialAlertDialog.Material3.Body.Text"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/account_background_white">
-
-            <Button
-                android:id="@+id/minus_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:backgroundTint="@android:color/white"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:text="@string/minus" />
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/questionPicker"
-                android:layout_width="match_parent"
+                android:id="@+id/questionPickerDescription"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:textSize="30sp"
-                android:text="@string/default_picker_value"/>
+                android:text="@string/number_picker_description"
+                style="@style/MaterialAlertDialog.Material3.Body.Text"/>
 
-            <Button
-                android:id="@+id/plus_button"
-                android:layout_width="0dp"
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:backgroundTint="@android:color/white"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:text="@string/plus" />
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/md_theme_primary"
+                android:textColor="@android:color/white"
+                android:background="@drawable/account_background_white">
+
+                <Button
+                    android:id="@+id/minus_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textSize="30sp"
+                    android:text="@string/minus"/>
+
+                <TextView
+                    android:id="@+id/questionPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="30sp"
+                    android:text="@string/default_picker_value"
+                    android:textColor="@android:color/white"/>
+
+                <Button
+                    android:id="@+id/plus_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textSize="30sp"
+                    android:text="@string/plus"/>
+            </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="0dp"
-            android:text="@string/play" />
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="horizontal">
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <Button
+                android:id="@+id/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:text="@string/quit_game"
+                style="@style/Widget.Material3.Button.TonalButton"/>
 
-        <Button
-            android:id="@+id/close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="0dp"
-            android:text="@string/quit_game" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:text="@string/play"
+                style="@style/Widget.Material3.Button"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    </androidx.cardview.widget.CardView>
