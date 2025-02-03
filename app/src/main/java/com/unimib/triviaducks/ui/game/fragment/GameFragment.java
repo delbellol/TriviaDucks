@@ -55,7 +55,6 @@ public class GameFragment extends Fragment {
 
     private GameHandler gameHandler;
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
-    private LottieAnimationView lottieHeartBlack1, lottieHeartBlack2, lottieHeartBlack3;
 
     private int category; //categoria delle domande da passare al GameHandler
     String difficulty;
@@ -106,9 +105,6 @@ public class GameFragment extends Fragment {
         lottieHeart1 = view.findViewById(R.id.lottie_heart1);
         lottieHeart2 = view.findViewById(R.id.lottie_heart2);
         lottieHeart3 = view.findViewById(R.id.lottie_heart3);
-        lottieHeartBlack1 = view.findViewById(R.id.lottie_heart_black1);
-        lottieHeartBlack2 = view.findViewById(R.id.lottie_heart_black2);
-        lottieHeartBlack3 = view.findViewById(R.id.lottie_heart_black3);
 
         //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
         answerButton1 = view.findViewById(R.id.answer1);
@@ -224,14 +220,14 @@ public class GameFragment extends Fragment {
     public void handleWrongAnswer() {
         errorsCount++; // Incrementa il numero di errori
         if (errorsCount == 1) {
-            lottieHeart3.setVisibility(View.INVISIBLE); // Nascondi il cuore 3
-            lottieHeartBlack3.setVisibility(View.VISIBLE); //Mostra il cuore nero 3
+            lottieHeart3.setAnimation(R.raw.heart_black);
+            lottieHeart3.playAnimation();
         } else if (errorsCount == 2) {
-            lottieHeart2.setVisibility(View.INVISIBLE); // Nascondi il cuore 2
-            lottieHeartBlack2.setVisibility(View.VISIBLE); //Mostra il cuore nero 2
+            lottieHeart2.setAnimation(R.raw.heart_black);
+            lottieHeart2.playAnimation();
         } else if (errorsCount == 3) {
-            lottieHeart1.setVisibility(View.INVISIBLE); // Nascondi il cuore 1
-            lottieHeartBlack1.setVisibility(View.VISIBLE); //Mostra il cuore nero 1
+            lottieHeart1.setAnimation(R.raw.heart_black);
+            lottieHeart1.playAnimation();
         }
     }
 
