@@ -25,7 +25,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferencesUtils sharedPreferencesUtils;
 
-    private int volume;
     private boolean isNightMode;
     private boolean isMusicOFF;
 
@@ -35,20 +34,13 @@ public class HomeActivity extends AppCompatActivity {
 
         sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
 
-        volume = sharedPreferencesUtils.readIntData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_VOLUME);
-        //Log.d(TAG, String.valueOf(volume));
-
         isMusicOFF = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
-        //Log.d(TAG, String.valueOf(isMusicOFF));
 
         isNightMode = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
-        //Log.d(TAG, String.valueOf(isNightMode));
 
 
         Intent intent = new Intent(this, MusicService.class);
@@ -81,8 +73,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        // Ferma la musica quando l'app va in background
-        //stopMusic();
     }
 
     @Override
@@ -109,7 +99,6 @@ public class HomeActivity extends AppCompatActivity {
         isMusicOFF = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
-        Log.d(TAG, String.valueOf(isMusicOFF));
 
         Intent intent = new Intent(this, MusicService.class);
 
