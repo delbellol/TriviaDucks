@@ -204,7 +204,7 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(v -> {
             if (editTextEmail.getText() != null && isEmailOk(editTextEmail.getText().toString())) {
                 if (editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())) {
-                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_pickUsernameFragment);
+                    goToNextPage(view);
 
                 } else {
                     editTextPassword.setError(getString(R.string.error_password_login));
