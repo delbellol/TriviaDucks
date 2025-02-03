@@ -124,33 +124,34 @@ public class AccountInformationFragment extends Fragment {
             // Imposta i listener per aprire il dialog per cambiare immagine
             changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
             profilePicture.setOnClickListener(v -> showProfileImageDialog());
+
+            // Imposta i listener per aprire il dialog per cambiare immagine
+            changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
+            profilePicture.setOnClickListener(v -> showProfileImageDialog());
+
+
+            //TODO uguale a pick username fargment (forse tutta la logica va nel viewmodel)
+            changeUsernameButton.setOnClickListener(v -> {
+                String username = usernameEditText.getText().toString().trim();
+
+                if (username.isEmpty()) {
+                    Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (username.length() > 15) {
+                    Toast.makeText(getContext(), "Please enter a shorter username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_USERNAME, username);
+
+                userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
+            });
         }catch(Exception ex) {
             if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
             else Log.e(TAG,"Errore strano");
         }
-        // Imposta i listener per aprire il dialog per cambiare immagine
-        changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
-        profilePicture.setOnClickListener(v -> showProfileImageDialog());
-
-
-        //TODO uguale a pick username fargment (forse tutta la logica va nel viewmodel)
-        changeUsernameButton.setOnClickListener(v -> {
-            String username = usernameEditText.getText().toString().trim();
-
-            if (username.isEmpty()) {
-                Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (username.length() > 15) {
-                Toast.makeText(getContext(), "Please enter a shorter username", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_USERNAME, username);
-
-            userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
-        });
     }
 
     //TODO ce un metodo identico dentro pick username
