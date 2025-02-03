@@ -20,8 +20,8 @@
         app:layout_constraintWidth_percent="1"
         android:contentDescription="@string/default_title"
         app:lottie_rawRes="@raw/settings"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false" />
 
     <TextView
         android:id="@+id/sound"
@@ -30,16 +30,18 @@
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="@string/sound"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textColor="@color/md_theme_onSurface" />
 
     <Switch
         android:id="@+id/music_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OFF/ON"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:text="@string/off_on"
+        android:layout_gravity="center"
+        style="@style/Widget.Material3.CompoundButton.Switch"
+        tools:ignore="UseSwitchCompatOrMaterialXml"
+        android:textColor="@color/md_theme_onSurface" />
 
     <TextView
         android:id="@+id/mode"
@@ -48,15 +50,34 @@
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="@string/mode"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-    <Switch
-        android:id="@+id/theme_switch"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textColor="@color/md_theme_onSurface" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Day/Night "
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginVertical="15dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_sunny_24"
+            app:tint="@color/md_theme_onSurface"
+            />
+        <Switch
+            android:id="@+id/theme_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_mode_night_24"
+            app:tint="@color/md_theme_onSurface" />
+    </LinearLayout>
 
     <Button
         android:id = "@+id/logout"
@@ -66,6 +87,8 @@
         android:gravity="end"
         android:layout_gravity="center"
         android:layout_margin="50dp"
-        android:text="logout" />
+        android:text="@string/logout"
+        android:backgroundTint="@color/md_theme_error"
+        android:textColor="@color/md_theme_onError"/>
 
 </LinearLayout>

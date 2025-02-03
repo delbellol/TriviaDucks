@@ -117,4 +117,9 @@
     <string name="close_app">Close app</string>
     <string name="top_accounts">Top Accounts</string>
     <string name="nome_account">Nome Account</string>
+    <string name="account_statistics">Account Statistics</string>
+    <string name="best_score">Best Score</string>
+    <string name="favourites_catgories">Favourites Catgories</string>
+    <string name="logout">logout</string>
+    <string name="off_on">OFF/ON</string>
 </resources>

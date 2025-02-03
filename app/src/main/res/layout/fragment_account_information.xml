@@ -36,7 +36,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marginTop"
             app:layout_constraintWidth_percent="0.9"
-            style="@style/Widget.Material3.CardView.Filled">
+            style="@style/Widget.Material3.CardView.Filled"
+            app:cardBackgroundColor="@color/md_theme_secondaryContainer">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,7 +67,7 @@
                                 style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/md_theme_background_highContrast"
+                                android:background="@android:color/transparent"
                                 android:contentDescription="@string/close_description"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/cover" />
@@ -85,7 +86,7 @@
                             android:src="@drawable/change_circle"
                             app:layout_constraintEnd_toEndOf="@id/profilePictureCardView"
                             app:layout_constraintTop_toTopOf="@id/profilePictureCardView"
-                            app:tint="@color/md_theme_secondary"
+                            app:tint="@color/md_theme_onSecondaryContainer"
                             tools:ignore="TouchTargetSizeCheck" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -101,7 +102,8 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="@string/username"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/md_theme_onSecondaryContainer"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +115,7 @@
                         android:background="@android:color/transparent"
                         android:contentDescription="Change pfp image"
                         android:src="@drawable/change_circle"
-                        app:tint="@color/md_theme_secondary"
+                        app:tint="@color/md_theme_onSecondaryContainer"
                         android:layout_gravity="center"/>
                 </LinearLayout>
 
@@ -140,7 +142,9 @@
             app:layout_constraintHeight_percent="0.50"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/midMargin"
-            app:layout_constraintWidth_percent="0.9">
+            app:layout_constraintWidth_percent="0.9"
+            style="@style/Widget.Material3.CardView.Filled"
+            app:cardBackgroundColor="@color/md_theme_secondaryContainer">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -150,11 +154,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
                     android:layout_marginHorizontal="25dp"
-                    android:text="Statistiche Account"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
+                    android:layout_marginTop="25dp"
+                    android:text="@string/account_statistics"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center"
+                    android:textColor="@color/md_theme_onSecondaryContainer"/>
 
 
                 <TextView
@@ -162,66 +167,72 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="25dp"
-                    android:layout_gravity="center"
-                    android:text="Punteggio migliore"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:text="@string/best_score"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="@color/md_theme_onSecondaryContainer" />
+
                 <TextView
                     android:id="@+id/best_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginHorizontal="30dp"
                     android:layout_marginBottom="25dp"
-                    android:layout_gravity="center"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/md_theme_onSecondaryContainer"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="25dp"
-                    android:text="Categorie preferite"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:text="@string/favourites_catgories"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="@color/md_theme_onSecondaryContainer"/>
+
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="2"
+                    android:layout_gravity="center"
                     android:alignmentMode="alignMargins"
-                    android:useDefaultMargins="true"
+                    android:columnCount="2"
                     android:gravity="center"
-                    android:layout_gravity="center">
+                    android:layout_marginHorizontal="25dp"
+                    android:useDefaultMargins="true">
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/medal1" />
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/first_place"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/default_title"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="-40dp" />
+                        tools:layout_editor_absoluteX="0dp" />
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/medal2" />
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/second_place"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/default_title"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="-40dp" />
+                        tools:layout_editor_absoluteX="0dp" />
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/medal3" />
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/third_place"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/default_title"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="-40dp" />
+                        tools:layout_editor_absoluteX="0dp" />
                 </GridLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
