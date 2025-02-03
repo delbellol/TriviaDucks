@@ -26,8 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -38,22 +36,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
-import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
-
-import androidx.navigation.Navigation;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -140,7 +133,7 @@ public class LoginFragment extends Fragment {
 
     private void retrieveUserInformationAndStartActivity(User user, View view) {
         //Log.d(TAG, "retrieveUserInformationAndStartActivity");
-        userViewModel.getUserPreferences(user.getIdToken()).observe(
+        userViewModel.getUserUsername(user.getIdToken()).observe(
                 getViewLifecycleOwner(), userPreferences -> {
                     //The viewmodel updated sharedprefs
                     Log.d(TAG, "TEST");

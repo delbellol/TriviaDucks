@@ -3,23 +3,33 @@ package com.unimib.triviaducks.ui.home.fragment;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_VOLUME;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.repository.user.IUserRepository;
+import com.unimib.triviaducks.ui.game.QuestionActivity;
+import com.unimib.triviaducks.ui.welcome.WelcomeActivity;
+import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
+import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
+import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class SettingsFragment extends Fragment {
@@ -32,6 +42,9 @@ public class SettingsFragment extends Fragment {
     private boolean isNightMode;
     private boolean isMusicOFF;
 
+    private UserViewModel userViewModel;
+
+    private Button logoutButton;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -45,6 +58,12 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
+
+        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
+
+        userViewModel.setAuthenticationError(false);// Inizializzazione base del fragment
     }
 
     @Override
@@ -63,6 +82,7 @@ public class SettingsFragment extends Fragment {
 
         musicSwitch = view.findViewById(R.id.music_switch);
         themeSwitch = view.findViewById(R.id.theme_switch);
+        logoutButton = view.findViewById(R.id.logout);
 
         isMusicOFF = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
@@ -122,6 +142,12 @@ public class SettingsFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_NIGHT_MODE,
                     isNightMode);
+        });
+
+        logoutButton.setOnClickListener(v -> {
+            userViewModel.logout();
+            Intent intent = new Intent(getActivity(), WelcomeActivity.class);
+            startActivity(intent);
         });
     }
 }

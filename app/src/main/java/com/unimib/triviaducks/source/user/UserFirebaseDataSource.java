@@ -74,7 +74,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
-    public void getUserPreferences(String idToken) {
+    public void getUserUsername(String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_USERNAME).get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -171,7 +171,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
-    public void saveUserPreferences(String username, String idToken) {
+    public void saveUserUsername(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

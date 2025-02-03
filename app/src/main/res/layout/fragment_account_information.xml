@@ -93,20 +93,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_gravity="center">
-                    <TextView
+                    <EditText
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="USERNAME"
+                        android:text="@string/username"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                     <ImageButton
-                        android:id="@+id/temp"
+                        android:id="@+id/changeUsername"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@android:color/transparent"
@@ -115,29 +115,7 @@
                         app:tint="@android:color/black"
                         android:layout_gravity="center"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-                    <Button
-                        android:id = "@+id/temp1"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:text="Modifica Account" />
-                    <Button
-                        android:id = "@+id/logout"
-                        style="@style/Widget.Material3.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="50dp"
-                        android:layout_marginStart="50dp"
-                        android:text="logout" />
-                </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

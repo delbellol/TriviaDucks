@@ -25,7 +25,7 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, String.valueOf(intent.getAction()));
+        //Log.d(TAG, String.valueOf(intent.getAction()));
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
                 case "ON":

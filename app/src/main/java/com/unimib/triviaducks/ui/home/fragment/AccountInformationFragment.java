@@ -21,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -45,10 +47,9 @@ public class AccountInformationFragment extends Fragment {
     private static final String TAG = AccountInformationFragment.class.getSimpleName(); // Tag per i log
 
     // Dichiarazioni delle variabili UI e logiche
-    private ImageButton changePfPBtn; // Pulsante per cambiare immagine di profilo
-    private ImageButton profilePicture;
+    private ImageButton changePfPBtn, profilePicture, changeUsernameButton;
     private ImageView profileImageView; // Visualizzazione immagine profilo
-    private TextView usernameTextView; // Visualizzazione nome utente
+    private EditText usernameEditText; // Visualizzazione nome utente
     private TextView bestScoreTextView;
     private UserViewModel userViewModel; // ViewModel per gestire i dati utente
     private Converter converter; // Classe per conversioni
@@ -93,12 +94,12 @@ public class AccountInformationFragment extends Fragment {
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
         // Collegamento della TextView per il nome utente
-        usernameTextView = view.findViewById(R.id.username);
+        usernameEditText = view.findViewById(R.id.username);
 
         // Collegamento dell'ImageView per il profilo
         profileImageView = view.findViewById(R.id.profilePicture);
 
-        logoutButton = view.findViewById(R.id.logout);
+        changeUsernameButton = view.findViewById(R.id.changeUsername);
 
         bestScoreTextView = view.findViewById(R.id.best_score);
 
@@ -116,6 +117,26 @@ public class AccountInformationFragment extends Fragment {
         // Imposta i listener per aprire il dialog per cambiare immagine
         changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
         profilePicture.setOnClickListener(v -> showProfileImageDialog());
+
+
+        //TODO uguale a pick username fargment (forse tutta la logica va nel viewmodel)
+        changeUsernameButton.setOnClickListener(v -> {
+            String username = usernameEditText.getText().toString().trim();
+
+            if (username.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (username.length() > 15) {
+                Toast.makeText(getContext(), "Please enter a shorter username", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sharedPreferencesUtils.writeStringData(Constants.SHARED_PREFERENCES_FILENAME, Constants.SHARED_PREFERENCES_USERNAME, username);
+
+            userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
+        });
     }
 
     //TODO ce un metodo identico dentro pick username
@@ -172,7 +193,7 @@ public class AccountInformationFragment extends Fragment {
                 userViewModel.getLoggedUser().getIdToken()
         );
 
-        userViewModel.getUserPreferences(
+        userViewModel.getUserUsername(
                 userViewModel.getLoggedUser().getIdToken()
         );
 
@@ -214,10 +235,11 @@ public class AccountInformationFragment extends Fragment {
             }
         }
 
-        usernameTextView.setText(
+        usernameEditText.setText(
                 sharedPreferencesUtils.readStringData(
                         Constants.SHARED_PREFERENCES_FILENAME,
-                        Constants.SHARED_PREFERENCES_USERNAME));
+                        Constants.SHARED_PREFERENCES_USERNAME)
+        );
 
         profileImageView.setImageResource(
                 getResourceIdByName(

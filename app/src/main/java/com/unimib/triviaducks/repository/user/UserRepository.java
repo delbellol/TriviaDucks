@@ -1,7 +1,5 @@
 package com.unimib.triviaducks.repository.user;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.unimib.triviaducks.model.Question;
@@ -48,8 +46,8 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     }
 
     @Override
-    public MutableLiveData<Result> getUserPreferences(String idToken) {
-        userDataRemoteDataSource.getUserPreferences(idToken);
+    public MutableLiveData<Result> getUserUsername(String idToken) {
+        userDataRemoteDataSource.getUserUsername(idToken);
         return userPreferencesMutableLiveData;
     }
 
@@ -104,8 +102,8 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     }
 
     @Override
-    public void saveUserPreferences(String username, String idToken) {
-        userDataRemoteDataSource.saveUserPreferences(username, idToken);
+    public void saveUserUsername(String username, String idToken) {
+        userDataRemoteDataSource.saveUserUsername(username, idToken);
     }
 
     @Override
