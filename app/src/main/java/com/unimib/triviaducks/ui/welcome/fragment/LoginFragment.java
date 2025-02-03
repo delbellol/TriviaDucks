@@ -202,15 +202,24 @@ public class LoginFragment extends Fragment {
         Button loginGoogleButton = view.findViewById(R.id.loginGoogleButton);
 
         loginButton.setOnClickListener(v -> {
-            if (editTextEmail.getText() != null && isEmailOk(editTextEmail.getText().toString())) {
-                if (editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())) {
-                    goToNextPage(view);
-
-                } else {
-                    editTextPassword.setError(getString(R.string.error_password_login));
-                }
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
+            if (!userViewModel.isAuthenticationError()) {
+                userViewModel.getUserMutableLiveData(email, password, true).observe(
+                        getViewLifecycleOwner(), result -> {
+                            if (result.isSuccess()) {
+                                User user = ((Result.UserSuccess) result).getData();
+                                userViewModel.setAuthenticationError(false);
+                                goToNextPage(view);
+                            } else {
+                                userViewModel.setAuthenticationError(true);
+                                Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                                        getErrorMessage(((Result.Error) result).getMessage()),
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
             } else {
-                editTextEmail.setError(getString(R.string.error_email_login));
+                userViewModel.getUser(email, password, false);
             }
         });
 
