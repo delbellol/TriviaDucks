@@ -1,6 +1,10 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
+import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+
 import android.content.Intent;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -63,10 +67,6 @@ public class HomeFragment extends Fragment {
         // Imposta una descrizione iniziale
         //descriptionTextView.setText("Descrizione iniziale della categoria");
 
-        if (!NetworkUtil.isInternetAvailable(getContext())) {
-            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_connectionErrorActivity);
-        }
-
         List<Integer> lottieAnimations = Arrays.asList(
                 R.raw.category_all,
                 R.raw.category_science,
@@ -113,7 +113,10 @@ public class HomeFragment extends Fragment {
                 NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_connectionErrorActivity);
             }
             else{
-                GameModeFragment gameModeDialog = GameModeFragment.newInstance(selectedCategory);
+                GameModeFragment gameModeDialog = new GameModeFragment();
+                Bundle args = new Bundle();
+                args.putInt(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
+                gameModeDialog.setArguments(args);
                 gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
             }
         });
