@@ -112,15 +112,20 @@ public class AccountInformationFragment extends Fragment {
         third_place = view.findViewById(R.id.third_place);
 
         // Carico immagine profilo
-        loadInformation();
+        try {
+            loadInformation();
 
-        // Collegamento dei pulsanti per cambiare immagine
-        changePfPBtn = view.findViewById(R.id.ChangePfPBtn);
-        profilePicture = view.findViewById(R.id.profilePicture);
+            // Collegamento dei pulsanti per cambiare immagine
+            changePfPBtn = view.findViewById(R.id.ChangePfPBtn);
+            profilePicture = view.findViewById(R.id.profilePicture);
 
-        // Imposta i listener per aprire il dialog per cambiare immagine
-        changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
-        profilePicture.setOnClickListener(v -> showProfileImageDialog());
+            // Imposta i listener per aprire il dialog per cambiare immagine
+            changePfPBtn.setOnClickListener(v -> showProfileImageDialog());
+            profilePicture.setOnClickListener(v -> showProfileImageDialog());
+        }catch(Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            else Log.e(TAG,"Errore strano");
+        }
     }
 
     //TODO ce un metodo identico dentro pick username
@@ -192,28 +197,26 @@ public class AccountInformationFragment extends Fragment {
         if (sharedPreferencesUtils.readStringSetData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null)
-            Log.d(TAG, "null");
-        else
+            Log.d(TAG, "SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY is null");
+        else {
             Log.d(TAG, String.valueOf(sharedPreferencesUtils.readStringSetData(
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)));
+            Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
+            if (matchPlayedSet == null || matchPlayedSet.isEmpty()) {
+                Log.e(TAG, "The set is empty");
+            } else {
+                List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
 
-
-        Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
-
-        if (matchPlayedSet == null || matchPlayedSet.isEmpty()) {
-            Log.e(TAG, "The set is empty");
-        } else {
-            List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
-
-            if (matchPlayedList.size() >= 1) {
-                first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
-                if (matchPlayedList.size() >= 2) {
-                    second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
-                    if (matchPlayedList.size() > 2) {
-                        third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
+                if (matchPlayedList.size() >= 1) {
+                    first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
+                    if (matchPlayedList.size() >= 2) {
+                        second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
+                        if (matchPlayedList.size() > 2) {
+                            third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
+                        }
                     }
                 }
             }
