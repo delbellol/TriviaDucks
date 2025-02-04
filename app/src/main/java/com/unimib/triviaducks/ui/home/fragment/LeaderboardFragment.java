@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.adapter.RankRecyclerAdapter;
 import com.unimib.triviaducks.model.Rank;
+import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
@@ -29,6 +31,7 @@ import com.unimib.triviaducks.util.SharedPreferencesUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class LeaderboardFragment extends Fragment {
@@ -41,6 +44,7 @@ public class LeaderboardFragment extends Fragment {
     private RecyclerView recyclerView;
     private RankRecyclerAdapter adapter;
     private List<Rank> rankList;
+    Set<String> leaderboardSet;
 
     public LeaderboardFragment() {
     }
@@ -82,19 +86,17 @@ public class LeaderboardFragment extends Fragment {
 
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
-        Set<String> leaderboardSet = sharedPreferencesUtils.readStringSetData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_LEADERBOARD);
 
-        if (leaderboardSet==null) {
-            Log.d(TAG, "null");
-        }
-        else {
-            Log.d(TAG, String.valueOf(leaderboardSet));
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        userViewModel.getLeaderboard().observe(getViewLifecycleOwner(), item -> {
+
+            leaderboardSet = sharedPreferencesUtils.readStringSetData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_LEADERBOARD);
+
             adapter = new RankRecyclerAdapter(getContext(), leaderboardSet);
             recyclerView.setAdapter(adapter);
-        }
-
+        });
     }
 }
