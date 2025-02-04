@@ -5,6 +5,7 @@ import static com.unimib.triviaducks.util.Constants.*;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import com.unimib.triviaducks.model.QuestionAPIResponse;
+import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
@@ -27,6 +30,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Class that gets the user information using Firebase Realtime Database.
@@ -35,10 +42,13 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     private static final String TAG = UserFirebaseDataSource.class.getSimpleName();
     private final DatabaseReference databaseReference;
     private final SharedPreferencesUtils sharedPreferencesUtil;
+    private MutableLiveData<Result> resultMutableLiveData;
+
     public UserFirebaseDataSource(SharedPreferencesUtils sharedPreferencesUtil) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(FIREBASE_REALTIME_DATABASE);
         databaseReference = firebaseDatabase.getReference().getRef();
         this.sharedPreferencesUtil = sharedPreferencesUtil;
+        resultMutableLiveData = new MutableLiveData<Result>();
     }
     @Override
     public void saveUserData(User user) {
@@ -74,7 +84,20 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
-    public void getUserUsername(String idToken) {
+    public MutableLiveData<Result> getUserUsername() {
+        return resultMutableLiveData;
+    }
+
+    @Override
+    public void fetchUserInformations(String idToken) {
+        fetchUserUsername(idToken);
+        getUserImages(idToken);
+        getUserBestScore(idToken);
+        getCategoriesPodium(idToken);
+    }
+
+    @Override
+    public void fetchUserUsername(String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(SHARED_PREFERENCES_USERNAME).get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -84,6 +107,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                                 SHARED_PREFERENCES_USERNAME,
                                 username);
                         userResponseCallback.onSuccessFromGettingUserPreferences();
+                        //resultMutableLiveData.postValue(new Result.UserDataSuccess());
                     }
                 });
     }

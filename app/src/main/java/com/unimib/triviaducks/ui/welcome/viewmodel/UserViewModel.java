@@ -65,10 +65,24 @@ public class UserViewModel extends ViewModel {
         }
     }
 
-    public MutableLiveData<Result> getUserUsername(String idToken) {
+    public MutableLiveData<Result> getUserInformations() {
+        return userPreferencesMutableLiveData;
+    }
+    public MutableLiveData<Result> fetchUserInformations(String idToken) {
         if (idToken != null) {
-            userPreferencesMutableLiveData = userRepository.getUserUsername(idToken);
+            userPreferencesMutableLiveData = userRepository.fetchUserInformations(idToken);
         }
+        return getUserUsername();
+    }
+
+    public MutableLiveData<Result> fetchUserUsername(String idToken) {
+        if (idToken != null) {
+            userPreferencesMutableLiveData = userRepository.fetchUserUsername(idToken);
+        }
+        return getUserUsername();
+    }
+
+    public MutableLiveData<Result> getUserUsername() {
         return userPreferencesMutableLiveData;
     }
 
@@ -94,6 +108,21 @@ public class UserViewModel extends ViewModel {
         }
         return userPodiumMutableLiveData;
     }
+
+
+//    //TODO cambiare nome
+//    public MutableLiveData<Result> fetchUserDBData(String idToken) {
+//        // Chiamata al repository per ottenere le domande e aggiornare questionListLiveData
+//        if (questionListLiveData == null) {
+//            questionListLiveData = questionRepository.fetchQuestions(category,questionAmount, difficulty);
+//        }
+//        return getUserDBData();
+//    }
+//
+    //TODO Cambiare nome
+//    public MutableLiveData<Result> getUserDBData() {
+//        return questionListLiveData;
+//    }
 
     public User getLoggedUser() {
         return userRepository.getLoggedUser();

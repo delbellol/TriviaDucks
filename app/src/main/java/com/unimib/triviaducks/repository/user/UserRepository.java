@@ -46,9 +46,20 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     }
 
     @Override
-    public MutableLiveData<Result> getUserUsername(String idToken) {
-        userDataRemoteDataSource.getUserUsername(idToken);
+    public MutableLiveData<Result> getUserUsername() {
+        userDataRemoteDataSource.getUserUsername();
         return userPreferencesMutableLiveData;
+    }
+
+    public MutableLiveData<Result> fetchUserInformations(String idToken) {
+        userDataRemoteDataSource.fetchUserInformations(idToken);
+        return getUserUsername(); // Restituisce il LiveData aggiornato
+    }
+
+    @Override
+    public MutableLiveData<Result> fetchUserUsername(String idToken) {
+        userDataRemoteDataSource.fetchUserInformations(idToken);
+        return getUserUsername();
     }
 
     @Override
@@ -142,7 +153,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
 
     @Override
     public void onSuccessFromGettingUserPreferences() {
-        userPreferencesMutableLiveData.postValue(new Result.UserSuccess(null));
+        userPreferencesMutableLiveData.postValue(new Result.UserDataSuccess(null));
     }
 
     @Override

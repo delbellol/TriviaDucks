@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.source.user;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.UserResponseCallback;
 
@@ -12,7 +15,11 @@ public abstract class BaseUserDataRemoteDataSource {
 
     public abstract void saveUserData(User user);
 
-    public abstract void getUserUsername(String idToken);
+    public abstract MutableLiveData<Result> getUserUsername();
+
+    public abstract void fetchUserInformations(String idToken);
+
+    public abstract void fetchUserUsername(String idToken);
 
     public abstract void getUserImages(String idToken);
 

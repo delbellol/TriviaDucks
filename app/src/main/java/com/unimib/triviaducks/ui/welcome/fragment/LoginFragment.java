@@ -133,7 +133,7 @@ public class LoginFragment extends Fragment {
 
     private void retrieveUserInformationAndStartActivity(User user, View view) {
         //Log.d(TAG, "retrieveUserInformationAndStartActivity");
-        userViewModel.getUserUsername(user.getIdToken()).observe(
+        userViewModel.fetchUserUsername(user.getIdToken()).observe(
                 getViewLifecycleOwner(), userPreferences -> {
                     //The viewmodel updated sharedprefs
                     Log.d(TAG, "TEST");

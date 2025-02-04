@@ -33,6 +33,16 @@ public abstract class Result {
         }
     }
 
+    public static final class UserDataSuccess extends Result {
+        private final UserData userData;
+        public UserDataSuccess(UserData userData) {
+            this.userData = userData;
+        }
+        public UserData getData() {
+            return userData;
+        }
+    }
+
     public static final class LeaderboardSuccess extends Result {
         private final List<User> leaderboard;
         public LeaderboardSuccess(List<User> leaderboard) {

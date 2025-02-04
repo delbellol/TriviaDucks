@@ -9,6 +9,7 @@ public class User implements Parcelable {
     private String name;
     private String email;
     private String idToken;
+    private String username;
     public User(String name, String email, String idToken) {
         this.name = name;
         this.email = email;
@@ -32,6 +33,12 @@ public class User implements Parcelable {
     }
     public void setIdToken(String idToken) {
         this.idToken = idToken;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
     @Override
     public String toString() {
