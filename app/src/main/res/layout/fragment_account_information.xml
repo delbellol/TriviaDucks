@@ -62,7 +62,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <ImageButton
+                            <ImageView
                                 android:id="@+id/profilePicture"
                                 style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
                                 android:layout_width="match_parent"
@@ -72,30 +72,15 @@
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/cover" />
                         </com.google.android.material.card.MaterialCardView>
-
-                        <ImageButton
-                            android:id="@+id/ChangePfPBtn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="-10dp"
-                            android:layout_marginEnd="-10dp"
-                            android:adjustViewBounds="true"
-                            android:background="@android:color/transparent"
-                            android:contentDescription="Change pfp image"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/change_circle"
-                            app:layout_constraintEnd_toEndOf="@id/profilePictureCardView"
-                            app:layout_constraintTop_toTopOf="@id/profilePictureCardView"
-                            app:tint="@color/md_theme_onSecondaryContainer"
-                            tools:ignore="TouchTargetSizeCheck" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_gravity="center">
-                    <EditText
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="50dp">
+                    <TextView
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -108,15 +93,17 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                    <ImageButton
-                        android:id="@+id/changeUsername"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="Change pfp image"
-                        android:src="@drawable/change_circle"
-                        app:tint="@color/md_theme_onSecondaryContainer"
-                        android:layout_gravity="center"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/editProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit_profile"
+                        android:layout_gravity="center"
+                        style="@style/Widget.Material3.Button"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -177,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginBottom="25dp"
+                    android:text="@string/_0"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:textColor="@color/md_theme_onSecondaryContainer"/>
 

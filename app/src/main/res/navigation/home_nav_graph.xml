@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_accountInformationFragment_to_connectionErrorActivity"
             app:destination="@id/connectionErrorActivity" />
+        <action
+            android:id="@+id/action_accountInformationFragment_to_pickUsernameFragment"
+            app:destination="@id/pickUsernameFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -62,4 +65,8 @@
         android:name="com.unimib.triviaducks.ui.connection.ConnectionErrorActivity"
         android:label="activity_error"
         tools:layout="@layout/activity_error" />
+    <fragment
+        android:id="@+id/pickUsernameFragment"
+        android:name="com.unimib.triviaducks.ui.welcome.fragment.PickUsernameFragment"
+        android:label="PickUsernameFragment" />
 </navigation>

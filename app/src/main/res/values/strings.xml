@@ -122,4 +122,6 @@
     <string name="favourites_catgories">Favourites Catgories</string>
     <string name="logout">logout</string>
     <string name="off_on">OFF/ON</string>
+    <string name="_0">0</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

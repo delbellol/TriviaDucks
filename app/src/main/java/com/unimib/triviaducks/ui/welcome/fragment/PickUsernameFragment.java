@@ -67,6 +67,20 @@ public class PickUsernameFragment extends Fragment {
         confirmUsernameButton = view.findViewById(R.id.confirmUsernameButton);
         profilePictureButton = view.findViewById(R.id.profilePictureImageButton);
 
+        String username = sharedPreferencesUtils.readStringData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_USERNAME);
+
+        String image = sharedPreferencesUtils.readStringData(
+                Constants.SHARED_PREFERENCES_FILENAME,
+                Constants.SHARED_PREFERENCES_PROFILE_PICTURE
+        );
+
+        if(username != null && image!=null){
+            usernameEditText.setText(username);
+            profilePictureButton.setImageResource(getResourceIdByName(image));
+        }
+
         profilePictureButton.setOnClickListener(v -> showProfileImageDialog());
 
         confirmUsernameButton.setOnClickListener(v -> saveUserData());
@@ -145,5 +159,12 @@ public class PickUsernameFragment extends Fragment {
             }
         }
         return null;
+    }
+    private int getResourceIdByName(String resourceName) {
+        return requireContext().getResources().getIdentifier(
+                resourceName,
+                "drawable", // Ricerca nelle risorse di tipo drawable
+                requireContext().getPackageName() // Nome del pacchetto
+        );
     }
 }
