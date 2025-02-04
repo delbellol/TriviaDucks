@@ -92,6 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"
                     android:textSize="30sp"
                     android:text="@string/default_picker_value"
                     android:textColor="@android:color/white"/>
