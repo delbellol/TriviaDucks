@@ -4,17 +4,24 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:textAlignment="center"
-    android:background="@android:color/holo_green_light"
+    android:background="@color/md_theme_secondaryContainer"
     android:elevation="4dp"
     android:padding="16dp">
+
+    <!--TODO replace 300dp with something other-->
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/you_lost" />
 
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_gameover"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        android:textSize="40sp"
         android:layout_gravity="center" />
 
     <TextView
@@ -23,15 +30,10 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_gravity="center"
-        android:textSize="18sp"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:text="@string/score_description" />
 
-    <!--TODO replace 300dp with something other-->
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        app:srcCompat="@drawable/you_lost" />
 
     <TextView
         android:id="@+id/dialog_question"
@@ -39,8 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_question_description"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_gravity="center" />
 
     <TextView
@@ -49,7 +51,8 @@
         android:layout_height="wrap_content"
         android:text="@string/correct_answer_description"
         android:layout_gravity="center"
-        android:textSize="18sp"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_marginTop="8dp" />
 
     <Button

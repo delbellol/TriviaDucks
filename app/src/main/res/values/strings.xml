@@ -70,7 +70,7 @@
     <string name="wrong_answer">Wrong answer!</string>
     <string name="correct_answer">Correct answer!</string>
     <string name="time_expired">Time expired</string>
-    <string name="next_question"><![CDATA[Next question -->]]></string>
+    <string name="next_question">Next question</string>
     <string name="create_a_new_account">Create a new account</string>
     <string name="signup">Signup</string>
 
@@ -125,4 +125,8 @@
     <string name="_0">0</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="confirm">Confirm</string>
+    <string name="choose_a_new_image">Choose a new image:</string>
+    <string name="the_correct_answer_was">The correct answer was:</string>
+    <string name="correct_answer_will_be_shown_here">Correct answer will be shown here.</string>
+    <string name="on">ON</string>
 </resources>
