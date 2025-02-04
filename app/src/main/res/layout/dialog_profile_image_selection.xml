@@ -28,7 +28,7 @@
             android:layout_height="100dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/p2"
+            android:src="@drawable/p1"
             android:background="@color/design_default_color_on_secondary"
             android:contentDescription="@string/profile" />
 
@@ -38,7 +38,7 @@
             android:layout_height="100dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/p1"
+            android:src="@drawable/p2"
             android:background="@color/design_default_color_on_secondary"
             android:contentDescription="@string/profile" />
 

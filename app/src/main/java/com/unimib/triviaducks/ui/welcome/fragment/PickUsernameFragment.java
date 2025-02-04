@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,8 @@ public class PickUsernameFragment extends Fragment {
     private Button confirmUsernameButton;
     private ImageButton profilePictureButton;
     private UserViewModel userViewModel;
-    private boolean isEditing = false;
+    private String image;
+    private String username;
 
 
     private Drawable selectedProfileDrawable;
@@ -70,11 +72,11 @@ public class PickUsernameFragment extends Fragment {
         confirmUsernameButton = view.findViewById(R.id.confirmUsernameButton);
         profilePictureButton = view.findViewById(R.id.profilePictureImageButton);
 
-        String username = sharedPreferencesUtils.readStringData(
+        username = sharedPreferencesUtils.readStringData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_USERNAME);
 
-        String image = sharedPreferencesUtils.readStringData(
+        image = sharedPreferencesUtils.readStringData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_PROFILE_PICTURE
         );
@@ -82,7 +84,7 @@ public class PickUsernameFragment extends Fragment {
         if(username != null && image!=null){
             usernameEditText.setText(username);
             profilePictureButton.setImageResource(getResourceIdByName(image));
-            isEditing = true;
+//            isEditing = true;
         }
 
         profilePictureButton.setOnClickListener(v -> showProfileImageDialog());
@@ -135,11 +137,19 @@ public class PickUsernameFragment extends Fragment {
 
         userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
 
+        Log.d(TAG, image);
         if (resourceName != null) {
+            Log.d(TAG, "resourceName != null");
             userViewModel.saveUserImage(resourceName, userViewModel.getLoggedUser().getIdToken());
         }
-        else
+        else if (image != null) {
+            Log.d(TAG, "image != null");
+            userViewModel.saveUserImage(image, userViewModel.getLoggedUser().getIdToken());
+        }
+        else{
+            Log.d(TAG, "else");
             userViewModel.saveUserImage(getResources().getResourceName(R.drawable.p1), userViewModel.getLoggedUser().getIdToken());
+        }
 
 //        if(!isEditing){
             Intent intent = new Intent(getContext(), HomeActivity.class);

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_margin="50dp">
 
     <TextView
         android:id="@+id/usernameTextView"
@@ -13,7 +14,8 @@
         android:text="Choose your icon and your username"
         android:textSize="18sp"
         android:layout_margin="5dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textColor="@color/md_theme_onSurface" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/profilePictureCardView"
@@ -27,7 +29,7 @@
             style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ADD8E6"
+            android:background="@color/md_theme_onPrimary"
             android:contentDescription="@string/close_description"
             android:scaleType="centerCrop"
             android:src="@drawable/cover" />
@@ -37,7 +39,7 @@
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="text"
         android:layout_margin="5dp"/>
 
@@ -45,6 +47,6 @@
         android:id="@+id/confirmUsernameButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm"/>
+        android:text="@string/confirm"/>
 
 </LinearLayout>

@@ -110,6 +110,8 @@ public class AccountInformationFragment extends Fragment {
 
         editProfileButton = view.findViewById(R.id.editProfile);
 
+        bestScoreTextView = view.findViewById(R.id.best_score);
+
         first_place = view.findViewById(R.id.first_place);
         second_place = view.findViewById(R.id.second_place);
         third_place = view.findViewById(R.id.third_place);
