@@ -146,6 +146,7 @@ public class SettingsFragment extends Fragment {
 
         logoutButton.setOnClickListener(v -> {
             userViewModel.logout();
+            sharedPreferencesUtils.clearPreferences(Constants.SHARED_PREFERENCES_FILENAME);
             Intent intent = new Intent(getActivity(), WelcomeActivity.class);
             startActivity(intent);
         });

@@ -118,4 +118,10 @@ public class SharedPreferencesUtils {
         // Restituisce il valore associato alla chiave, o null se non presente.
         return sharedPref.getBoolean(key, false);
     }
+
+    public void clearPreferences(String fileName) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+    }
 }

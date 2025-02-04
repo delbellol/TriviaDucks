@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,8 @@ public class PickUsernameFragment extends Fragment {
     private Button confirmUsernameButton;
     private ImageButton profilePictureButton;
     private UserViewModel userViewModel;
+    private boolean isEditing = false;
+
 
     private Drawable selectedProfileDrawable;
 
@@ -79,6 +82,7 @@ public class PickUsernameFragment extends Fragment {
         if(username != null && image!=null){
             usernameEditText.setText(username);
             profilePictureButton.setImageResource(getResourceIdByName(image));
+            isEditing = true;
         }
 
         profilePictureButton.setOnClickListener(v -> showProfileImageDialog());
@@ -137,8 +141,13 @@ public class PickUsernameFragment extends Fragment {
         else
             userViewModel.saveUserImage(getResources().getResourceName(R.drawable.p1), userViewModel.getLoggedUser().getIdToken());
 
-        Intent intent = new Intent(getContext(), HomeActivity.class);
-        startActivity(intent);
+//        if(!isEditing){
+            Intent intent = new Intent(getContext(), HomeActivity.class);
+            startActivity(intent);
+//        }
+//        else {
+//            Navigation.findNavController(requireView()).navigate(R.id.action_pickUsernameFragment_to_accountInformationFragment);
+//        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

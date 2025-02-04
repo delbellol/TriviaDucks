@@ -41,5 +41,13 @@
         <action
             android:id="@+id/action_pickUsernameFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_pickUsernameFragment_to_accountInformationFragment"
+            app:destination="@id/accountInformationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/accountInformationFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.AccountInformationFragment"
+        android:label="fragment_account_information"
+        tools:layout="@layout/fragment_account_information" />
 </navigation>
