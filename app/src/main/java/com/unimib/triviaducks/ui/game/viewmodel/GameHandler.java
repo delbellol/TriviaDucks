@@ -154,7 +154,7 @@ public class GameHandler {
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             //Snackbar.make(view, "Risposta corretta!", Snackbar.LENGTH_SHORT).show();
             if (counter < questionList.size()) {
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment((GameFragment) fragment, context.getString(R.string.correct_answer));
+                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(fragment, context.getString(R.string.correct_answer));
                 timerUtils.endTimer();
                 AddScore();
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
@@ -184,7 +184,16 @@ public class GameHandler {
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
 
-            }else{
+            }else if(counter >= questionList.size()) {
+                GameOverFragment gameOverDialog = new GameOverFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(REASON,WRONG_ANSWER);
+                bundle.putInt(SCORE,score);
+                bundle.putString(CORRECT_ANSWER,correctAnswer);
+                bundle.putBoolean(END,true);
+                gameOverDialog.setArguments(bundle);
+                gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
+            } else{
                 GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(fragment, WRONG_ANSWER, correctAnswer);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }

@@ -126,8 +126,10 @@ public class GameOverFragment extends DialogFragment {
         TextView dialogQuestion = view.findViewById(R.id.dialog_question);
         ImageView image = view.findViewById(R.id.image);
         if (end) {
-            dialogQuestion.setVisibility(View.GONE);
-            correctAnswerView.setVisibility(View.GONE);
+            if (reason != WRONG_ANSWER) {
+                dialogQuestion.setVisibility(View.GONE);
+                correctAnswerView.setVisibility(View.GONE);
+            }
             image.setImageResource(R.drawable.you_won);
         }
         else if (correctAnswer != null && !correctAnswer.isEmpty()) {
