@@ -80,8 +80,7 @@ public class GameHandler {
 
         QuestionRepository questionRepository =
                 ServiceLocator.getInstance().getQuestionsRepository(
-                        fragment.requireActivity().getApplication(),
-                        fragment.requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
+                        fragment.requireActivity().getApplication()
                 );
 
         if (questionRepository == null) {

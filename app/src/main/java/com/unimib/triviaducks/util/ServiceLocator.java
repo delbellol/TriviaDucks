@@ -68,10 +68,9 @@ public class ServiceLocator {
     /**
      * Restituisce un'istanza di QuestionRepository, che funge da fonte di dati per le domande.
      * @param application Parametro per accedere allo stato globale dell'applicazione.
-     * @param debugMode Parametro per stabilire se l'applicazione è in modalità di debug.
      * @return Un'istanza di QuestionRepository.
      */
-    public QuestionRepository getQuestionsRepository(Application application, boolean debugMode) {
+    public QuestionRepository getQuestionsRepository(Application application) {
         BaseQuestionRemoteDataSource questionRemoteDataSource; // Fonte remota delle domande.
         SharedPreferencesUtils sharedPreferencesUtil = new SharedPreferencesUtils(application); // Utility per SharedPreferences.
 
