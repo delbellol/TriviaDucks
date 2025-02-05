@@ -7,17 +7,10 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".ui.welcome.WelcomeActivity">
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:srcCompat="@drawable/title"
-        app:tint="?android:attr/textColorPrimary"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginHorizontal="@dimen/margin_medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:text="@string/welcome"/>
     <TextView
@@ -34,16 +27,17 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
-        style="?attr/textInputOutlinedStyle"
-        android:background="#05000000"
+        style="@style/Widget.Design.TextInputLayout"
+        android:background="@color/md_theme_primaryContainer"
+        android:textColorHint="@color/md_theme_onPrimaryContainer"
+        app:startIconTint="@color/md_theme_onPrimaryContainer"
         app:startIconDrawable="@drawable/baseline_alternate_email_24"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:background="#00000000"/>
+            android:inputType="textEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -52,21 +46,22 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
-        style="?attr/textInputOutlinedStyle"
-        android:background="#05000000"
+        style="@style/Widget.Design.TextInputLayout"
+        android:background="@color/md_theme_primaryContainer"
+        android:textColorHint="@color/md_theme_onPrimaryContainer"
+        app:startIconTint="@color/md_theme_onPrimaryContainer"
         app:startIconDrawable="@drawable/baseline_password_24"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:background="#00000000"/>
+            android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/signupButton"
         android:layout_marginTop="@dimen/margin_medium"
-        style="@style/Widget.Material3.Button.ElevatedButton"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/signup"
