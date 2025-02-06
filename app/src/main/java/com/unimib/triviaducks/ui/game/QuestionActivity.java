@@ -37,29 +37,35 @@ public class QuestionActivity extends AppCompatActivity {
 
         GameFragment.setCanPlay(false);
 
-        sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
+        try {
 
-        isMusicOFF = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
+            sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
 
-        isNightMode = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
+            isMusicOFF = sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
 
-        Intent intent = new Intent(this, MusicService.class);
-        stopService(intent);
+            isNightMode = sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
 
-        if (isMusicOFF){
-            intent.setAction("OFF");
-        } else{
-            intent.setAction("ON");
-        }
-        startService(intent);
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            Intent intent = new Intent(this, MusicService.class);
+            stopService(intent);
+
+            if (isMusicOFF) {
+                intent.setAction("OFF");
+            } else {
+                intent.setAction("ON");
+            }
+            startService(intent);
+            if (isNightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }catch (Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            else ex.printStackTrace();
         }
 
         setContentView(R.layout.activity_question);

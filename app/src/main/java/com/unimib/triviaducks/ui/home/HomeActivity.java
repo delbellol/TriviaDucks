@@ -32,35 +32,40 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
+        try {
+            sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
 
-        isMusicOFF = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
+            isMusicOFF = sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
 
-        isNightMode = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
+            isNightMode = sharedPreferencesUtils.readBooleanData(
+                    Constants.SHARED_PREFERENCES_FILENAME,
+                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
 
 
-        Intent intent = new Intent(this, MusicService.class);
+            Intent intent = new Intent(this, MusicService.class);
 
-        if (isMusicOFF)
-            intent.setAction("OFF"); // Usa l'azione ON per avviare la musica
-        else
-            intent.setAction("ON");
-        startService(intent);
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            if (isMusicOFF)
+                intent.setAction("OFF"); // Usa l'azione ON per avviare la musica
+            else
+                intent.setAction("ON");
+            startService(intent);
+            if (isNightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+
+            setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+            NavController navController = navHostFragment.getNavController();
+            BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+            NavigationUI.setupWithNavController(bottomNav, navController);
+        }catch (Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            else ex.printStackTrace();
         }
-
-        setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
-        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        NavController navController = navHostFragment.getNavController();
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
-        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
     @Override

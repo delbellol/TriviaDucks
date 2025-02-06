@@ -66,7 +66,7 @@ public class ConnectionErrorActivity extends AppCompatActivity {
             }
         }catch (Exception ex) {
             if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
-            else Log.e(TAG,"Errore strano");
+            else ex.printStackTrace();;
         }
     }
 
