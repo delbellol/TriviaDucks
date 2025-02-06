@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.source.user;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.UserResponseCallback;
 
@@ -29,4 +32,6 @@ public abstract class BaseUserDataRemoteDataSource {
     public abstract void saveBestScore(int score, String idToken);
 
     public abstract void updateCategoryCounter(String category, String idToken);
+
+    public abstract void fetchUserInformations(String idToken);
 }

@@ -46,6 +46,12 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     }
 
     @Override
+    public MutableLiveData<Result> fetchUserInformations(String idToken) {
+        userDataRemoteDataSource.fetchUserInformations(idToken);
+        return userPreferencesMutableLiveData;
+    }
+
+    @Override
     public MutableLiveData<Result> getUserUsername(String idToken) {
         userDataRemoteDataSource.getUserUsername(idToken);
         return userPreferencesMutableLiveData;

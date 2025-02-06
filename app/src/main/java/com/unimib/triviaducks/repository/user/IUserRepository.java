@@ -8,6 +8,7 @@ import com.unimib.triviaducks.model.User;
 public interface IUserRepository {
     MutableLiveData<Result> getUser(String email, String password, boolean isUserRegistered);
     MutableLiveData<Result> getGoogleUser(String idToken);
+    MutableLiveData<Result> fetchUserInformations(String idToken);
     MutableLiveData<Result> getUserUsername(String idToken);
     MutableLiveData<Result> getUserImages(String idToken);;
     MutableLiveData<Result> getUserBestScore(String idToken);

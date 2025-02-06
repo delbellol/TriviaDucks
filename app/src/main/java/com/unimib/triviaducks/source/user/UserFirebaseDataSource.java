@@ -215,6 +215,19 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
+    public void fetchUserInformations(String idToken) {
+        try {
+            getUserUsername(idToken);
+            getUserImages(idToken);
+            getUserBestScore(idToken);
+            getCategoriesPodium(idToken);
+        }catch(Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Error: "+ex.getMessage());
+            else ex.printStackTrace();
+        }
+    }
+
+    @Override
     public void getLeaderboard() {
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
