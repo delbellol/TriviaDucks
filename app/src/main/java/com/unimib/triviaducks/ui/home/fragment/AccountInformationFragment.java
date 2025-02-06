@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -31,7 +32,11 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.model.Result;
+import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.fragment.PickUsernameFragment;
@@ -45,6 +50,7 @@ import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -63,6 +69,7 @@ public class AccountInformationFragment extends Fragment {
     private ConstraintLayout accountLayout;
     private LottieAnimationView first_place, second_place, third_place;
     private Button logoutButton;
+    private ConstraintLayout profileLayout;
 
     public AccountInformationFragment() {
     }
@@ -98,6 +105,8 @@ public class AccountInformationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        profileLayout = view.findViewById(R.id.profileLayout);
+        circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
 
         // Inizializzazione delle utility
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
@@ -125,37 +134,56 @@ public class AccountInformationFragment extends Fragment {
         }
 
         editProfileButton.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(R.id.action_accountInformationFragment_to_pickUsernameFragment);
+            try {
+                Navigation.findNavController(view).navigate(R.id.action_accountInformationFragment_to_pickUsernameFragment);
+            }catch(Exception ex) {
+                if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+                else Log.e(TAG,"Errore strano");
+            }
         });
     }
 
 
     // Metodo per caricare l'immagine del profilo dalle SharedPreferences
     private void loadInformation() {
-        userViewModel.getUserImages(
-                userViewModel.getLoggedUser().getIdToken()
-        );
-
-        userViewModel.getUserUsername(
-                userViewModel.getLoggedUser().getIdToken()
-        );
-
-        userViewModel.getCategoriesPodium(
-                userViewModel.getLoggedUser().getIdToken()
-        );
-
-        userViewModel.getUserBestScore(
-                userViewModel.getLoggedUser().getIdToken()
-        );
+        showLoadingScreen();
+        try {
+            userViewModel.fetchUserInformations(userViewModel.getLoggedUser().getIdToken()).observe(getViewLifecycleOwner(), item -> {
+                MutableLiveData<Result> rs = userViewModel.getUserInformations();
+                if (Objects.requireNonNull(rs.getValue()).isSuccess()) {
+                    usernameTextView.setText(
+                            sharedPreferencesUtils.readStringData(
+                                    Constants.SHARED_PREFERENCES_FILENAME,
+                                    Constants.SHARED_PREFERENCES_USERNAME)
+                    );
+                    profileImageView.setImageResource(
+                            getResourceIdByName(
+                                    sharedPreferencesUtils.readStringData(
+                                            Constants.SHARED_PREFERENCES_FILENAME,
+                                            Constants.SHARED_PREFERENCES_PROFILE_PICTURE
+                                    )
+                            )
+                    );
+                    bestScoreTextView.setText(
+                            String.valueOf(sharedPreferencesUtils.readIntData(
+                                    Constants.SHARED_PREFERENCES_FILENAME,
+                                    Constants.SHARED_PREFERENCES_BEST_SCORE)));
+                    hideLoadingScreen();
+                } else {
+                    View view = getView();
+                    if (view != null) {
+                        Snackbar.make(view, "Error loading profile data.", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
 
         if (sharedPreferencesUtils.readStringSetData(
                 Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null)
-            Log.d(TAG, "SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY is null");
+                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null);
         else {
-            Log.d(TAG, String.valueOf(sharedPreferencesUtils.readStringSetData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)));
             Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
@@ -175,35 +203,21 @@ public class AccountInformationFragment extends Fragment {
                 }
             }
         }
-
-        usernameTextView.setText(
-                sharedPreferencesUtils.readStringData(
-                        Constants.SHARED_PREFERENCES_FILENAME,
-                        Constants.SHARED_PREFERENCES_USERNAME)
-        );
-
-        profileImageView.setImageResource(
-                getResourceIdByName(
-                        sharedPreferencesUtils.readStringData(
-                                Constants.SHARED_PREFERENCES_FILENAME,
-                                Constants.SHARED_PREFERENCES_PROFILE_PICTURE
-                        )
-                )
-        );
-
-        bestScoreTextView.setText(
-                String.valueOf(sharedPreferencesUtils.readIntData(
-                        Constants.SHARED_PREFERENCES_FILENAME,
-                        Constants.SHARED_PREFERENCES_BEST_SCORE)));
     }
 
     // Metodo per ottenere l'ID della risorsa dal nome
     private int getResourceIdByName(String resourceName) {
-        return requireContext().getResources().getIdentifier(
-                resourceName,
-                "drawable", // Ricerca nelle risorse di tipo drawable
-                requireContext().getPackageName() // Nome del pacchetto
-        );
+        try {
+            return requireContext().getResources().getIdentifier(
+                    resourceName,
+                    "drawable", // Ricerca nelle risorse di tipo drawable
+                    requireContext().getPackageName() // Nome del pacchetto
+            );
+        }catch(Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            else Log.e(TAG,"Errore strano");
+        }
+        return R.drawable.p1;
     }
 
     private int getCategoryIconFromCode(int code) {
@@ -219,5 +233,15 @@ public class AccountInformationFragment extends Fragment {
             case SPORTS_CODE:
                 return R.raw.category_sport;
         }
+    }
+
+    public void showLoadingScreen() {
+        profileLayout.setVisibility(View.GONE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoadingScreen(){
+        circularProgressIndicator.setVisibility(View.GONE);
+        profileLayout.setVisibility(View.VISIBLE);
     }
 }

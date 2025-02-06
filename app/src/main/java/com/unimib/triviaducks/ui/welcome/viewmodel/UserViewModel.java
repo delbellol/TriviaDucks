@@ -132,4 +132,16 @@ public class UserViewModel extends ViewModel {
         leaderboardMutableLiveData = userRepository.getLeaderboard();
         return leaderboardMutableLiveData;
     }
+    public MutableLiveData<Result> fetchUserInformations(String idToken) {
+        if (idToken != null) {
+            userPreferencesMutableLiveData = userRepository.fetchUserInformations(idToken);
+        }
+        else Log.e(TAG,"Error: idToken is null");
+
+        return getUserInformations();
+    }
+
+    public MutableLiveData<Result> getUserInformations() {
+        return userPreferencesMutableLiveData;
+    }
 }
