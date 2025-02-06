@@ -5,13 +5,11 @@ import static com.unimib.triviaducks.util.Constants.END;
 import static com.unimib.triviaducks.util.Constants.QUIZ_FINISHED;
 import static com.unimib.triviaducks.util.Constants.REASON;
 import static com.unimib.triviaducks.util.Constants.SCORE;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,15 +26,14 @@ import androidx.navigation.Navigation;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.home.HomeActivity;
-import com.unimib.triviaducks.ui.home.fragment.HomeFragment;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
-public class GameOverFragment extends DialogFragment {
-    private static final String TAG = GameOverFragment.class.getSimpleName();
+public class GameOverDialog extends DialogFragment {
+    private static final String TAG = GameOverDialog.class.getSimpleName();
 
     private SharedPreferencesUtils sharedPreferencesUtils;
     private UserViewModel userViewModel;
@@ -49,12 +46,12 @@ public class GameOverFragment extends DialogFragment {
     boolean end=false;
     String correctAnswer;
 
-    public GameOverFragment() {
+    public GameOverDialog() {
 
     }
 
-    public static GameOverFragment newInstance() {
-        return new GameOverFragment();
+    public static GameOverDialog newInstance() {
+        return new GameOverDialog();
     }
 
     @Override
@@ -81,7 +78,7 @@ public class GameOverFragment extends DialogFragment {
 
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_game_over, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_game_over, null);
         builder.setView(view);
 
         int currentBestScore = sharedPreferencesUtils.readIntData(

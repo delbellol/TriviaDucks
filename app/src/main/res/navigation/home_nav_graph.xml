@@ -45,9 +45,9 @@
     </fragment>
     <fragment
         android:id="@+id/gameModeFragment"
-        android:name="com.unimib.triviaducks.ui.home.fragment.GameModeFragment"
+        android:name="com.unimib.triviaducks.ui.home.fragment.GameModeDialog"
         android:label="fragment_game_mode"
-        tools:layout="@layout/fragment_game_mode" >
+        tools:layout="@layout/dialog_game_mode" >
         <action
             android:id="@+id/action_gameModeFragment_to_questionActivity"
             app:destination="@id/questionActivity" />

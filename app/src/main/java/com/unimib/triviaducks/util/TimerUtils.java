@@ -3,17 +3,10 @@ import static com.unimib.triviaducks.util.Constants.COUNTDOWN_INTERVAL;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.util.Log;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 
-import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
-import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class TimerUtils {
 

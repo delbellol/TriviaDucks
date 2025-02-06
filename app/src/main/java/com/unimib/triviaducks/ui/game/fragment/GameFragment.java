@@ -3,16 +3,12 @@ package com.unimib.triviaducks.ui.game.fragment;
 import static com.unimib.triviaducks.util.Constants.CONNECTION_ERROR_TEXT;
 import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
-import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
-import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
-import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
+
 import android.content.Intent;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +29,6 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
-import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
 import com.unimib.triviaducks.util.NetworkUtil;
@@ -124,7 +119,7 @@ public class GameFragment extends Fragment {
 
             // Gestisce l'evento di clic sul bottone per chiudere il gioco
             closeImageButton.setOnClickListener(v -> {
-                GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
+                GameQuitDialog gameQuitDialog = new GameQuitDialog(gameHandler);
                 gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
             });
 
@@ -177,7 +172,7 @@ public class GameFragment extends Fragment {
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {
-                        GameQuitFragment gameQuitDialog = new GameQuitFragment(gameHandler);
+                        GameQuitDialog gameQuitDialog = new GameQuitDialog(gameHandler);
                         gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
                     }
                 });

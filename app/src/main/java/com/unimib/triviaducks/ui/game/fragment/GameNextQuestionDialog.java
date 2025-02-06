@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.unimib.triviaducks.R;
 
-public class GameNextQuestionFragment extends DialogFragment {
+public class GameNextQuestionDialog extends DialogFragment {
 
     Button nextBtn;
     GameFragment fragment;
@@ -20,27 +20,27 @@ public class GameNextQuestionFragment extends DialogFragment {
     String reason;
     String correctAnswer;
 
-    public GameNextQuestionFragment() {
+    public GameNextQuestionDialog() {
         // Costruttore vuoto
     }
 
-    public GameNextQuestionFragment(GameFragment fragment, String reason, String correctAnswer) {
+    public GameNextQuestionDialog(GameFragment fragment, String reason, String correctAnswer) {
         this.fragment = fragment;
         this.reason = reason;
         this.correctAnswer = correctAnswer;
     }
 
-    public GameNextQuestionFragment(GameFragment fragment, String reason) {
+    public GameNextQuestionDialog(GameFragment fragment, String reason) {
         this.fragment = fragment;
         this.reason = reason;
     }
 
-    public GameNextQuestionFragment(GameFragment fragment) {
+    public GameNextQuestionDialog(GameFragment fragment) {
         this.fragment = fragment;
     }
 
-    public static GameNextQuestionFragment newInstance() {
-        return new GameNextQuestionFragment();
+    public static GameNextQuestionDialog newInstance() {
+        return new GameNextQuestionDialog();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class GameNextQuestionFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_game_next_question, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_game_next_question, null);
         builder.setView(view);
         nextBtn = view.findViewById(R.id.next);
         dialog_title = view.findViewById(R.id.dialog_title);

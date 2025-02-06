@@ -3,52 +3,41 @@ package com.unimib.triviaducks.ui.home.fragment;
 import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
-import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_DIFFICULTY_PARAMETER;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.adapter.DifficultyAdapter;
 import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.QuestionActivity;
-import com.unimib.triviaducks.ui.game.fragment.GameFragment;
-import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
-import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
-import com.unimib.triviaducks.util.Constants;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class GameModeFragment extends DialogFragment {
-    private static final String TAG = GameModeFragment.class.getSimpleName();
+public class GameModeDialog extends DialogFragment {
+    private static final String TAG = GameModeDialog.class.getSimpleName();
     private TextView questionPicker;
     private Button plus_button;
     private Button minus_button;
@@ -57,14 +46,13 @@ public class GameModeFragment extends DialogFragment {
     private SharedPreferencesUtils sharedPreferencesUtils;
     private UserViewModel userViewModel;
 
-    public GameModeFragment() {
+    public GameModeDialog() {
         // Required empty public constructor
     }
 
-    public static GameModeFragment newInstance(int selectedCategory) {
-        GameModeFragment fragment = new GameModeFragment();
+    public static GameModeDialog newInstance() {
+        GameModeDialog fragment = new GameModeDialog();
         Bundle args = new Bundle();
-        args.putInt(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,7 +78,7 @@ public class GameModeFragment extends DialogFragment {
 
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
-        View view = getLayoutInflater().inflate(R.layout.fragment_game_mode, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_game_mode, null);
         builder.setView(view);
 
         assert getArguments() != null;

@@ -10,20 +10,14 @@ import static com.unimib.triviaducks.util.Constants.REASON;
 import static com.unimib.triviaducks.util.Constants.SCORE;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
 import static com.unimib.triviaducks.util.Constants.TIME_EXPIRED;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_VALUE;
 import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -33,11 +27,8 @@ import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.question.QuestionRepository;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
-import com.unimib.triviaducks.ui.game.fragment.GameNextQuestionFragment;
-import com.unimib.triviaducks.ui.game.fragment.GameOverFragment;
-import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModel;
-import com.unimib.triviaducks.ui.game.viewmodel.QuestionViewModelFactory;
-import com.unimib.triviaducks.util.Constants;
+import com.unimib.triviaducks.ui.game.fragment.GameNextQuestionDialog;
+import com.unimib.triviaducks.ui.game.fragment.GameOverDialog;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.TimerUtils;
 
@@ -47,8 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 
 public class GameHandler {
     private static final String TAG = GameHandler.class.getSimpleName();
@@ -154,13 +143,13 @@ public class GameHandler {
 
         if (currentQuestion != null && selectedAnswer.equals(Jsoup.parse(currentQuestion.getCorrectAnswer()).text())) {
             if (counter < questionList.size()) {
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(fragment, context.getString(R.string.correct_answer));
+                GameNextQuestionDialog nextQstDialog = new GameNextQuestionDialog(fragment, context.getString(R.string.correct_answer));
                 timerUtils.endTimer();
                 AddScore();
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }
             else {
-                GameOverFragment gameOverDialog = new GameOverFragment();
+                GameOverDialog gameOverDialog = new GameOverDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString(REASON,QUIZ_FINISHED);
                 bundle.putInt(SCORE,score);
@@ -173,7 +162,7 @@ public class GameHandler {
             fragment.handleWrongAnswer();
             //Snackbar.make(view, "Risposta sbagliata!", Snackbar.LENGTH_SHORT).show();
             if (wrongAnswersCounter >= 3){
-                GameOverFragment gameOverDialog = new GameOverFragment();
+                GameOverDialog gameOverDialog = new GameOverDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString(REASON,WRONG_ANSWER);
                 bundle.putInt(SCORE,score);
@@ -183,7 +172,7 @@ public class GameHandler {
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
 
             }else if(counter >= questionList.size()) {
-                GameOverFragment gameOverDialog = new GameOverFragment();
+                GameOverDialog gameOverDialog = new GameOverDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString(REASON,WRONG_ANSWER);
                 bundle.putInt(SCORE,score);
@@ -192,7 +181,7 @@ public class GameHandler {
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
             } else{
-                GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(fragment, WRONG_ANSWER, correctAnswer);
+                GameNextQuestionDialog nextQstDialog = new GameNextQuestionDialog(fragment, WRONG_ANSWER, correctAnswer);
                 nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
             }
 
@@ -227,7 +216,7 @@ public class GameHandler {
         fragment.handleWrongAnswer(); // Per togliere cuore rosso
         String correctAnswer = Jsoup.parse(currentQuestion.getCorrectAnswer()).text();
         if (wrongAnswersCounter >= 3) {
-            GameOverFragment gameOverDialog = new GameOverFragment();
+            GameOverDialog gameOverDialog = new GameOverDialog();
             Bundle bundle = new Bundle();
             bundle.putString(REASON,TIME_EXPIRED);
             bundle.putInt(SCORE,score);
@@ -236,7 +225,7 @@ public class GameHandler {
             gameOverDialog.setArguments(bundle);
             gameOverDialog.show(fragment.getParentFragmentManager(), "GameOverFragment");
         } else {
-            GameNextQuestionFragment nextQstDialog = new GameNextQuestionFragment(
+            GameNextQuestionDialog nextQstDialog = new GameNextQuestionDialog(
                     fragment, context.getString(R.string.time_expired), correctAnswer);
             nextQstDialog.show(fragment.getParentFragmentManager(), "GameNextQuestionFragment");
         }

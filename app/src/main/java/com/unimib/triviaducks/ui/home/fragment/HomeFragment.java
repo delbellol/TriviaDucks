@@ -2,34 +2,25 @@ package com.unimib.triviaducks.ui.home.fragment;
 
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 
-import android.content.Intent;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
 import com.unimib.triviaducks.util.NetworkUtil;
-import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -113,7 +104,7 @@ public class HomeFragment extends Fragment {
                 NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_connectionErrorActivity);
             }
             else{
-                GameModeFragment gameModeDialog = new GameModeFragment();
+                GameModeDialog gameModeDialog = new GameModeDialog();
                 Bundle args = new Bundle();
                 args.putInt(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
                 gameModeDialog.setArguments(args);

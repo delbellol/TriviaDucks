@@ -13,12 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Rank;
-import com.unimib.triviaducks.repository.question.QuestionRepository;
 
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -74,7 +71,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.rank_item, viewGroup, false);
+                .inflate(R.layout.item_rank, viewGroup, false);
 
         return new ViewHolder(view);
     }

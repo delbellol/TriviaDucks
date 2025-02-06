@@ -26,7 +26,7 @@ public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.difficulty_holder, parent, false);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.item_difficulty_holder, parent, false);
         return new ViewHolder(view);
     }
 
