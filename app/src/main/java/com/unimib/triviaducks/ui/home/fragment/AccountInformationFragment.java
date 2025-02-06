@@ -134,7 +134,12 @@ public class AccountInformationFragment extends Fragment {
         }
 
         editProfileButton.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(R.id.action_accountInformationFragment_to_pickUsernameFragment);
+            try {
+                Navigation.findNavController(view).navigate(R.id.action_accountInformationFragment_to_pickUsernameFragment);
+            }catch(Exception ex) {
+                if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+                else Log.e(TAG,"Errore strano");
+            }
         });
     }
 
@@ -202,11 +207,17 @@ public class AccountInformationFragment extends Fragment {
 
     // Metodo per ottenere l'ID della risorsa dal nome
     private int getResourceIdByName(String resourceName) {
-        return requireContext().getResources().getIdentifier(
-                resourceName,
-                "drawable", // Ricerca nelle risorse di tipo drawable
-                requireContext().getPackageName() // Nome del pacchetto
-        );
+        try {
+            return requireContext().getResources().getIdentifier(
+                    resourceName,
+                    "drawable", // Ricerca nelle risorse di tipo drawable
+                    requireContext().getPackageName() // Nome del pacchetto
+            );
+        }catch(Exception ex) {
+            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            else Log.e(TAG,"Errore strano");
+        }
+        return R.drawable.p1;
     }
 
     private int getCategoryIconFromCode(int code) {

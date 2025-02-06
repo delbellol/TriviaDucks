@@ -134,7 +134,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         } else {
             if (leaderboardSet == null)
                 Log.d(TAG, "ERRORE: leaderboardSet == null");
-            if (leaderboardSet.isEmpty())
+            else if (leaderboardSet.isEmpty())
                 Log.d(TAG, "ERRORE: leaderboardSet.isEmpty()");
             return null;
         }
