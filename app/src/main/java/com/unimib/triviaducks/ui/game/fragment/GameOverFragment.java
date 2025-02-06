@@ -2,6 +2,7 @@ package com.unimib.triviaducks.ui.game.fragment;
 
 import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
 import static com.unimib.triviaducks.util.Constants.END;
+import static com.unimib.triviaducks.util.Constants.QUIZ_FINISHED;
 import static com.unimib.triviaducks.util.Constants.REASON;
 import static com.unimib.triviaducks.util.Constants.SCORE;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
@@ -126,9 +127,13 @@ public class GameOverFragment extends DialogFragment {
         TextView dialogQuestion = view.findViewById(R.id.dialog_question);
         ImageView image = view.findViewById(R.id.image);
         if (end) {
-            if (reason != WRONG_ANSWER) {
+            if (reason == QUIZ_FINISHED) {
                 dialogQuestion.setVisibility(View.GONE);
                 correctAnswerView.setVisibility(View.GONE);
+            }
+            else {
+                correctAnswerView.setVisibility(View.VISIBLE);
+                correctAnswerView.setText(correctAnswer);
             }
             image.setImageResource(R.drawable.you_won);
         }
