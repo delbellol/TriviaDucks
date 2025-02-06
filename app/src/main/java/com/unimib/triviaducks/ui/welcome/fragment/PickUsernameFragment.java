@@ -137,7 +137,7 @@ public class PickUsernameFragment extends Fragment {
 
         userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
 
-        Log.d(TAG, image);
+        //Log.d(TAG, image);
         if (resourceName != null) {
             Log.d(TAG, "resourceName != null");
             userViewModel.saveUserImage(resourceName, userViewModel.getLoggedUser().getIdToken());

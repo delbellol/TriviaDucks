@@ -1,77 +1,114 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    style="@style/Widget.Material3.CardView.Outlined"
+    android:background="@color/md_theme_secondaryContainer">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose or Upload a new image:"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginBottom="15dp" />
+        android:text="@string/choose_a_new_image"
+        android:layout_marginBottom="15dp"
+        style="@style/MaterialAlertDialog.Material3.Title.Text"
+        android:layout_gravity="center"/>
 
     <GridLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="3"
         android:alignmentMode="alignMargins"
         android:useDefaultMargins="true"
-        android:gravity="center">
+        android:layout_gravity="center">
 
-        <ImageButton
-            android:id="@+id/defaultProfilePicture"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/p1"
-            android:background="@color/design_default_color_on_secondary"
-            android:contentDescription="@string/profile" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+            <ImageButton
+                android:id="@+id/defaultProfilePicture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/p1"
+                android:background="@color/md_theme_surface"
+                android:contentDescription="@string/profile" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <ImageButton
-            android:id="@+id/defaultProfilePicture2"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/p2"
-            android:background="@color/design_default_color_on_secondary"
-            android:contentDescription="@string/profile" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+            <ImageButton
+                android:id="@+id/defaultProfilePicture2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/p2"
+                android:background="@color/md_theme_surface"
+                android:contentDescription="@string/profile" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <ImageButton
-            android:id="@+id/defaultProfilePicture3"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/p3"
-            android:background="@color/design_default_color_on_secondary"
-            android:contentDescription="@string/profile" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+            <ImageButton
+                android:id="@+id/defaultProfilePicture3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/p3"
+                android:background="@color/md_theme_surface"
+                android:contentDescription="@string/profile" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <ImageButton
-            android:id="@+id/defaultProfilePicture4"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:background="@color/design_default_color_on_secondary"
-            android:contentDescription="@string/profile"
-            android:scaleType="fitCenter"
-            android:src="@drawable/p4" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+            <ImageButton
+                android:id="@+id/defaultProfilePicture4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:background="@color/md_theme_surface"
+                android:contentDescription="@string/profile"
+                android:scaleType="fitCenter"
+                android:src="@drawable/p4" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <ImageButton
-            android:id="@+id/defaultProfilePicture5"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/p5"
-            android:background="@color/design_default_color_on_secondary"
-            android:contentDescription="@string/profile" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+            <ImageButton
+                android:id="@+id/defaultProfilePicture5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/p5"
+                android:background="@color/md_theme_surface"
+                android:contentDescription="@string/profile" />
+        </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
         <ImageButton
             android:id="@+id/defaultProfilePicture6"
             android:layout_width="100dp"
@@ -79,8 +116,8 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/p6"
-            android:background="@color/design_default_color_on_secondary"
+            android:background="@color/md_theme_surface"
             android:contentDescription="@string/profile" />
-
+    </com.google.android.material.card.MaterialCardView>
     </GridLayout>
 </LinearLayout>

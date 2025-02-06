@@ -5,48 +5,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_theme_tertiaryContainer"
-    tools:context=".ui.game.fragment.GameFragment">
+    tools:context=".ui.game.fragment.GameFragment"
+    android:background="@color/md_theme_surface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/gameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:background="@color/md_theme_surface">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/marginTop"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/questionLayout"
-            app:layout_constraintHeight_percent="0.15"
-            app:layout_constraintWidth_percent="1" >
+            app:layout_constraintBottom_toTopOf="@+id/countdown"
+            app:layout_constraintHeight_percent="0.10"
+            app:layout_constraintWidth_percent="0.9" >
             <ImageButton
                 android:id="@+id/close_game"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:contentDescription="@string/close_description"
                 android:src="@drawable/baseline_arrow_back_ios_new_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:gravity="center_vertical"/>
-
-            <TextView
-                android:id="@+id/countdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/default_countdown"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                android:backgroundTint="@color/md_theme_onSecondaryContainer"
+                app:tint="@color/md_theme_secondaryContainer" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_heart1"
                 android:layout_width="50dp"
@@ -54,10 +49,10 @@
                 app:lottie_rawRes="@raw/heart"
                 app:lottie_loop="false"
                 app:lottie_autoPlay="true"
+                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="80dp"/>
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_heart2"
@@ -69,14 +64,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="55dp"
+                android:layout_gravity="center"
                 app:layout_constraintStart_toEndOf="@id/lottie_heart1"/>
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_heart3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.48"
@@ -84,8 +78,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="false"
+                android:layout_gravity="center"
                 app:lottie_rawRes="@raw/heart" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/countdown"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:text="@string/default_countdown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marginTop"
+            app:layout_constraintBottom_toTopOf="@+id/questionLayout"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textColor="@color/md_theme_onSurface"
+            app:layout_constraintHeight_percent="0.08"
+            app:layout_constraintWidth_percent="0.9"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/questionLayout"
@@ -93,11 +104,12 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/marginTop"
+            app:layout_constraintTop_toBottomOf="@+id/countdown"
             app:layout_constraintBottom_toTopOf="@+id/midMargin"
-            app:layout_constraintHeight_percent="0.35"
+            app:layout_constraintHeight_percent="0.30"
             app:layout_constraintWidth_percent="0.9"
-            app:cardCornerRadius="16dp">
+            app:cardCornerRadius="16dp"
+            android:backgroundTint="@color/md_theme_secondaryContainer">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -108,14 +120,16 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
 
                 <TextView
                     android:id="@+id/counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_counter"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/md_theme_onSecondaryContainer"/>
 
                 <Space
                     android:layout_width="0dp"
@@ -127,7 +141,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_difficulty_question"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/md_theme_onSecondaryContainer"/>
             </LinearLayout>
 
                 <TextView
@@ -135,7 +150,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/question_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/md_theme_onSecondaryContainer"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -148,80 +164,56 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/questionLayout"
             app:layout_constraintBottom_toTopOf="@id/gameButtonLayout"
-            app:layout_constraintHeight_percent="0.04" />
+            app:layout_constraintHeight_percent="0.07" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/gameButtonLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/midMargin"
-            app:layout_constraintBottom_toTopOf="@id/bottomMargin"
-            app:layout_constraintHeight_percent="0.35"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.45"
             app:layout_constraintWidth_percent="0.8">
 
             <Button
                 android:id="@+id/answer1"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHeight_percent="0.20"
-                app:layout_constraintBottom_toTopOf="@id/answer2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/answer1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:padding="10dp" />
 
             <Button
                 android:id="@+id/answer2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/answer1"
-                app:layout_constraintBottom_toTopOf="@id/answer3"
-                app:layout_constraintHeight_percent="0.20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/answer2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:padding="10dp" />
 
             <Button
                 android:id="@+id/answer3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/answer2"
-                app:layout_constraintBottom_toTopOf="@id/answer4"
-                app:layout_constraintHeight_percent="0.20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/answer3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:padding="10dp" />
 
             <Button
                 android:id="@+id/answer4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/answer3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_percent="0.20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/answer4"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
-            android:id="@+id/bottomMargin"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/md_theme_error"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gameButtonLayout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.10" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:padding="10dp"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

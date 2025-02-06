@@ -27,11 +27,12 @@
         <ImageButton
             android:id="@+id/profilePictureImageButton"
             style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:background="@color/md_theme_onPrimary"
             android:contentDescription="@string/close_description"
-            android:scaleType="centerCrop"
             android:src="@drawable/cover" />
     </com.google.android.material.card.MaterialCardView>
 

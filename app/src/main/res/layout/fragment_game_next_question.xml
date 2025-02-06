@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@android:color/holo_purple"
+    android:background="@color/md_theme_secondaryContainer"
     android:elevation="4dp"
     android:padding="16dp">
 
@@ -11,10 +11,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/correct_answer"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        style="@style/TextAppearance.Material3.TitleLarge"
+        android:layout_gravity="center"
+        android:layout_margin="30dp"/>
+
+
+
+    <TextView
+        android:id="@+id/dialog_question"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:text="@string/the_correct_answer_was"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/correct_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/correct_answer_will_be_shown_here"
+        android:layout_gravity="center"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/next"
@@ -22,26 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/next_question"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/dialog_question"
-        android:layout_marginTop="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="The correct answer was:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/correct_answer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Correct answer will be shown here."
         android:layout_gravity="center"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp" />
+        android:layout_margin="15dp"/>
 </LinearLayout>

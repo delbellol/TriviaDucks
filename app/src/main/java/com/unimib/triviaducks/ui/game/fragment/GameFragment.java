@@ -30,8 +30,10 @@ import androidx.lifecycle.Observer;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
+import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
 import com.unimib.triviaducks.util.NetworkUtil;
@@ -182,13 +184,12 @@ public class GameFragment extends Fragment {
     }
 
     public void nextBtnPressed() {
-        TextView bottomMargin = getView().findViewById(R.id.bottomMargin);
         if (!NetworkUtil.isInternetAvailable(getContext())) {
-            bottomMargin.setText(CONNECTION_ERROR_TEXT);
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                    CONNECTION_ERROR_TEXT,
+                    Snackbar.LENGTH_INDEFINITE).show();
         }
-        else {
-            bottomMargin.setText("");
-        }
+
         gameHandler.loadNextQuestion();
     }
 
