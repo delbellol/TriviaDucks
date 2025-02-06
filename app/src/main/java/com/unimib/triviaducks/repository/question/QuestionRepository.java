@@ -52,8 +52,6 @@ public class QuestionRepository implements QuestionResponseCallback {
      */
     @Override
     public void onSuccessFromRemote(QuestionAPIResponse questionAPIResponse, long lastUpdate) {
-        // Salva le domande recuperate nel data source locale.
-        //questionLocalDataSource.insertQuestions(questionAPIResponse.getQuestions());
 
     }
 

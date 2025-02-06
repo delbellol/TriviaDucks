@@ -47,9 +47,6 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
     @Override
     public void fetchQuestions(int category, int questionAmount, String difficulty) {
         // Crea una chiamata Retrofit per ottenere le domande.
-        Log.d(TAG,"Category: " + category);
-        Log.d(TAG,"Difficulty: " + difficulty);
-        Log.d(TAG,"Question amount: " + questionAmount);
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
                 questionAmount, // Quantità di domande.
                 TRIVIA_TYPE_VALUE,    // Tipo di domande.
@@ -73,7 +70,6 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
                     questionCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
                     resultMutableLiveData.postValue(new Result.QuestionSuccess(response.body()));
                 } else {
-                    // TODO: Cambiare tipo di errore specifico se necessario.
                     questionCallback.onFailureFromRemote(new Exception(UNEXPECTED_ERROR));
                 }
             }

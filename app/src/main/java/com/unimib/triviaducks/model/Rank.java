@@ -1,6 +1,5 @@
 package com.unimib.triviaducks.model;
 
-//TODO TEMPORANEO
 public class Rank {
     private String profileImage;
     private String name;

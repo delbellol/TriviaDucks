@@ -1,19 +1,16 @@
 package com.unimib.triviaducks.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class QuestionAPIResponse {
-    @JsonProperty("response_code")
+    @SerializedName("response_code")
     private int responseCode;
     private List<Question> results;
 
     public QuestionAPIResponse() {
-    }
-
-    public QuestionAPIResponse(List<Question> results) {
-        this.results = results;
     }
 
     public int getResponseCode() {

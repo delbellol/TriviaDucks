@@ -46,10 +46,10 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Log.d(TAG, "User already present in Firebase Realtime Database");
+                    Log.d(TAG, USER_ALREADY_IN_DB);
                     userResponseCallback.onSuccessFromRemoteDatabase(user);
                 } else {
-                    Log.d(TAG, "User not present in Firebase Realtime Database");
+                    Log.d(TAG, USER_NOT_IN_DB);
                     databaseReference.child(FIREBASE_USERS_COLLECTION).child(user.getIdToken()).setValue(user)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -101,7 +101,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                                     image);
                             userResponseCallback.onSuccessFromGettingUserPreferences();
                         } else {
-                            Log.e(TAG, "Image data from Firebase is null!");
+                            Log.e(TAG, FIREBASE_IMAGE_DATA_NULL);
                         }
                     }
                 });
@@ -148,10 +148,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                                     .map(Map.Entry::getKey)
                                     .collect(Collectors.toSet());
 
-//                            for (String category : topCategories) {
-//                                Log.d(TAG, "Categoria più giocata: " + category);
-//                            }
-
                             sharedPreferencesUtil.writeStringSetData(
                                     SHARED_PREFERENCES_FILENAME,
                                     SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY,
@@ -161,11 +157,11 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                             userResponseCallback.onSuccessFromGettingUserPreferences();
                         }
                         else {
-                            Log.d(TAG, "No data found for categories!");
+                            Log.e(TAG, NO_DATA_CATEGORY_FOUND);
                         }
                     }
                     else {
-                        Log.d(TAG, "Exception: "+task.getException());
+                        Log.e(TAG, GENERIC_ERROR+task.getException());
                     }
                 });
     }
@@ -173,10 +169,11 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     @Override
     public void saveUserUsername(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                //TODO Change void with result
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
+                        Log.d(TAG,SUCCESS);
                     }
                 });
     }
@@ -184,6 +181,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     @Override
     public void saveUserImage(String imageName, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
+                //TODO Change void with result
                 child(SHARED_PREFERENCES_PROFILE_PICTURE).setValue(imageName).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -196,6 +194,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .child(idToken)
                 .child(SHARED_PREFERENCES_BEST_SCORE)
+                //TODO Change void with result
                 .setValue(score).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -207,6 +206,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void updateCategoryCounter(String category, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken)
                 .child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)
+                //TODO Change void with result
                 .child(category).setValue(ServerValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -222,7 +222,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
             getUserBestScore(idToken);
             getCategoriesPodium(idToken);
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,"Error: "+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
             else ex.printStackTrace();
         }
     }
@@ -259,7 +259,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
                         userResponseCallback.onSuccessFromGettingUserPreferences();
                     } else {
-                        Log.d(TAG, "Exception: " + task.getException());
+                        Log.d(TAG, GENERIC_ERROR + task.getException());
                     }
                 });
     }

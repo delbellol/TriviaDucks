@@ -42,7 +42,6 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
                     firebaseAuth.removeAuthStateListener(this);
-                    Log.d(TAG, "User logged out");
                     userResponseCallback.onSuccessLogout();
                 }
             }
@@ -92,7 +91,6 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
             firebaseAuth.signInWithCredential(firebaseCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success");
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                     if (firebaseUser != null) {
                         userResponseCallback.onSuccessFromAuthentication(

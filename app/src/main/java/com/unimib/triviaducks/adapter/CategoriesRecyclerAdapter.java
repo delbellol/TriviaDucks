@@ -17,6 +17,7 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
 
     private final List<Integer> lottieFiles;
     private final List<String> itemCategoryDescription; // Lista per i testi
+
     public CategoriesRecyclerAdapter(List<Integer> lottieFiles, List<String> categoryDescriptions) {
         this.lottieFiles = lottieFiles;
         this.itemCategoryDescription = categoryDescriptions;

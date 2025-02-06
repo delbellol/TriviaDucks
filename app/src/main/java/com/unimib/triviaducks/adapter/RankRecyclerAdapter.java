@@ -1,5 +1,13 @@
 package com.unimib.triviaducks.adapter;
 
+import static com.unimib.triviaducks.util.Constants.DRAWABLE;
+import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
+import static com.unimib.triviaducks.util.Constants.ITEM_IS_NULL;
+import static com.unimib.triviaducks.util.Constants.LEADERBOARD_SET_IS_EMPTY;
+import static com.unimib.triviaducks.util.Constants.LEADERBOARD_SET_IS_NULL;
+import static com.unimib.triviaducks.util.Constants.NULL;
+import static com.unimib.triviaducks.util.Constants.SPLIT_CHARACTER;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,11 +71,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         }
     }
 
-    // Costruttore che accetta un Set<String>
-    public RankRecyclerAdapter(Set<String> leaderboardSet) {
-        this.rankList = convertAndSortLeaderboard(leaderboardSet);
-    }
-
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
@@ -85,7 +89,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         viewHolder.getProfileImage().setImageResource(
                 context.getResources().getIdentifier(
                         currentRankItem.getProfileImage(),
-                        "drawable",
+                        DRAWABLE,
                         context.getPackageName()
                 )
         );
@@ -106,33 +110,38 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
     // Metodo per convertire e ordinare il Set<String>
     private List<Rank> convertAndSortLeaderboard(Set<String> leaderboardSet) {
         if (leaderboardSet != null && !leaderboardSet.isEmpty()) {
-            Log.d(TAG, "ok");
-            return leaderboardSet.stream()
-                    .map(item -> {
-                        // Divide la stringa "bestScore;username;image"
-                        if (item != null) {
-                            Log.d(TAG, item);
-                            String[] parts = item.split(";");
-                            int bestScore = 0;
-                            if (!Objects.equals(parts[0], "null"))
-                                bestScore = Integer.parseInt(parts[0]);
-                            String username = parts[1];
-                            String image = parts[2];
+            try {
+                return leaderboardSet.stream()
+                        .map(item -> {
+                            // Divide la stringa "bestScore;username;image"
+                            if (item != null) {
+                                Log.d(TAG, item);
+                                String[] parts = item.split(SPLIT_CHARACTER);
+                                int bestScore = 0;
+                                if (!Objects.equals(parts[0], NULL))
+                                    bestScore = Integer.parseInt(parts[0]);
+                                String username = parts[1];
+                                String image = parts[2];
 
-                            // Crea un oggetto Rank
-                            return new Rank(image, username, bestScore);
-                        } else {
-                            Log.d(TAG, "ERRORE: item == null");
-                            return null;
-                        }
-                    })
-                    .sorted((rank1, rank2) -> Integer.compare(rank2.getScore(), rank1.getScore())) // Ordina per bestScore decrescente
-                    .collect(Collectors.toList());
+                                // Crea un oggetto Rank
+                                return new Rank(image, username, bestScore);
+                            } else {
+                                Log.e(TAG, ITEM_IS_NULL);
+                                return null;
+                            }
+                        })
+                        .sorted((rank1, rank2) -> Integer.compare(rank2.getScore(), rank1.getScore())) // Ordina per bestScore decrescente
+                        .collect(Collectors.toList());
+            }catch (Exception ex) {
+                if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR + ex.getMessage());
+                else ex.printStackTrace();
+                return null;
+            }
         } else {
             if (leaderboardSet == null)
-                Log.d(TAG, "ERRORE: leaderboardSet == null");
+                Log.e(TAG, LEADERBOARD_SET_IS_NULL);
             else if (leaderboardSet.isEmpty())
-                Log.d(TAG, "ERRORE: leaderboardSet.isEmpty()");
+                Log.e(TAG, LEADERBOARD_SET_IS_EMPTY);
             return null;
         }
 
