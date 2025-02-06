@@ -123,9 +123,12 @@ public class PickUsernameFragment extends Fragment {
             Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (username.length() > 15) {
             Toast.makeText(getContext(), "Please enter a shorter username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (username.contains(Constants.SPLIT_CHARACTER)) {
+            Toast.makeText(getContext(),  Constants.SPLIT_CHARACTER + " is not an allowed character in username", Toast.LENGTH_LONG).show();
             return;
         }
 
