@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.util;
 
+import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
+import static com.unimib.triviaducks.util.Constants.MUSIC_ON;
+
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -25,28 +28,17 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //Log.d(TAG, String.valueOf(intent.getAction()));
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
-                case "ON":
+                case MUSIC_ON:
                     if (!music.isPlaying()) {
                         music.start();
                     }
                     break;
-                case "OFF":
+                case MUSIC_OFF:
                     if (music.isPlaying()) {
                         music.pause();
                     }
-                    break;
-                case "VOLUME":
-                    // Ottieni il valore del volume dal SeekBar
-                    int volume = intent.getIntExtra("Volume", sharedPreferencesUtils.readIntData(
-                            Constants.SHARED_PREFERENCES_FILENAME,
-                            Constants.SHARED_PREFERENCES_VOLUME)); // Default volume: 50
-                    // Calcola il volume da 0 a 1
-                    float volumeLevel = volume / 100f;
-                    // Imposta il volume del MediaPlayer (entrambi i canali: sinistro e destro)
-                    music.setVolume(volumeLevel, volumeLevel);
                     break;
             }
         }

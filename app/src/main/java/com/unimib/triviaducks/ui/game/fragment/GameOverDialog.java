@@ -1,10 +1,12 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
 import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
+import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER_NULL_OR_EMPTY;
 import static com.unimib.triviaducks.util.Constants.END;
 import static com.unimib.triviaducks.util.Constants.QUIZ_FINISHED;
 import static com.unimib.triviaducks.util.Constants.REASON;
 import static com.unimib.triviaducks.util.Constants.SCORE;
+import static com.unimib.triviaducks.util.Constants.TEXT_SCORE;
 import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
 
 import android.app.AlertDialog;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -46,9 +49,7 @@ public class GameOverDialog extends DialogFragment {
     boolean end=false;
     String correctAnswer;
 
-    public GameOverDialog() {
-
-    }
+    public GameOverDialog() {}
 
     public static GameOverDialog newInstance() {
         return new GameOverDialog();
@@ -59,14 +60,13 @@ public class GameOverDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
-
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
-
         userViewModel.setAuthenticationError(false);
-        //NON ELIMINARE: Serve a impedire che la gente schiacci indietro
+
         setCancelable(false);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -103,7 +103,7 @@ public class GameOverDialog extends DialogFragment {
         dialog_title.setText(reason);
 
         scoreView = view.findViewById(R.id.score);
-        scoreView.setText("Score: "+score);
+        scoreView.setText(TEXT_SCORE+score);
 
         home = view.findViewById(R.id.home);
 
@@ -118,13 +118,13 @@ public class GameOverDialog extends DialogFragment {
         dialog_title.setText(reason);
 
         scoreView = view.findViewById(R.id.score);
-        scoreView.setText("Score: "+score);
+        scoreView.setText(TEXT_SCORE+score);
 
         TextView correctAnswerView = view.findViewById(R.id.correct_answer);
         TextView dialogQuestion = view.findViewById(R.id.dialog_question);
         ImageView image = view.findViewById(R.id.image);
         if (end) {
-            if (reason == QUIZ_FINISHED) {
+            if (reason.equals(QUIZ_FINISHED)) {
                 dialogQuestion.setVisibility(View.GONE);
                 correctAnswerView.setVisibility(View.GONE);
             }
@@ -140,7 +140,7 @@ public class GameOverDialog extends DialogFragment {
             correctAnswerView.setVisibility(View.VISIBLE); // Rendi visibile la TextView
         }
         else {
-            Log.d(TAG,"CorrectAnswer is null or empty");
+            Log.w(TAG,CORRECT_ANSWER_NULL_OR_EMPTY);
         }
 
         return builder.create();

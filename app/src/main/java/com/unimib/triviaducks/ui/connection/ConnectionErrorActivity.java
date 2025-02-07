@@ -1,5 +1,8 @@
 package com.unimib.triviaducks.ui.connection;
 
+import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
+import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,8 +68,8 @@ public class ConnectionErrorActivity extends AppCompatActivity {
                         .commit();
             }
         }catch (Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
-            else ex.printStackTrace();;
+            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            else ex.printStackTrace();
         }
     }
 
@@ -98,7 +101,7 @@ public class ConnectionErrorActivity extends AppCompatActivity {
 
     private void stopMusic() {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction("OFF");
+        intent.setAction(MUSIC_OFF);
         startService(intent); // Ferma la musica
     }
 

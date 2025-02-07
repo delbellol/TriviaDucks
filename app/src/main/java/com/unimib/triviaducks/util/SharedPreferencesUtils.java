@@ -14,12 +14,6 @@ public class SharedPreferencesUtils {
         this.context = context;
     }
 
-    /**
-     * Scrive una stringa nelle SharedPreferences.
-     * @param sharedPreferencesFileName Il nome del file delle SharedPreferences.
-     * @param key La chiave per identificare il valore da salvare.
-     * @param value Il valore da salvare.
-     */
     public void writeStringData(String sharedPreferencesFileName, String key, String value) {
         // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
         SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName,
@@ -44,13 +38,6 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-
-    /**
-     * Scrive un insieme di stringhe nelle SharedPreferences.
-     * @param sharedPreferencesFileName Il nome del file delle SharedPreferences.
-     * @param key La chiave per identificare il set di valori da salvare.
-     * @param value Il set di stringhe da salvare.
-     */
     public void writeStringSetData(String sharedPreferencesFileName, String key, Set<String> value) {
         // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
         SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE);
@@ -75,12 +62,6 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    /**
-     * Legge una stringa dalle SharedPreferences.
-     * @param sharedPreferencesFileName Il nome del file delle SharedPreferences.
-     * @param key La chiave per identificare il valore da leggere.
-     * @return La stringa salvata, o null se non presente.
-     */
     public String readStringData(String sharedPreferencesFileName, String key) {
         // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
         SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE);
@@ -88,13 +69,6 @@ public class SharedPreferencesUtils {
         return sharedPref.getString(key, null);
     }
 
-
-    /**
-     * Legge un insieme di stringhe dalle SharedPreferences.
-     * @param sharedPreferencesFileName Il nome del file delle SharedPreferences.
-     * @param key La chiave per identificare il set di valori da leggere.
-     * @return Il set di stringhe salvato, o null se non presente.
-     */
     public Set<String> readStringSetData(String sharedPreferencesFileName, String key) {
         // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
         SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE);

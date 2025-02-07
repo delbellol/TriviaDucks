@@ -36,23 +36,15 @@ import java.util.Set;
 
 public class LeaderboardFragment extends Fragment {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
-
     private SharedPreferencesUtils sharedPreferencesUtils;
-
     private UserViewModel userViewModel;
-
     private RecyclerView recyclerView;
     private RankRecyclerAdapter adapter;
-    private List<Rank> rankList;
     Set<String> leaderboardSet;
 
-    public LeaderboardFragment() {
-    }
+    public LeaderboardFragment() {}
 
-    public static LeaderboardFragment newInstance() {
-        LeaderboardFragment fragment = new LeaderboardFragment();
-        return fragment;
-    }
+    public static LeaderboardFragment newInstance() { return new LeaderboardFragment(); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,12 +53,10 @@ public class LeaderboardFragment extends Fragment {
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             NavHostFragment.findNavController(this).navigate(R.id.action_leaderboardFragment_to_connectionErrorActivity);
         }
+
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
-
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
-
         userViewModel.setAuthenticationError(false);
-
         userViewModel.getLeaderboard();
     }
 
@@ -74,7 +64,6 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
-
         return view;
     }
 
@@ -82,11 +71,8 @@ public class LeaderboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.rankList);
-
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
-
-
+        recyclerView = view.findViewById(R.id.rankList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userViewModel.getLeaderboard().observe(getViewLifecycleOwner(), item -> {

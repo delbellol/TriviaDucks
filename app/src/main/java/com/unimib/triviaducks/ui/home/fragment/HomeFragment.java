@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
+import static com.unimib.triviaducks.util.Constants.LIST_CATEGORY;
+import static com.unimib.triviaducks.util.Constants.LIST_LOTTIE_ANIMATIONS;
 import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
 
 import android.os.Bundle;
@@ -30,8 +32,7 @@ public class HomeFragment extends Fragment {
 
     private int selectedCategory;
 
-    public HomeFragment() {
-    }
+    public HomeFragment() {}
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -52,49 +53,20 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inizializza il TextView
-        // TextView descriptionTextView = view.findViewById(R.id.categoryDescription);
-
-        // Imposta una descrizione iniziale
-        //descriptionTextView.setText("Descrizione iniziale della categoria");
-
-        List<Integer> lottieAnimations = Arrays.asList(
-                R.raw.category_all,
-                R.raw.category_science,
-                R.raw.category_geography,
-                R.raw.category_history,
-                R.raw.category_sport
-        );
-
-        List<String> categoryDescriptions = Arrays.asList(
-                "All category",
-                "Science",
-                "Geography",
-                "History",
-                "Sport"
-        );
-
         ViewPager2 viewPager = view.findViewById(R.id.categoryViewPager);
         TabLayout tabLayout = view.findViewById(R.id.categoryTabLayout);
-        //TextView categoryDescription = view.findViewById(R.id.categoryDescription);
 
-        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(lottieAnimations, categoryDescriptions);
+        CategoriesRecyclerAdapter adapter = new CategoriesRecyclerAdapter(LIST_LOTTIE_ANIMATIONS, LIST_CATEGORY);
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
         }).attach();
-
-        // Imposta il testo iniziale
-        //categoryDescription.setSelected(true); // Necessario per il marquee (scorrimento del testo)
-        //categoryDescription.setText(categoryDescriptions.get(0));
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 selectedCategory = getCategoryFromPosition(position);
-                // Aggiorna il testo in base alla categoria selezionata
-                //categoryDescription.setText(categoryDescriptions.get(position));
             }
         });
 
@@ -108,15 +80,13 @@ public class HomeFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putInt(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
                 gameModeDialog.setArguments(args);
-                gameModeDialog.show(getParentFragmentManager(), "gameModeDialog");
+                gameModeDialog.show(getParentFragmentManager(), GameModeDialog.class.getSimpleName());
             }
         });
     }
 
     private int getCategoryFromPosition(int position) {
         switch (position) {
-            default:
-                return Constants.ANY_CATEGORIES_CODE;
             case 1:
                 return Constants.SCIENCE_NATURE_CODE;
             case 2:
@@ -125,6 +95,8 @@ public class HomeFragment extends Fragment {
                 return Constants.HISTORY_CODE;
             case 4:
                 return Constants.SPORTS_CODE;
+            default:
+                return Constants.ANY_CATEGORIES_CODE;
         }
     }
 }

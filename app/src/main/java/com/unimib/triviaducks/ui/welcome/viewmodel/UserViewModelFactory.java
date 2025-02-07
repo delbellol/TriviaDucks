@@ -6,10 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.unimib.triviaducks.repository.user.IUserRepository;
 
-/**
- * Custom ViewModelProvider to be able to have a custom constructor
- * for the UserViewModel class.
- */
 public class UserViewModelFactory implements ViewModelProvider.Factory {
     private final IUserRepository userRepository;
     public UserViewModelFactory(IUserRepository userRepository) {

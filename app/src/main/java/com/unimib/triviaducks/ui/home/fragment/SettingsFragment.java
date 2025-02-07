@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
+import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
+import static com.unimib.triviaducks.util.Constants.MUSIC_ON;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_VOLUME;
 
 import android.content.Intent;
@@ -46,31 +48,23 @@ public class SettingsFragment extends Fragment {
 
     private Button logoutButton;
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
+    public SettingsFragment() {}
 
-    public static SettingsFragment newInstance() {
-        SettingsFragment fragment = new SettingsFragment();
-        return fragment;
-    }
+    public static SettingsFragment newInstance() { return new SettingsFragment(); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
-
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
-
-        userViewModel.setAuthenticationError(false);// Inizializzazione base del fragment
+        userViewModel.setAuthenticationError(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
@@ -95,24 +89,16 @@ public class SettingsFragment extends Fragment {
         // Imposta lo stato iniziale dello switch music
         musicSwitch.setChecked(!isMusicOFF);
 
-        // Imposta il volume iniziale
-//        SharedPreferences preferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-
-        // Imposta lo stato iniziale dello switch del tema
-//        sharedPreferencesUtils.writeBooleanData(
-//                Constants.SHARED_PREFERENCES_FILENAME,
-//                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE,
-//                isNightMode);
         themeSwitch.setChecked(isNightMode);
 
-        // Gestione del cambio stato dello switch muisc
+        // Gestione del cambio stato dello switch music
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Intent intent = new Intent(requireContext(), MusicService.class);
             if (isChecked) {
-                intent.setAction("ON");
+                intent.setAction(MUSIC_ON);
                 isMusicOFF = false;
             } else {
-                intent.setAction("OFF");
+                intent.setAction(MUSIC_OFF);
                 isMusicOFF = true;
             }
             requireContext().startService(intent);
@@ -122,9 +108,6 @@ public class SettingsFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_MUSIC_OFF,
                     isMusicOFF);
-            Log.d(TAG, String.valueOf(sharedPreferencesUtils.readBooleanData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_IS_MUSIC_OFF)));
         });
 
         // Gestione del cambio di tema tramite Switch

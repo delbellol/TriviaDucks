@@ -16,34 +16,30 @@ import android.widget.Button;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.home.HomeActivity;
-import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
+import com.unimib.triviaducks.util.GameHandler;
 
 
 public class GameQuitDialog extends DialogFragment {
 
-    Button close;
-    Button cancel;
+    private Button close;
+    private Button cancel;
 
-    GameHandler gameHandler;
+    private GameHandler gameHandler;
 
-    public GameQuitDialog() {
-        // Required empty public constructor
-    }
+    public GameQuitDialog() {}
 
     public GameQuitDialog(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
     }
 
     public static GameQuitDialog newInstance() {
-        GameQuitDialog fragment = new GameQuitDialog();
-        return fragment;
+        return new GameQuitDialog();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //NON ELIMINARE: Serve a impedire che la gente schiacci indietro
         setCancelable(false);
     }
 
@@ -59,7 +55,6 @@ public class GameQuitDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         close = view.findViewById(R.id.close);
-
         close.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
             Intent intent = new Intent(getActivity(), HomeActivity.class);
@@ -70,12 +65,6 @@ public class GameQuitDialog extends DialogFragment {
         );
 
         cancel = view.findViewById(R.id.cancel);
-
-        cancel.setOnClickListener(v ->
-                this.dismiss()
-        );
-
-
-
+        cancel.setOnClickListener(v -> this.dismiss());
     }
 }

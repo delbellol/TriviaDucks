@@ -18,7 +18,7 @@ import java.util.List;
 
 // ViewModel che gestisce la logica delle domande e comunica con il repository
 public class QuestionViewModel extends ViewModel {
-    private static final String TAG = QuestionViewModel.class.getSimpleName(); // Definisce il tag per il log
+    private static final String TAG = QuestionViewModel.class.getSimpleName();
 
     private final QuestionRepository questionRepository; // Repository per accedere ai dati delle domande
     private MutableLiveData<Result> questionListLiveData; // LiveData per osservare i dati delle domande

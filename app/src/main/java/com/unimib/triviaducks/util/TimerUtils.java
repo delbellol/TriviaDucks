@@ -17,9 +17,8 @@ public class TimerUtils {
     private int score;
 
 
-    public TimerUtils() {
-        //required empty public constructor
-    }
+    public TimerUtils() {}
+
     public TimerUtils(GameFragment fragment, Context context, MutableLiveData<Long> mutableSecondsRemaining) {
         this.fragment = fragment;
         this.context = context;
@@ -42,7 +41,6 @@ public class TimerUtils {
             @Override
             public void onFinish() {
                 endTimer();
-                //showGameOver();
                 notifyTimerExpired();
             }
         }.start();

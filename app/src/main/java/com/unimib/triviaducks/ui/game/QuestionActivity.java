@@ -1,6 +1,10 @@
 package com.unimib.triviaducks.ui.game;
 
 
+import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
+import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
+import static com.unimib.triviaducks.util.Constants.MUSIC_ON;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,9 +57,9 @@ public class QuestionActivity extends AppCompatActivity {
             stopService(intent);
 
             if (isMusicOFF) {
-                intent.setAction("OFF");
+                intent.setAction(MUSIC_OFF);
             } else {
-                intent.setAction("ON");
+                intent.setAction(MUSIC_ON);
             }
             startService(intent);
             if (isNightMode) {
@@ -64,7 +68,7 @@ public class QuestionActivity extends AppCompatActivity {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         }catch (Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
             else ex.printStackTrace();
         }
 
@@ -99,7 +103,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void stopMusic() {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction("OFF");
+        intent.setAction(MUSIC_OFF);
         startService(intent); // Ferma la musica
     }
 
@@ -113,10 +117,10 @@ public class QuestionActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);
 
         if (isMusicOFF){
-            intent.setAction("OFF");
+            intent.setAction(MUSIC_OFF);
         }
         else {
-            intent.setAction("ON");
+            intent.setAction(MUSIC_ON);
         }
 
         startService(intent);

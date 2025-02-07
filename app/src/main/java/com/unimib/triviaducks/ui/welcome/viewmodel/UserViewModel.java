@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.welcome.viewmodel;
 
+import static com.unimib.triviaducks.util.Constants.ERROR_ID_TOKEN_NULL;
+
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -15,9 +17,7 @@ public class UserViewModel extends ViewModel {
     private final IUserRepository userRepository;
     private MutableLiveData<Result> userMutableLiveData;
     private MutableLiveData<Result> userPreferencesMutableLiveData;
-    private MutableLiveData<Result> userImagesMutableLiveData;
-    private MutableLiveData<Result> userPodiumMutableLiveData;
-    private MutableLiveData<Result> userBestScoreMutableLiveData;
+    private MutableLiveData<Result> usernameMutableLiveData;
     private MutableLiveData<Result> leaderboardMutableLiveData;
     private boolean authenticationError;
 
@@ -67,32 +67,9 @@ public class UserViewModel extends ViewModel {
 
     public MutableLiveData<Result> getUserUsername(String idToken) {
         if (idToken != null) {
-            userPreferencesMutableLiveData = userRepository.getUserUsername(idToken);
+            usernameMutableLiveData = userRepository.getUserUsername(idToken);
         }
-        return userPreferencesMutableLiveData;
-    }
-
-    public MutableLiveData<Result> getUserImages(String idToken) {
-        if (idToken != null) {
-            userImagesMutableLiveData = userRepository.getUserImages(idToken);
-        }
-        Log.d(TAG, userImagesMutableLiveData.toString());
-        return userImagesMutableLiveData;
-    }
-
-    public MutableLiveData<Result> getUserBestScore(String idToken) {
-        if (idToken != null) {
-            userBestScoreMutableLiveData = userRepository.getUserBestScore(idToken);
-        }
-        Log.d(TAG, userBestScoreMutableLiveData.toString());
-        return userBestScoreMutableLiveData;
-    }
-
-    public MutableLiveData<Result> getCategoriesPodium(String idToken) {
-        if (idToken != null) {
-            userPodiumMutableLiveData = userRepository.getCategoriesPodium(idToken);
-        }
-        return userPodiumMutableLiveData;
+        return usernameMutableLiveData;
     }
 
     public User getLoggedUser() {
@@ -136,7 +113,7 @@ public class UserViewModel extends ViewModel {
         if (idToken != null) {
             userPreferencesMutableLiveData = userRepository.fetchUserInformations(idToken);
         }
-        else Log.e(TAG,"Error: idToken is null");
+        else Log.e(TAG,ERROR_ID_TOKEN_NULL);
 
         return getUserInformations();
     }

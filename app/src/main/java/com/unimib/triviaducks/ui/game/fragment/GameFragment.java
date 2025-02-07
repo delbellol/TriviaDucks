@@ -1,6 +1,6 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-import static com.unimib.triviaducks.util.Constants.CONNECTION_ERROR_TEXT;
+import static com.unimib.triviaducks.util.Constants.CONNECTION_WARNING_TEXT;
 import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
 
@@ -30,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
-import com.unimib.triviaducks.ui.game.viewmodel.GameHandler;
+import com.unimib.triviaducks.util.GameHandler;
 import com.unimib.triviaducks.util.NetworkUtil;
 
 import org.jsoup.Jsoup;
@@ -55,13 +55,10 @@ public class GameFragment extends Fragment {
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
 
     private int category; //categoria delle domande da passare al GameHandler
-    String difficulty;
+    private String difficulty;
 
     private int errorsCount = 0;
-
     private int score;
-
-
     private int questionAmount;
 
     private static boolean canPlay = false; //Variabile per impedire che il gioco possa iniziare se è già finito
@@ -107,11 +104,10 @@ public class GameFragment extends Fragment {
 
             countdownTextView = view.findViewById(R.id.countdown);
 
-        lottieHeart1 = view.findViewById(R.id.lottie_heart1);
-        lottieHeart2 = view.findViewById(R.id.lottie_heart2);
-        lottieHeart3 = view.findViewById(R.id.lottie_heart3);
+            lottieHeart1 = view.findViewById(R.id.lottie_heart1);
+            lottieHeart2 = view.findViewById(R.id.lottie_heart2);
+            lottieHeart3 = view.findViewById(R.id.lottie_heart3);
 
-            //TODO probabilmente per i bottoni delle risposte connviene utilizzare una recycler view/adapter
             answerButton1 = view.findViewById(R.id.answer1);
             answerButton2 = view.findViewById(R.id.answer2);
             answerButton3 = view.findViewById(R.id.answer3);
@@ -173,7 +169,7 @@ public class GameFragment extends Fragment {
                     @Override
                     public void handleOnBackPressed() {
                         GameQuitDialog gameQuitDialog = new GameQuitDialog(gameHandler);
-                        gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+                        gameQuitDialog.show(getParentFragmentManager(), GameQuitDialog.class.getSimpleName());
                     }
                 });
     }
@@ -181,8 +177,8 @@ public class GameFragment extends Fragment {
     public void nextBtnPressed() {
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                    CONNECTION_ERROR_TEXT,
-                    Snackbar.LENGTH_INDEFINITE).show();
+                    CONNECTION_WARNING_TEXT,
+                    Snackbar.LENGTH_LONG).show();
         }
 
         gameHandler.loadNextQuestion();
@@ -205,6 +201,11 @@ public class GameFragment extends Fragment {
     public void hideLoadingScreen(){
         circularProgressIndicator.setVisibility(View.GONE);
         gameLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void showLoadingScreen() {
+        gameLayout.setVisibility(View.GONE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
     }
 
     public void setAnswerText(Question currentQuestion, List<String> allAnswers){
@@ -233,11 +234,6 @@ public class GameFragment extends Fragment {
 
     public void handleTimerExpired() {
         gameHandler.handleTimerExpired();
-    }
-
-    public void showLoadingScreen() {
-        gameLayout.setVisibility(View.GONE);
-        circularProgressIndicator.setVisibility(View.VISIBLE);
     }
 
     public int getScore() {

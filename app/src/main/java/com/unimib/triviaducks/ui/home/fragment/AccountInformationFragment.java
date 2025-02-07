@@ -43,7 +43,6 @@ import com.unimib.triviaducks.ui.welcome.fragment.PickUsernameFragment;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
-import com.unimib.triviaducks.util.Converter;
 import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
@@ -63,18 +62,13 @@ public class AccountInformationFragment extends Fragment {
     private TextView usernameTextView; // Visualizzazione nome utente
     private TextView bestScoreTextView;
     private UserViewModel userViewModel; // ViewModel per gestire i dati utente
-    private Converter converter; // Classe per conversioni
     private SharedPreferencesUtils sharedPreferencesUtils; // Utility per SharedPreferences
     private CircularProgressIndicator circularProgressIndicator;
-    private ConstraintLayout accountLayout;
     private LottieAnimationView first_place, second_place, third_place;
-    private Button logoutButton;
     private ConstraintLayout profileLayout;
 
-    public AccountInformationFragment() {
-    }
+    public AccountInformationFragment() {}
 
-    // Metodo statico per creare una nuova istanza del fragment
     public static AccountInformationFragment newInstance() {
         return new AccountInformationFragment();
     }
@@ -88,9 +82,7 @@ public class AccountInformationFragment extends Fragment {
         }
 
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
-
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
-
         userViewModel.setAuthenticationError(false);// Inizializzazione base del fragment
     }
 
@@ -125,26 +117,25 @@ public class AccountInformationFragment extends Fragment {
         second_place = view.findViewById(R.id.second_place);
         third_place = view.findViewById(R.id.third_place);
 
-        // Carico immagine profilo
+        // Carico i dati del profilo
         try {
             loadInformation();
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
-            else Log.e(TAG,"Errore strano");
+            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            else ex.printStackTrace();
         }
 
         editProfileButton.setOnClickListener(v -> {
             try {
                 Navigation.findNavController(view).navigate(R.id.action_accountInformationFragment_to_pickUsernameFragment);
             }catch(Exception ex) {
-                if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
-                else Log.e(TAG,"Errore strano");
+                if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+                else ex.printStackTrace();
             }
         });
     }
 
-
-    // Metodo per caricare l'immagine del profilo dalle SharedPreferences
+    // Metodo per caricare i dati del profilo dalle SharedPreferences
     private void loadInformation() {
         showLoadingScreen();
         try {
@@ -172,23 +163,23 @@ public class AccountInformationFragment extends Fragment {
                 } else {
                     View view = getView();
                     if (view != null) {
-                        Snackbar.make(view, "Error loading profile data.", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(view, WARNING_LOADING_PROFILE_DATA, Snackbar.LENGTH_SHORT).show();
                     }
                 }
             });
         }catch(Exception ex) {
-            ex.printStackTrace();
+            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            else ex.printStackTrace();
         }
 
         if (sharedPreferencesUtils.readStringSetData(
                 Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)==null);
-        else {
+                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)!=null) {
             Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
             if (matchPlayedSet == null || matchPlayedSet.isEmpty()) {
-                Log.e(TAG, "The set is empty");
+                Log.e(TAG, ERROR_SET_IS_EMPTY);
             } else {
                 List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
 
@@ -210,28 +201,28 @@ public class AccountInformationFragment extends Fragment {
         try {
             return requireContext().getResources().getIdentifier(
                     resourceName,
-                    "drawable", // Ricerca nelle risorse di tipo drawable
+                    DRAWABLE, // Ricerca nelle risorse di tipo drawable
                     requireContext().getPackageName() // Nome del pacchetto
             );
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,"Errore: "+ex.getMessage());
-            else Log.e(TAG,"Errore strano");
+            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            else ex.printStackTrace();
         }
         return R.drawable.p1;
     }
 
     private int getCategoryIconFromCode(int code) {
         switch (code) {
-            default:
-                return R.raw.category_all;
             case HISTORY_CODE:
-                return R.raw.category_science;
-            case SCIENCE_NATURE_CODE:
-                return R.raw.category_geography;
-            case GEOGRAPHY_CODE:
                 return R.raw.category_history;
+            case SCIENCE_NATURE_CODE:
+                return R.raw.category_science;
+            case GEOGRAPHY_CODE:
+                return R.raw.category_geography;
             case SPORTS_CODE:
                 return R.raw.category_sport;
+            default:
+                return R.raw.category_all;
         }
     }
 

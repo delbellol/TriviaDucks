@@ -6,6 +6,10 @@ import static com.unimib.triviaducks.util.Constants.INVALID_CREDENTIALS_ERROR;
 import static com.unimib.triviaducks.util.Constants.INVALID_USER_ERROR;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_FILENAME;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_USERNAME;
+import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
+import static com.unimib.triviaducks.util.Constants.WARNING_CHECK_EMAIL;
+import static com.unimib.triviaducks.util.Constants.WARNING_NOT_REGISTERED;
+import static com.unimib.triviaducks.util.Constants.WEAK_PASSWORD_ERROR;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,9 +47,11 @@ import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
+import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
+import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
@@ -61,14 +68,9 @@ public class LoginFragment extends Fragment {
     private ActivityResultContracts.StartIntentSenderForResult startIntentSenderForResult;
     private UserViewModel userViewModel;
 
-    public LoginFragment() {
-        // Required empty public constructor
-    }
+    public LoginFragment() {}
 
-    public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
-    }
+    public static LoginFragment newInstance() {return new LoginFragment();}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +103,6 @@ public class LoginFragment extends Fragment {
 
         activityResultLauncher = registerForActivityResult(startIntentSenderForResult, activityResult -> {
             if (activityResult.getResultCode() == Activity.RESULT_OK) {
-                Log.d(TAG, "result.getResultCode() == Activity.RESULT_OK");
                 try {
                     SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(activityResult.getData());
                     String idToken = credential.getGoogleIdToken();
@@ -110,21 +111,18 @@ public class LoginFragment extends Fragment {
                         userViewModel.getGoogleUserMutableLiveData(idToken).observe(getViewLifecycleOwner(), authenticationResult -> {
                             if (authenticationResult.isSuccess()) {
                                 User user = ((Result.UserSuccess) authenticationResult).getData();
-                                //saveLoginData(user.getEmail(), null, user.getIdToken());
-                                Log.i(TAG, "Logged as: " + user.getEmail());
                                 userViewModel.setAuthenticationError(false);
                                 retrieveUserInformationAndStartActivity(user, getView());
                             } else {
                                 userViewModel.setAuthenticationError(true);
-                                Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                                        getErrorMessage(((Result.Error) authenticationResult).getMessage()),
+                                Snackbar.make(requireActivity().findViewById(android.R.id.content), UNEXPECTED_ERROR,
                                         Snackbar.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (ApiException e) {
                     Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                            requireActivity().getString(R.string.error_unexpected),
+                            UNEXPECTED_ERROR,
                             Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -132,11 +130,9 @@ public class LoginFragment extends Fragment {
     }
 
     private void retrieveUserInformationAndStartActivity(User user, View view) {
-        //Log.d(TAG, "retrieveUserInformationAndStartActivity");
         userViewModel.getUserUsername(user.getIdToken()).observe(
                 getViewLifecycleOwner(), userPreferences -> {
                     //The viewmodel updated sharedprefs
-                    Log.d(TAG, "TEST");
                     goToNextPage(view);
                 }
         );
@@ -145,11 +141,11 @@ public class LoginFragment extends Fragment {
     private String getErrorMessage(String errorType) {
         switch (errorType) {
             case INVALID_CREDENTIALS_ERROR:
-                return requireActivity().getString(R.string.error_password_login);
+                return WEAK_PASSWORD_ERROR;
             case INVALID_USER_ERROR:
-                return requireActivity().getString(R.string.error_email_login);
+                return WARNING_CHECK_EMAIL;
             default:
-                return requireActivity().getString(R.string.error_unexpected);
+                return UNEXPECTED_ERROR;
         }
     }
 
@@ -161,7 +157,6 @@ public class LoginFragment extends Fragment {
     }
 
     private void goToNextPage(View view) {
-        Log.d(TAG, "goToNextPage");
         SharedPreferencesUtils sharedPreferencesUtil =
                 new SharedPreferencesUtils(requireActivity().getApplication());
 
@@ -181,16 +176,8 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.d(TAG, String.valueOf(userViewModel.getLoggedUser() != null));
-
         if (userViewModel.getLoggedUser() != null) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("message");
-
-            Log.d(TAG, String.valueOf(myRef));
-
-            myRef.setValue("TEST");
-
             goToNextPage(view);
         }
 
@@ -219,7 +206,7 @@ public class LoginFragment extends Fragment {
                             }
                         });
             } else {
-                userViewModel.getUser(email, password, false);
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), WARNING_NOT_REGISTERED, Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -227,7 +214,6 @@ public class LoginFragment extends Fragment {
                 .addOnSuccessListener(requireActivity(), new OnSuccessListener<BeginSignInResult>() {
                     @Override
                     public void onSuccess(BeginSignInResult result) {
-                        Log.d(TAG, "onSuccess from oneTapClient.beginSignIn(BeginSignInRequest)");
                         IntentSenderRequest intentSenderRequest =
                                 new IntentSenderRequest.Builder(result.getPendingIntent()).build();
                         activityResultLauncher.launch(intentSenderRequest);
@@ -240,7 +226,7 @@ public class LoginFragment extends Fragment {
                         // do nothing and continue presenting the signed-out UI.
                         Log.d(TAG, e.getLocalizedMessage());
                         Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                                requireActivity().getString(R.string.error_unexpected),
+                                UNEXPECTED_ERROR,
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 }));
@@ -248,12 +234,5 @@ public class LoginFragment extends Fragment {
         signupButton.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_signupFragment);
         });
-    }
-
-    private boolean isEmailOk(String email) {
-        return EmailValidator.getInstance().isValid(email);
-    }
-    private boolean isPasswordOk(String password) {
-        return password.length() > 7;
     }
 }

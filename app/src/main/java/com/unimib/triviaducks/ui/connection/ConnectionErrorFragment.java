@@ -1,5 +1,7 @@
 package com.unimib.triviaducks.ui.connection;
 
+import static com.unimib.triviaducks.util.Constants.CONNECTION_ERROR_TEXT;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -27,9 +29,7 @@ public class ConnectionErrorFragment extends Fragment {
 
     private static final String TAG = com.unimib.triviaducks.ui.connection.ConnectionErrorFragment.class.getSimpleName();
 
-    public ConnectionErrorFragment() {
-        // Required empty public constructor
-    }
+    public ConnectionErrorFragment() {}
 
     public static ConnectionErrorFragment newInstance() {
         return new ConnectionErrorFragment();
@@ -65,13 +65,11 @@ public class ConnectionErrorFragment extends Fragment {
         tryAgain.setOnClickListener(v -> {
             if (getContext() != null) {
                 if (NetworkUtil.isInternetAvailable(getContext())) {
-                    //TODO sostituire intent con riga commentata, attualmente crasha
-                    //NavHostFragment.findNavController(this).navigate(R.id.action_connectionErrorFragment_to_homeActivity);
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     startActivity(intent);
                 }
                 else {
-                    Snackbar.make(view, "Internet not available. Check connetion and then try again", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, CONNECTION_ERROR_TEXT, Snackbar.LENGTH_LONG).show();
                 }
             }
         });

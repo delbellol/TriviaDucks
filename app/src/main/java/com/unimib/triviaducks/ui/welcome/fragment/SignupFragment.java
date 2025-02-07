@@ -3,11 +3,13 @@ package com.unimib.triviaducks.ui.welcome.fragment;
 import static com.unimib.triviaducks.util.Constants.USER_COLLISION_ERROR;
 import static com.unimib.triviaducks.util.Constants.WEAK_PASSWORD_ERROR;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +22,12 @@ import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
+import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
+import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import org.apache.commons.validator.routines.EmailValidator;
 
