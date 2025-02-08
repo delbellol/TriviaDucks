@@ -169,4 +169,7 @@ public class Constants {
 
     public static final String MUSIC_ON = "ON";
     public static final String MUSIC_OFF = "OFF";
+
+    public static final int LEADERBOARD_ACCOUNT_LIMIT = 11;
+    public static final int TOP_CATEGORIES_LIMIT = 3;
 }

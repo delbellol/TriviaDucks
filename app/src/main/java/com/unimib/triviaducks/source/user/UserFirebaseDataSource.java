@@ -144,7 +144,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                                     .entrySet()
                                     .stream()
                                     .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                                    .limit(3)
+                                    .limit(TOP_CATEGORIES_LIMIT)
                                     .map(Map.Entry::getKey)
                                     .collect(Collectors.toSet());
 
@@ -231,7 +231,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void getLeaderboard() {
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
-                .limitToLast(11)
+                .limitToLast(LEADERBOARD_ACCOUNT_LIMIT)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
