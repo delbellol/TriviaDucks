@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,9 +15,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:text="@string/welcome"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_gravity="start"
         android:layout_marginStart="@dimen/margin_medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/already_registered"/>
@@ -28,9 +30,9 @@
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         style="@style/Widget.Design.TextInputLayout"
-        android:background="@color/md_theme_primaryContainer"
-        android:textColorHint="@color/md_theme_onPrimaryContainer"
-        app:startIconTint="@color/md_theme_onPrimaryContainer"
+        android:background="@color/md_theme_secondaryContainer"
+        android:textColorHint="@color/md_theme_onSecondaryContainer"
+        app:startIconTint="@color/md_theme_onSecondaryContainer"
         app:startIconDrawable="@drawable/baseline_alternate_email_24"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -47,9 +49,9 @@
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         style="@style/Widget.Design.TextInputLayout"
-        android:background="@color/md_theme_primaryContainer"
-        android:textColorHint="@color/md_theme_onPrimaryContainer"
-        app:startIconTint="@color/md_theme_onPrimaryContainer"
+        android:background="@color/md_theme_secondaryContainer"
+        android:textColorHint="@color/md_theme_onSecondaryContainer"
+        app:startIconTint="@color/md_theme_onSecondaryContainer"
         app:startIconDrawable="@drawable/baseline_password_24"
         >
         <com.google.android.material.textfield.TextInputEditText

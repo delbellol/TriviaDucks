@@ -11,7 +11,7 @@
         android:id="@+id/usernameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose your icon and your username"
+        android:text="@string/choose_your_icon_and_your_username"
         android:textSize="18sp"
         android:layout_margin="5dp"
         android:layout_gravity="center"

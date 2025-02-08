@@ -24,8 +24,9 @@
         android:layout_marginTop="10dp"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
         android:layout_marginStart="10dp"
         android:text="@string/reg"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
@@ -36,9 +37,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/email"
         style="@style/Widget.Design.TextInputLayout"
-        android:background="@color/md_theme_primaryContainer"
-        android:textColorHint="@color/md_theme_onPrimaryContainer"
-        app:startIconTint="@color/md_theme_onPrimaryContainer"
+        android:background="@color/md_theme_secondaryContainer"
+        android:textColorHint="@color/md_theme_onSecondaryContainer"
+        app:startIconTint="@color/md_theme_onSecondaryContainer"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
@@ -56,9 +57,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         style="@style/Widget.Design.TextInputLayout"
-        android:background="@color/md_theme_primaryContainer"
-        android:textColorHint="@color/md_theme_onPrimaryContainer"
-        app:startIconTint="@color/md_theme_onPrimaryContainer"
+        android:background="@color/md_theme_secondaryContainer"
+        android:textColorHint="@color/md_theme_onSecondaryContainer"
+        app:startIconTint="@color/md_theme_onSecondaryContainer"
         android:layout_margin="10dp"
         app:startIconDrawable="@drawable/baseline_password_24">
 
