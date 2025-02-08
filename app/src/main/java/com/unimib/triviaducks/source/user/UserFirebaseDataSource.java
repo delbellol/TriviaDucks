@@ -231,7 +231,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void getLeaderboard() {
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
-                .limitToLast(10)
+                .limitToLast(11)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -244,7 +244,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                             Integer bestScore = userSnapshot.child(SHARED_PREFERENCES_BEST_SCORE).getValue(Integer.class);
                             String image = userSnapshot.child(SHARED_PREFERENCES_PROFILE_PICTURE).getValue(String.class);
 
-                            String topUserData = bestScore + ";" + username + ";" + image;
+                            String topUserData = bestScore + SPLIT_CHARACTER + username + SPLIT_CHARACTER + image;
 
                             if (username != null && image != null) {
                                 leaderboardSet.add(topUserData);
