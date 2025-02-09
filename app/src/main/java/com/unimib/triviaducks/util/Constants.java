@@ -10,30 +10,10 @@ public class Constants {
 
     // Categorie
     public static final String ALL_CATEGORIES = "All Categories";
-    public static final String GENERAL_KNOWLEDGE = "General Knowledge";
-    public static final String BOOKS = "Entertainment: Books";
-    public static final String FILM = "Entertainment: Film";
-    public static final String MUSIC = "Entertainment: Music";
-    public static final String MUSICAlS_THEATRES = "Entertainment: Musical & Theatres";
-    public static final String TELEVISION = "Entertainment: Television";
-    public static final String VIDEO_GAMES = "Entertainment: Video Games";
-    public static final String BOARD_GAMES = "Entertainment: Board Games";
     public static final String SCIENCE_NATURE = "Science & Nature";
-    public static final String COMPUTERS = "Science: Computers";
-    public static final String MATHEMATICS = "Science: Mathematics";
-    public static final String MYTHOLOGY = "Mythology";
     public static final String SPORTS = "Sports";
     public static final String GEOGRAPHY = "Geography";
     public static final String HISTORY = "History";
-    public static final String POLITICS = "Politics";
-    public static final String ART = "Art";
-    public static final String CELEBRITIES = "Celebrities";
-    public static final String ANIMALS = "Animals";
-    public static final String VEHICLES = "Vehicles";
-    public static final String COMICS = "Entertainment: Comics";
-    public static final String GADGETS = "Science: Gadgets";
-    public static final String ANIME_MANGA = "Entertainment: Japanese Anime & Manga";
-    public static final String CARTOON = "Entertainment: Cartoon & Animations";
 
     public static final String DIFFICULTY = "difficulty";
 
@@ -43,10 +23,6 @@ public class Constants {
     public static final int SCIENCE_NATURE_CODE = 17;
     public static final int GEOGRAPHY_CODE = 22;
     public static final int SPORTS_CODE = 21;
-
-    // Versione del database
-    public static final int DATABASE_VERSION = 1;
-    public static final String SAVED_QUESTIONS_DATABASE = "saved_db";
 
     // Impostazioni timer
     public static final int TIMER_TIME = 30999;
@@ -81,7 +57,6 @@ public class Constants {
     public static final String WARNING = "Warning: ";
     public static final String IS_NULL = " is null";
     public static final String IS_EMPTY = " is empty";
-    public static final String REMOVED_QUESTION = "[Removed]";
     public static final String RETROFIT_ERROR = "Retrofit Error";
     public static final String UNEXPECTED_ERROR = "Unexpected Error";
     public static final String INVALID_USER_ERROR = "invalidUserError";

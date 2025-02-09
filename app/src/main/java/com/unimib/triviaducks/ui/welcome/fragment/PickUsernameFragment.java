@@ -1,8 +1,5 @@
 package com.unimib.triviaducks.ui.welcome.fragment;
 
-import static com.unimib.triviaducks.util.Constants.DRAWABLE;
-import static com.unimib.triviaducks.util.Constants.USERNAME_NOT_SELECTED;
-import static com.unimib.triviaducks.util.Constants.USERNAME_TOO_LONG;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -15,10 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +23,10 @@ import android.widget.Toast;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
-import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
-import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
