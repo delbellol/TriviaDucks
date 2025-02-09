@@ -65,42 +65,6 @@
             />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:text="@string/mode"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-        android:textColor="@color/md_theme_onSurface" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_marginVertical="15dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_sunny_24"
-            app:tint="@color/md_theme_onSurface"
-            />
-        <Switch
-            android:id="@+id/theme_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_mode_night_24"
-            app:tint="@color/md_theme_onSurface" />
-    </LinearLayout>
-
     <Button
         android:id = "@+id/logout"
         style="@style/Widget.Material3.Button"

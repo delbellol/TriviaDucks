@@ -40,8 +40,6 @@ public class SettingsFragment extends Fragment {
     private SharedPreferencesUtils sharedPreferencesUtils;
 
     private Switch musicSwitch;
-    private Switch themeSwitch;
-    private boolean isNightMode;
     private boolean isMusicOFF;
 
     private UserViewModel userViewModel;
@@ -75,21 +73,14 @@ public class SettingsFragment extends Fragment {
         sharedPreferencesUtils = new SharedPreferencesUtils(requireActivity().getApplication());
 
         musicSwitch = view.findViewById(R.id.music_switch);
-        themeSwitch = view.findViewById(R.id.theme_switch);
         logoutButton = view.findViewById(R.id.logout);
 
         isMusicOFF = sharedPreferencesUtils.readBooleanData(
                 Constants.SHARED_PREFERENCES_FILENAME,
                 Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
 
-        isNightMode = sharedPreferencesUtils.readBooleanData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
-
         // Imposta lo stato iniziale dello switch music
         musicSwitch.setChecked(!isMusicOFF);
-
-        themeSwitch.setChecked(isNightMode);
 
         // Gestione del cambio stato dello switch music
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -108,23 +99,6 @@ public class SettingsFragment extends Fragment {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_MUSIC_OFF,
                     isMusicOFF);
-        });
-
-        // Gestione del cambio di tema tramite Switch
-        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                isNightMode = true;
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                isNightMode = false;
-            }
-
-            // Salva lo stato dell'interruttore
-            sharedPreferencesUtils.writeBooleanData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE,
-                    isNightMode);
         });
 
         logoutButton.setOnClickListener(v -> {
