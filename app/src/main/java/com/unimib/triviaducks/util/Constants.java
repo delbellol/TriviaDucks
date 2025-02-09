@@ -172,4 +172,8 @@ public class Constants {
 
     public static final int LEADERBOARD_ACCOUNT_LIMIT = 11;
     public static final int TOP_CATEGORIES_LIMIT = 3;
+
+    public static final String USERNAME_NOT_SELECTED  = "Please enter a username";
+    public static final String USERNAME_TOO_LONG  = "Please enter a shorter username";
+    public static final String SPLIT_CHAR_NOT_ALLOWED = SPLIT_CHARACTER + " is not an allowed character in username";
 }

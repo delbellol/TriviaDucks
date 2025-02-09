@@ -1,5 +1,9 @@
 package com.unimib.triviaducks.ui.welcome.fragment;
 
+import static com.unimib.triviaducks.util.Constants.DRAWABLE;
+import static com.unimib.triviaducks.util.Constants.USERNAME_NOT_SELECTED;
+import static com.unimib.triviaducks.util.Constants.USERNAME_TOO_LONG;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -87,7 +91,6 @@ public class PickUsernameFragment extends Fragment {
         if(username != null && image!=null){
             usernameEditText.setText(username);
             profilePictureButton.setImageResource(getResourceIdByName(image));
-//            isEditing = true;
         }
 
         profilePictureButton.setOnClickListener(v -> showProfileImageDialog());
@@ -123,15 +126,15 @@ public class PickUsernameFragment extends Fragment {
         String username = usernameEditText.getText().toString().trim();
 
         if (username.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), Constants.USERNAME_NOT_SELECTED, Toast.LENGTH_SHORT).show();
             return;
         }
         if (username.length() > 15) {
-            Toast.makeText(getContext(), "Please enter a shorter username", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), Constants.USERNAME_TOO_LONG, Toast.LENGTH_SHORT).show();
             return;
         }
         if (username.contains(Constants.SPLIT_CHARACTER)) {
-            Toast.makeText(getContext(),  Constants.SPLIT_CHARACTER + " is not an allowed character in username", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),  Constants.SPLIT_CHAR_NOT_ALLOWED, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -143,27 +146,17 @@ public class PickUsernameFragment extends Fragment {
 
         userViewModel.saveUserUsername(username, userViewModel.getLoggedUser().getIdToken());
 
-        //Log.d(TAG, image);
-        if (resourceName != null) {
-            Log.d(TAG, "resourceName != null");
+        if (resourceName != null)
             userViewModel.saveUserImage(resourceName, userViewModel.getLoggedUser().getIdToken());
-        }
-        else if (image != null) {
-            Log.d(TAG, "image != null");
+        else if (image != null)
             userViewModel.saveUserImage(image, userViewModel.getLoggedUser().getIdToken());
-        }
-        else{
-            Log.d(TAG, "else");
+        else
             userViewModel.saveUserImage(getResources().getResourceName(R.drawable.p1), userViewModel.getLoggedUser().getIdToken());
-        }
 
-//        if(!isEditing){
+
+
             Intent intent = new Intent(getContext(), HomeActivity.class);
             startActivity(intent);
-//        }
-//        else {
-//            Navigation.findNavController(requireView()).navigate(R.id.action_pickUsernameFragment_to_accountInformationFragment);
-//        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -188,7 +181,7 @@ public class PickUsernameFragment extends Fragment {
     private int getResourceIdByName(String resourceName) {
         return requireContext().getResources().getIdentifier(
                 resourceName,
-                "drawable", // Ricerca nelle risorse di tipo drawable
+                Constants.DRAWABLE, // Ricerca nelle risorse di tipo drawable
                 requireContext().getPackageName() // Nome del pacchetto
         );
     }
