@@ -1,25 +1,25 @@
 package com.unimib.triviaducks.util;
 
-import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
-import static com.unimib.triviaducks.util.Constants.DIFFICULY_EASY;
-import static com.unimib.triviaducks.util.Constants.EASY_QUESTION_POINTS;
-import static com.unimib.triviaducks.util.Constants.END;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_CORRECT_ANSWER;
+import static com.unimib.triviaducks.util.Constants.DIFFICULTY_EASY;
+import static com.unimib.triviaducks.util.Constants.QUESTION_POINTS_EASY;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_END;
 import static com.unimib.triviaducks.util.Constants.ERROR_LOADING_QUESTIONS;
-import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY_HARD;
-import static com.unimib.triviaducks.util.Constants.HARD_QUESTION_POINTS;
+import static com.unimib.triviaducks.util.Constants.QUESTION_POINTS_HARD;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY_MEDIUM;
-import static com.unimib.triviaducks.util.Constants.MEDIUM_QUESTION_POINTS;
-import static com.unimib.triviaducks.util.Constants.QUESTION_NUMBER;
-import static com.unimib.triviaducks.util.Constants.QUESTION_REPOSITORY_IS_NULL;
-import static com.unimib.triviaducks.util.Constants.QUIZ_FINISHED;
-import static com.unimib.triviaducks.util.Constants.REASON;
-import static com.unimib.triviaducks.util.Constants.SCORE;
+import static com.unimib.triviaducks.util.Constants.QUESTION_POINTS_MEDIUM;
+import static com.unimib.triviaducks.util.Constants.TEXT_QUESTION_NUMBER;
+import static com.unimib.triviaducks.util.Constants.ERROR_QUESTION_REPOSITORY_IS_NULL;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_QUIZ_FINISHED;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_REASON;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_SCORE;
 import static com.unimib.triviaducks.util.Constants.TEXT_DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.TIMER_TIME;
-import static com.unimib.triviaducks.util.Constants.TIME_EXPIRED;
-import static com.unimib.triviaducks.util.Constants.WARNING_OBTAING_DIFFICULTY;
-import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_TIME_EXPIRED;
+import static com.unimib.triviaducks.util.Constants.WARNING_OBTAINING_DIFFICULTY;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_WRONG_ANSWER;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -81,7 +81,7 @@ public class GameHandler {
                 );
 
         if (questionRepository == null) {
-            Log.e(TAG, QUESTION_REPOSITORY_IS_NULL);
+            Log.e(TAG, ERROR_QUESTION_REPOSITORY_IS_NULL);
         } else {
             questionViewModel = new ViewModelProvider(
                     fragment.requireActivity(),
@@ -112,7 +112,7 @@ public class GameHandler {
                 }
             });
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
     }
@@ -120,7 +120,7 @@ public class GameHandler {
     public void loadNextQuestion() {
         if (counter < questionList.size()) {
             new Thread(() -> {
-                mutableQuestionCounter.postValue(String.format(QUESTION_NUMBER, counter + 1));
+                mutableQuestionCounter.postValue(String.format(TEXT_QUESTION_NUMBER, counter + 1));
 
                 currentQuestion = questionList.get(counter);
                 mutableScore.postValue(String.format(TEXT_DIFFICULTY + currentQuestion.getDifficulty()));
@@ -152,7 +152,7 @@ public class GameHandler {
             if (counter < questionList.size()) {
                 GameNextQuestionDialog nextQstDialog = new GameNextQuestionDialog(fragment);
                 Bundle bundle = new Bundle();
-                bundle.putString(REASON, context.getString(R.string.correct_answer));
+                bundle.putString(PARAMETER_REASON, context.getString(R.string.correct_answer));
                 timerUtils.endTimer();
                 AddScore();
                 nextQstDialog.setArguments(bundle);
@@ -161,9 +161,9 @@ public class GameHandler {
             else {
                 GameOverDialog gameOverDialog = new GameOverDialog();
                 Bundle bundle = new Bundle();
-                bundle.putString(REASON,QUIZ_FINISHED);
-                bundle.putInt(SCORE,score);
-                bundle.putBoolean(END,true);
+                bundle.putString(PARAMETER_REASON, PARAMETER_QUIZ_FINISHED);
+                bundle.putInt(PARAMETER_SCORE,score);
+                bundle.putBoolean(PARAMETER_END,true);
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), GameOverDialog.class.getSimpleName());
             }
@@ -173,25 +173,25 @@ public class GameHandler {
             Bundle bundle = new Bundle();
             if (wrongAnswersCounter >= 3){
                 GameOverDialog gameOverDialog = new GameOverDialog();
-                bundle.putString(REASON,WRONG_ANSWER);
-                bundle.putInt(SCORE,score);
-                bundle.putString(CORRECT_ANSWER,correctAnswer);
-                bundle.putBoolean(END,false);
+                bundle.putString(PARAMETER_REASON, PARAMETER_WRONG_ANSWER);
+                bundle.putInt(PARAMETER_SCORE,score);
+                bundle.putString(PARAMETER_CORRECT_ANSWER,correctAnswer);
+                bundle.putBoolean(PARAMETER_END,false);
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), GameOverDialog.class.getSimpleName());
 
             }else if(counter >= questionList.size()) {
                 GameOverDialog gameOverDialog = new GameOverDialog();
-                bundle.putString(REASON,WRONG_ANSWER);
-                bundle.putInt(SCORE,score);
-                bundle.putString(CORRECT_ANSWER,correctAnswer);
-                bundle.putBoolean(END,true);
+                bundle.putString(PARAMETER_REASON, PARAMETER_WRONG_ANSWER);
+                bundle.putInt(PARAMETER_SCORE,score);
+                bundle.putString(PARAMETER_CORRECT_ANSWER,correctAnswer);
+                bundle.putBoolean(PARAMETER_END,true);
                 gameOverDialog.setArguments(bundle);
                 gameOverDialog.show(fragment.getParentFragmentManager(), GameOverDialog.class.getSimpleName());
             } else{
                 GameNextQuestionDialog nextQstDialog = new GameNextQuestionDialog(fragment);
-                bundle.putString(REASON, WRONG_ANSWER);
-                bundle.putString(CORRECT_ANSWER,correctAnswer);
+                bundle.putString(PARAMETER_REASON, PARAMETER_WRONG_ANSWER);
+                bundle.putString(PARAMETER_CORRECT_ANSWER,correctAnswer);
                 nextQstDialog.setArguments(bundle);
                 nextQstDialog.show(fragment.getParentFragmentManager(), GameNextQuestionDialog.class.getSimpleName());
             }
@@ -201,17 +201,17 @@ public class GameHandler {
     private void AddScore() {
         String difficulty = currentQuestion.getDifficulty();
         switch (difficulty) {
-            case DIFFICULY_EASY:
-                score += EASY_QUESTION_POINTS;
+            case DIFFICULTY_EASY:
+                score += QUESTION_POINTS_EASY;
                 break;
             case DIFFICULTY_MEDIUM:
-                score += MEDIUM_QUESTION_POINTS;
+                score += QUESTION_POINTS_MEDIUM;
                 break;
             case DIFFICULTY_HARD:
-                score += HARD_QUESTION_POINTS;
+                score += QUESTION_POINTS_HARD;
                 break;
             default:
-                Log.w(TAG,WARNING_OBTAING_DIFFICULTY);
+                Log.w(TAG, WARNING_OBTAINING_DIFFICULTY);
                 break;
         }
     }
@@ -227,16 +227,16 @@ public class GameHandler {
         Bundle bundle = new Bundle();
         if (wrongAnswersCounter >= 3) {
             GameOverDialog gameOverDialog = new GameOverDialog();
-            bundle.putString(REASON,TIME_EXPIRED);
-            bundle.putInt(SCORE,score);
-            bundle.putString(CORRECT_ANSWER,correctAnswer);
-            bundle.putBoolean(END,false);
+            bundle.putString(PARAMETER_REASON, PARAMETER_TIME_EXPIRED);
+            bundle.putInt(PARAMETER_SCORE,score);
+            bundle.putString(PARAMETER_CORRECT_ANSWER,correctAnswer);
+            bundle.putBoolean(PARAMETER_END,false);
             gameOverDialog.setArguments(bundle);
             gameOverDialog.show(fragment.getParentFragmentManager(), GameOverDialog.class.getSimpleName());
         } else {
             GameNextQuestionDialog nextQstDialog = new GameNextQuestionDialog(fragment);
-            bundle.putString(REASON, TIME_EXPIRED);
-            bundle.putString(CORRECT_ANSWER,correctAnswer);
+            bundle.putString(PARAMETER_REASON, PARAMETER_TIME_EXPIRED);
+            bundle.putString(PARAMETER_CORRECT_ANSWER,correctAnswer);
             nextQstDialog.setArguments(bundle);
             nextQstDialog.show(fragment.getParentFragmentManager(), GameNextQuestionDialog.class.getSimpleName());
         }

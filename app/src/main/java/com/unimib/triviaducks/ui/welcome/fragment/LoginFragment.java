@@ -2,14 +2,14 @@ package com.unimib.triviaducks.ui.welcome.fragment;
 
 import static android.app.ProgressDialog.show;
 
-import static com.unimib.triviaducks.util.Constants.INVALID_CREDENTIALS_ERROR;
-import static com.unimib.triviaducks.util.Constants.INVALID_USER_ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_CREDENTIALS;
+import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_USER;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_FILENAME;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_USERNAME;
-import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR_UNEXPECTED;
 import static com.unimib.triviaducks.util.Constants.WARNING_CHECK_EMAIL;
 import static com.unimib.triviaducks.util.Constants.WARNING_NOT_REGISTERED;
-import static com.unimib.triviaducks.util.Constants.WEAK_PASSWORD_ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR_WEAK_PASSWORD;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,21 +40,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
-import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
 import com.unimib.triviaducks.ui.home.HomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
-import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
-
-import org.apache.commons.validator.routines.EmailValidator;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = LoginFragment.class.getSimpleName();
@@ -115,14 +109,14 @@ public class LoginFragment extends Fragment {
                                 retrieveUserInformationAndStartActivity(user, getView());
                             } else {
                                 userViewModel.setAuthenticationError(true);
-                                Snackbar.make(requireActivity().findViewById(android.R.id.content), UNEXPECTED_ERROR,
+                                Snackbar.make(requireActivity().findViewById(android.R.id.content), ERROR_UNEXPECTED,
                                         Snackbar.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (ApiException e) {
                     Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                            UNEXPECTED_ERROR,
+                            ERROR_UNEXPECTED,
                             Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -140,12 +134,12 @@ public class LoginFragment extends Fragment {
 
     private String getErrorMessage(String errorType) {
         switch (errorType) {
-            case INVALID_CREDENTIALS_ERROR:
-                return WEAK_PASSWORD_ERROR;
-            case INVALID_USER_ERROR:
+            case ERROR_INVALID_CREDENTIALS:
+                return ERROR_WEAK_PASSWORD;
+            case ERROR_INVALID_USER:
                 return WARNING_CHECK_EMAIL;
             default:
-                return UNEXPECTED_ERROR;
+                return ERROR_UNEXPECTED;
         }
     }
 
@@ -226,7 +220,7 @@ public class LoginFragment extends Fragment {
                         // do nothing and continue presenting the signed-out UI.
                         Log.d(TAG, e.getLocalizedMessage());
                         Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                                UNEXPECTED_ERROR,
+                                ERROR_UNEXPECTED,
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 }));

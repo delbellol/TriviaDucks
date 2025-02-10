@@ -1,10 +1,10 @@
 package com.unimib.triviaducks.source.user;
 
-import static com.unimib.triviaducks.util.Constants.INVALID_CREDENTIALS_ERROR;
-import static com.unimib.triviaducks.util.Constants.INVALID_USER_ERROR;
-import static com.unimib.triviaducks.util.Constants.UNEXPECTED_ERROR;
-import static com.unimib.triviaducks.util.Constants.USER_COLLISION_ERROR;
-import static com.unimib.triviaducks.util.Constants.WEAK_PASSWORD_ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_CREDENTIALS;
+import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_USER;
+import static com.unimib.triviaducks.util.Constants.ERROR_UNEXPECTED;
+import static com.unimib.triviaducks.util.Constants.ERROR_USER_COLLISION;
+import static com.unimib.triviaducks.util.Constants.ERROR_WEAK_PASSWORD;
 
 import android.util.Log;
 
@@ -113,15 +113,15 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
     }
     private String getErrorMessage(Exception exception) {
         if (exception instanceof FirebaseAuthWeakPasswordException) {
-            return WEAK_PASSWORD_ERROR;
+            return ERROR_WEAK_PASSWORD;
         } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-            return INVALID_CREDENTIALS_ERROR;
+            return ERROR_INVALID_CREDENTIALS;
         } else if (exception instanceof FirebaseAuthInvalidUserException) {
-            return INVALID_USER_ERROR;
+            return ERROR_INVALID_USER;
         } else if (exception instanceof FirebaseAuthUserCollisionException) {
-            return USER_COLLISION_ERROR;
+            return ERROR_USER_COLLISION;
         }
-        return UNEXPECTED_ERROR;
+        return ERROR_UNEXPECTED;
     }
 
 

@@ -1,20 +1,10 @@
 package com.unimib.triviaducks.ui.game.viewmodel;
 
-import static com.unimib.triviaducks.util.Constants.COUNTDOWN_INTERVAL;
-import static com.unimib.triviaducks.util.Constants.FRESH_TIMEOUT;
-
-import android.os.CountDownTimer;
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.question.QuestionRepository;
-
-import java.util.List;
 
 // ViewModel che gestisce la logica delle domande e comunica con il repository
 public class QuestionViewModel extends ViewModel {

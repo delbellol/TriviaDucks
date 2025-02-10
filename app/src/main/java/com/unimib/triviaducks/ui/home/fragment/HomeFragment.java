@@ -2,7 +2,7 @@ package com.unimib.triviaducks.ui.home.fragment;
 
 import static com.unimib.triviaducks.util.Constants.LIST_CATEGORY;
 import static com.unimib.triviaducks.util.Constants.LIST_LOTTIE_ANIMATIONS;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_CATEGORY;
 
 import android.os.Bundle;
 
@@ -23,9 +23,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.unimib.triviaducks.adapter.CategoriesRecyclerAdapter;
 import com.unimib.triviaducks.util.NetworkUtil;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -78,7 +75,7 @@ public class HomeFragment extends Fragment {
             else{
                 GameModeDialog gameModeDialog = new GameModeDialog();
                 Bundle args = new Bundle();
-                args.putInt(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
+                args.putInt(TRIVIA_PARAMETER_CATEGORY, selectedCategory);
                 gameModeDialog.setArguments(args);
                 gameModeDialog.show(getParentFragmentManager(), GameModeDialog.class.getSimpleName());
             }
@@ -88,15 +85,15 @@ public class HomeFragment extends Fragment {
     private int getCategoryFromPosition(int position) {
         switch (position) {
             case 1:
-                return Constants.SCIENCE_NATURE_CODE;
+                return Constants.CODE_SCIENCE_NATURE;
             case 2:
-                return Constants.GEOGRAPHY_CODE;
+                return Constants.CODE_GEOGRAPHY;
             case 3:
-                return Constants.HISTORY_CODE;
+                return Constants.CODE_HISTORY;
             case 4:
-                return Constants.SPORTS_CODE;
+                return Constants.CODE_SPORTS;
             default:
-                return Constants.ANY_CATEGORIES_CODE;
+                return Constants.CODE_ANY_CATEGORIES;
         }
     }
 }

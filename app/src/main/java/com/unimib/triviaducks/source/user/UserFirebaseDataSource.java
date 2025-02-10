@@ -18,11 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,10 +43,10 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Log.d(TAG, USER_ALREADY_IN_DB);
+                    Log.d(TAG, INFO_USER_ALREADY_IN_DB);
                     userResponseCallback.onSuccessFromRemoteDatabase(user);
                 } else {
-                    Log.d(TAG, USER_NOT_IN_DB);
+                    Log.d(TAG, INFO_USER_NOT_IN_DB);
                     databaseReference.child(FIREBASE_USERS_COLLECTION).child(user.getIdToken()).setValue(user)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -101,7 +98,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                                     image);
                             userResponseCallback.onSuccessFromGettingUserPreferences();
                         } else {
-                            Log.e(TAG, FIREBASE_IMAGE_DATA_NULL);
+                            Log.e(TAG, ERROR_FIREBASE_IMAGE_DATA_NULL);
                         }
                     }
                 });
@@ -144,7 +141,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                                     .entrySet()
                                     .stream()
                                     .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                                    .limit(TOP_CATEGORIES_LIMIT)
+                                    .limit(LIMIT_TOP_CATEGORIES)
                                     .map(Map.Entry::getKey)
                                     .collect(Collectors.toSet());
 
@@ -157,11 +154,11 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                             userResponseCallback.onSuccessFromGettingUserPreferences();
                         }
                         else {
-                            Log.e(TAG, NO_DATA_CATEGORY_FOUND);
+                            Log.e(TAG, ERROR_NO_DATA_CATEGORY_FOUND);
                         }
                     }
                     else {
-                        Log.e(TAG, GENERIC_ERROR+task.getException());
+                        Log.e(TAG, ERROR +task.getException());
                     }
                 });
     }
@@ -173,7 +170,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG,SUCCESS);
+                        Log.i(TAG, INFO_SUCCESS);
                     }
                 });
     }
@@ -222,7 +219,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
             getUserBestScore(idToken);
             getCategoriesPodium(idToken);
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
     }
@@ -231,7 +228,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void getLeaderboard() {
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
-                .limitToLast(LEADERBOARD_ACCOUNT_LIMIT)
+                .limitToLast(LIMIT_LEADERBOARD_ACCOUNT)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -259,7 +256,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
                         userResponseCallback.onSuccessFromGettingUserPreferences();
                     } else {
-                        Log.d(TAG, GENERIC_ERROR + task.getException());
+                        Log.d(TAG, ERROR + task.getException());
                     }
                 });
     }

@@ -1,8 +1,7 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
-import static com.unimib.triviaducks.util.Constants.REASON;
-import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_CORRECT_ANSWER;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_REASON;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -49,8 +48,8 @@ public class GameNextQuestionDialog extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_game_next_question, null);
 
         if (getArguments() != null) {
-            reason = getArguments().getString(REASON, getContext().getString(R.string.correct_answer));
-            correctAnswer = getArguments().getString(CORRECT_ANSWER, "");
+            reason = getArguments().getString(PARAMETER_REASON, getContext().getString(R.string.correct_answer));
+            correctAnswer = getArguments().getString(PARAMETER_CORRECT_ANSWER, "");
         }
 
         builder.setView(view);

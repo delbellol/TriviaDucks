@@ -1,11 +1,9 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
-import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
-import static com.unimib.triviaducks.util.Constants.MUSIC_ON;
-import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_VOLUME;
+import static com.unimib.triviaducks.util.Constants.VALUE_OFF;
+import static com.unimib.triviaducks.util.Constants.VALUE_ON;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,18 +12,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
 import android.widget.Switch;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.repository.user.IUserRepository;
-import com.unimib.triviaducks.ui.game.QuestionActivity;
 import com.unimib.triviaducks.ui.welcome.WelcomeActivity;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
@@ -95,10 +89,10 @@ public class SettingsFragment extends Fragment {
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Intent intent = new Intent(requireContext(), MusicService.class);
             if (isChecked) {
-                intent.setAction(MUSIC_ON);
+                intent.setAction(VALUE_ON);
                 isMusicOFF = false;
             } else {
-                intent.setAction(MUSIC_OFF);
+                intent.setAction(VALUE_OFF);
                 isMusicOFF = true;
             }
             requireContext().startService(intent);

@@ -1,6 +1,6 @@
 package com.unimib.triviaducks.ui.connection;
 
-import static com.unimib.triviaducks.util.Constants.CONNECTION_ERROR_TEXT;
+import static com.unimib.triviaducks.util.Constants.ERROR_CONNECTION;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +9,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.ui.home.HomeActivity;
@@ -69,7 +64,7 @@ public class ConnectionErrorFragment extends Fragment {
                     startActivity(intent);
                 }
                 else {
-                    Snackbar.make(view, CONNECTION_ERROR_TEXT, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, ERROR_CONNECTION, Snackbar.LENGTH_LONG).show();
                 }
             }
         });

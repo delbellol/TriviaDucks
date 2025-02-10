@@ -1,16 +1,14 @@
 package com.unimib.triviaducks.util;
 
-import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
-import static com.unimib.triviaducks.util.Constants.MUSIC_ON;
+import static com.unimib.triviaducks.util.Constants.VALUE_OFF;
+import static com.unimib.triviaducks.util.Constants.VALUE_ON;
 
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.home.HomeActivity;
 
 public class MusicService extends Service {
     private static final String TAG = MusicService.class.getSimpleName();
@@ -30,12 +28,12 @@ public class MusicService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
-                case MUSIC_ON:
+                case VALUE_ON:
                     if (!music.isPlaying()) {
                         music.start();
                     }
                     break;
-                case MUSIC_OFF:
+                case VALUE_OFF:
                     if (music.isPlaying()) {
                         music.pause();
                     }

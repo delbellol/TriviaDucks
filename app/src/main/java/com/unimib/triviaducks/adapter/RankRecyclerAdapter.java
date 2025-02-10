@@ -1,10 +1,10 @@
 package com.unimib.triviaducks.adapter;
 
 import static com.unimib.triviaducks.util.Constants.DRAWABLE;
-import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
-import static com.unimib.triviaducks.util.Constants.ITEM_IS_NULL;
-import static com.unimib.triviaducks.util.Constants.LEADERBOARD_SET_IS_EMPTY;
-import static com.unimib.triviaducks.util.Constants.LEADERBOARD_SET_IS_NULL;
+import static com.unimib.triviaducks.util.Constants.ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR_ITEM_IS_NULL;
+import static com.unimib.triviaducks.util.Constants.ERROR_LEADERBOARD_SET_IS_EMPTY;
+import static com.unimib.triviaducks.util.Constants.ERROR_LEADERBOARD_SET_IS_NULL;
 import static com.unimib.triviaducks.util.Constants.NULL;
 import static com.unimib.triviaducks.util.Constants.SPLIT_CHARACTER;
 
@@ -126,22 +126,22 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
                                 // Crea un oggetto Rank
                                 return new Rank(image, username, bestScore);
                             } else {
-                                Log.e(TAG, ITEM_IS_NULL);
+                                Log.e(TAG, ERROR_ITEM_IS_NULL);
                                 return null;
                             }
                         })
                         .sorted((rank1, rank2) -> Integer.compare(rank2.getScore(), rank1.getScore())) // Ordina per bestScore decrescente
                         .collect(Collectors.toList());
             }catch (Exception ex) {
-                if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR + ex.getMessage());
+                if (ex.getMessage() != null) Log.e(TAG, ERROR + ex.getMessage());
                 else ex.printStackTrace();
                 return null;
             }
         } else {
             if (leaderboardSet == null)
-                Log.e(TAG, LEADERBOARD_SET_IS_NULL);
+                Log.e(TAG, ERROR_LEADERBOARD_SET_IS_NULL);
             else if (leaderboardSet.isEmpty())
-                Log.e(TAG, LEADERBOARD_SET_IS_EMPTY);
+                Log.e(TAG, ERROR_LEADERBOARD_SET_IS_EMPTY);
             return null;
         }
 

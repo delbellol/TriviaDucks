@@ -1,12 +1,12 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-import static com.unimib.triviaducks.util.Constants.CONNECTION_WARNING_TEXT;
-import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
-import static com.unimib.triviaducks.util.Constants.DIFFICULTY;
+import static com.unimib.triviaducks.util.Constants.WARNING_CONNECTION;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_CAN_PLAY;
 
 import android.content.Intent;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_AMOUNT;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_CATEGORY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_DIFFICULTY;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -72,11 +72,11 @@ public class GameFragment extends Fragment {
         super.onCreate(savedInstanceState);
         gameHandler = new GameHandler(this, this.getContext(), mutableSecondsRemaining, mutableQuestionCounter, mutableScore);
 
-        category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
-        difficulty = getActivity().getIntent().getStringExtra(DIFFICULTY);
-        category = getActivity().getIntent().getIntExtra(TRIVIA_CATEGORY_PARAMETER,0);
-        questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_AMOUNT_PARAMETER,10);
-        canPlay = getActivity().getIntent().getBooleanExtra(CAN_PLAY,false);
+        category = getActivity().getIntent().getIntExtra(TRIVIA_PARAMETER_CATEGORY,0);
+        difficulty = getActivity().getIntent().getStringExtra(TRIVIA_PARAMETER_DIFFICULTY);
+        category = getActivity().getIntent().getIntExtra(TRIVIA_PARAMETER_CATEGORY,0);
+        questionAmount = getActivity().getIntent().getIntExtra(TRIVIA_PARAMETER_AMOUNT,10);
+        canPlay = getActivity().getIntent().getBooleanExtra(PARAMETER_CAN_PLAY,false);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class GameFragment extends Fragment {
     public void nextBtnPressed() {
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                    CONNECTION_WARNING_TEXT,
+                    WARNING_CONNECTION,
                     Snackbar.LENGTH_LONG).show();
         }
 

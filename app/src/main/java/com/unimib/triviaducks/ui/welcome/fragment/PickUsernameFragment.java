@@ -118,15 +118,15 @@ public class PickUsernameFragment extends Fragment {
         String username = usernameEditText.getText().toString().trim();
 
         if (username.isEmpty()) {
-            Toast.makeText(getContext(), Constants.USERNAME_NOT_SELECTED, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), Constants.WARNING_USERNAME_NOT_SELECTED, Toast.LENGTH_SHORT).show();
             return;
         }
         if (username.length() > 15) {
-            Toast.makeText(getContext(), Constants.USERNAME_TOO_LONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), Constants.WARNING_USERNAME_TOO_LONG, Toast.LENGTH_SHORT).show();
             return;
         }
         if (username.contains(Constants.SPLIT_CHARACTER)) {
-            Toast.makeText(getContext(),  Constants.SPLIT_CHAR_NOT_ALLOWED, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),  Constants.WARNING_SPLIT_CHAR_NOT_ALLOWED, Toast.LENGTH_LONG).show();
             return;
         }
 

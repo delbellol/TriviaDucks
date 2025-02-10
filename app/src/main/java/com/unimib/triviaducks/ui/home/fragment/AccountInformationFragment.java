@@ -4,11 +4,6 @@ package com.unimib.triviaducks.ui.home.fragment;
 
 import static com.unimib.triviaducks.util.Constants.*;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,21 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
-import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
-import com.unimib.triviaducks.ui.home.HomeActivity;
-import com.unimib.triviaducks.ui.welcome.fragment.PickUsernameFragment;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
@@ -121,7 +110,7 @@ public class AccountInformationFragment extends Fragment {
         try {
             loadInformation();
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
 
@@ -129,7 +118,7 @@ public class AccountInformationFragment extends Fragment {
             try {
                 Navigation.findNavController(view).navigate(R.id.action_accountInformationFragment_to_pickUsernameFragment);
             }catch(Exception ex) {
-                if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+                if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
                 else ex.printStackTrace();
             }
         });
@@ -168,7 +157,7 @@ public class AccountInformationFragment extends Fragment {
                 }
             });
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
 
@@ -205,7 +194,7 @@ public class AccountInformationFragment extends Fragment {
                     requireContext().getPackageName() // Nome del pacchetto
             );
         }catch(Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
         return R.drawable.p1;
@@ -213,13 +202,13 @@ public class AccountInformationFragment extends Fragment {
 
     private int getCategoryIconFromCode(int code) {
         switch (code) {
-            case HISTORY_CODE:
+            case CODE_HISTORY:
                 return R.raw.category_history;
-            case SCIENCE_NATURE_CODE:
+            case CODE_SCIENCE_NATURE:
                 return R.raw.category_science;
-            case GEOGRAPHY_CODE:
+            case CODE_GEOGRAPHY:
                 return R.raw.category_geography;
-            case SPORTS_CODE:
+            case CODE_SPORTS:
                 return R.raw.category_sport;
             default:
                 return R.raw.category_all;

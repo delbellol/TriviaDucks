@@ -1,13 +1,13 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
-import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER;
-import static com.unimib.triviaducks.util.Constants.CORRECT_ANSWER_NULL_OR_EMPTY;
-import static com.unimib.triviaducks.util.Constants.END;
-import static com.unimib.triviaducks.util.Constants.QUIZ_FINISHED;
-import static com.unimib.triviaducks.util.Constants.REASON;
-import static com.unimib.triviaducks.util.Constants.SCORE;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_CORRECT_ANSWER;
+import static com.unimib.triviaducks.util.Constants.WARNING_CORRECT_ANSWER_NULL_OR_EMPTY;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_END;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_QUIZ_FINISHED;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_REASON;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_SCORE;
 import static com.unimib.triviaducks.util.Constants.TEXT_SCORE;
-import static com.unimib.triviaducks.util.Constants.WRONG_ANSWER;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_WRONG_ANSWER;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -71,10 +71,10 @@ public class GameOverDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        reason = getArguments().getString(REASON, WRONG_ANSWER);
-        score = getArguments().getInt(SCORE,0);
-        correctAnswer = getArguments().getString(CORRECT_ANSWER,"");
-        end = getArguments().getBoolean(END,false);
+        reason = getArguments().getString(PARAMETER_REASON, PARAMETER_WRONG_ANSWER);
+        score = getArguments().getInt(PARAMETER_SCORE,0);
+        correctAnswer = getArguments().getString(PARAMETER_CORRECT_ANSWER,"");
+        end = getArguments().getBoolean(PARAMETER_END,false);
 
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
@@ -124,7 +124,7 @@ public class GameOverDialog extends DialogFragment {
         TextView dialogQuestion = view.findViewById(R.id.dialog_question);
         ImageView image = view.findViewById(R.id.image);
         if (end) {
-            if (reason.equals(QUIZ_FINISHED)) {
+            if (reason.equals(PARAMETER_QUIZ_FINISHED)) {
                 dialogQuestion.setVisibility(View.GONE);
                 correctAnswerView.setVisibility(View.GONE);
             }
@@ -140,7 +140,7 @@ public class GameOverDialog extends DialogFragment {
             correctAnswerView.setVisibility(View.VISIBLE); // Rendi visibile la TextView
         }
         else {
-            Log.w(TAG,CORRECT_ANSWER_NULL_OR_EMPTY);
+            Log.w(TAG, WARNING_CORRECT_ANSWER_NULL_OR_EMPTY);
         }
 
         return builder.create();

@@ -1,24 +1,16 @@
 package com.unimib.triviaducks.ui.connection;
 
-import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
-import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
+import static com.unimib.triviaducks.util.Constants.ERROR;
+import static com.unimib.triviaducks.util.Constants.VALUE_OFF;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.home.fragment.SettingsFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
@@ -68,7 +60,7 @@ public class ConnectionErrorActivity extends AppCompatActivity {
                         .commit();
             }
         }catch (Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
     }
@@ -101,7 +93,7 @@ public class ConnectionErrorActivity extends AppCompatActivity {
 
     private void stopMusic() {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(MUSIC_OFF);
+        intent.setAction(VALUE_OFF);
         startService(intent); // Ferma la musica
     }
 

@@ -1,17 +1,14 @@
 package com.unimib.triviaducks.ui.welcome.fragment;
 
-import static com.unimib.triviaducks.util.Constants.USER_COLLISION_ERROR;
-import static com.unimib.triviaducks.util.Constants.WEAK_PASSWORD_ERROR;
+import static com.unimib.triviaducks.util.Constants.ERROR_USER_COLLISION;
+import static com.unimib.triviaducks.util.Constants.ERROR_WEAK_PASSWORD;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +19,9 @@ import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.repository.user.IUserRepository;
-import com.unimib.triviaducks.ui.connection.ConnectionErrorActivity;
-import com.unimib.triviaducks.ui.game.fragment.GameFragment;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
 import com.unimib.triviaducks.util.Constants;
-import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -92,9 +86,9 @@ public class SignupFragment extends Fragment {
     }
     private String getErrorMessage(String message) {
         switch(message) {
-            case WEAK_PASSWORD_ERROR:
+            case ERROR_WEAK_PASSWORD:
                 return requireActivity().getString(R.string.error_password_login);
-            case USER_COLLISION_ERROR:
+            case ERROR_USER_COLLISION:
                 return requireActivity().getString(R.string.error_collision_user);
             default:
                 return requireActivity().getString(R.string.error_unexpected);
@@ -123,7 +117,7 @@ public class SignupFragment extends Fragment {
      */
     private boolean isPasswordOk(String password) {
         // Check if the password length is correct
-        if (password.isEmpty() || password.length() < Constants.MINIMUM_LENGTH_PASSWORD) {
+        if (password.isEmpty() || password.length() < Constants.PASSWORD_MINIMUM_LENGTH) {
             textInputPassword.setError(getString(R.string.error_password_login));
             return false;
         } else {

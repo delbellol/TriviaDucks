@@ -1,15 +1,12 @@
 package com.unimib.triviaducks.ui.home;
 
-import static com.unimib.triviaducks.util.Constants.GENERIC_ERROR;
-import static com.unimib.triviaducks.util.Constants.MUSIC_OFF;
-import static com.unimib.triviaducks.util.Constants.MUSIC_ON;
+import static com.unimib.triviaducks.util.Constants.ERROR;
+import static com.unimib.triviaducks.util.Constants.VALUE_OFF;
+import static com.unimib.triviaducks.util.Constants.VALUE_ON;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,10 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.unimib.triviaducks.R;
-import com.unimib.triviaducks.ui.home.fragment.SettingsFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
-import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 public class HomeActivity extends AppCompatActivity {
@@ -52,9 +47,9 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MusicService.class);
 
             if (isMusicOFF)
-                intent.setAction(MUSIC_OFF); // Usa l'azione ON per avviare la musica
+                intent.setAction(VALUE_OFF); // Usa l'azione ON per avviare la musica
             else
-                intent.setAction(MUSIC_ON);
+                intent.setAction(VALUE_ON);
             startService(intent);
             if (isNightMode) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -68,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
             BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
             NavigationUI.setupWithNavController(bottomNav, navController);
         }catch (Exception ex) {
-            if (ex.getMessage() != null) Log.e(TAG,GENERIC_ERROR+ex.getMessage());
+            if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
         }
     }
@@ -101,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void stopMusic() {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(MUSIC_OFF);
+        intent.setAction(VALUE_OFF);
         startService(intent); // Ferma la musica
     }
 
@@ -113,9 +108,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);
 
         if (isMusicOFF)
-            intent.setAction(MUSIC_OFF);
+            intent.setAction(VALUE_OFF);
         else
-            intent.setAction(MUSIC_ON);
+            intent.setAction(VALUE_ON);
 
         startService(intent);
     }

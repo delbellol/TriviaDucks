@@ -1,11 +1,11 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
-import static com.unimib.triviaducks.util.Constants.CAN_PLAY;
+import static com.unimib.triviaducks.util.Constants.PARAMETER_CAN_PLAY;
 import static com.unimib.triviaducks.util.Constants.LIST_DIFFICULTY;
 import static com.unimib.triviaducks.util.Constants.DIFFICULTY_RANDOM;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_AMOUNT_PARAMETER;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_CATEGORY_PARAMETER;
-import static com.unimib.triviaducks.util.Constants.TRIVIA_DIFFICULTY_PARAMETER;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_AMOUNT;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_CATEGORY;
+import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_DIFFICULTY;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -73,7 +73,7 @@ public class GameModeDialog extends DialogFragment {
         View view = getLayoutInflater().inflate(R.layout.dialog_game_mode, null);
         builder.setView(view);
         if(getArguments() != null) {
-            selectedCategory = getArguments().getInt(TRIVIA_CATEGORY_PARAMETER, 0);
+            selectedCategory = getArguments().getInt(TRIVIA_PARAMETER_CATEGORY, 0);
         }
         else {
             selectedCategory = 0;
@@ -112,10 +112,10 @@ public class GameModeDialog extends DialogFragment {
             }
             else {
                 Intent intent = new Intent(getActivity(), QuestionActivity.class);
-                intent.putExtra(TRIVIA_CATEGORY_PARAMETER, selectedCategory);
-                intent.putExtra(TRIVIA_AMOUNT_PARAMETER, Integer.parseInt(questionPicker.getText().toString()));
-                intent.putExtra(TRIVIA_DIFFICULTY_PARAMETER, selectedDifficulty);
-                intent.putExtra(CAN_PLAY, true);
+                intent.putExtra(TRIVIA_PARAMETER_CATEGORY, selectedCategory);
+                intent.putExtra(TRIVIA_PARAMETER_AMOUNT, Integer.parseInt(questionPicker.getText().toString()));
+                intent.putExtra(TRIVIA_PARAMETER_DIFFICULTY, selectedDifficulty);
+                intent.putExtra(PARAMETER_CAN_PLAY, true);
                 startActivity(intent);
                 increaseCategoryGameCounter(selectedCategory);
                 dismiss();
