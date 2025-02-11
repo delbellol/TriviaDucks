@@ -13,7 +13,7 @@
         android:id="@+id/profileLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <Space
             android:id="@+id/marginTop"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -99,8 +99,7 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <TextView
+        <Space
             android:id="@+id/midMargin"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -216,7 +215,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
+        <Space
             android:id="@+id/bottomMargin"
             android:layout_width="0dp"
             android:layout_height="0dp"
