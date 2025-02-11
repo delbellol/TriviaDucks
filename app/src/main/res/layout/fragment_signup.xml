@@ -14,7 +14,9 @@
         android:layout_marginHorizontal="@dimen/margin_medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:text="@string/welcome"/>
-    <TextView
+    <Button
+        android:id="@+id/alreadyRegistered"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -22,6 +24,7 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/already_registered"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
