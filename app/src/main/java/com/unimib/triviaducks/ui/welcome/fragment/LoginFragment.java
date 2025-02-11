@@ -2,6 +2,8 @@ package com.unimib.triviaducks.ui.welcome.fragment;
 
 import static android.app.ProgressDialog.show;
 
+import static com.unimib.triviaducks.util.Constants.ERROR_EMPTY_PASSWORD;
+import static com.unimib.triviaducks.util.Constants.ERROR_EMPTY_EMAIL;
 import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_CREDENTIALS;
 import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_USER;
 import static com.unimib.triviaducks.util.Constants.SHARED_PREFERENCES_FILENAME;
@@ -183,7 +185,17 @@ public class LoginFragment extends Fragment {
         Button loginGoogleButton = view.findViewById(R.id.loginGoogleButton);
 
         loginButton.setOnClickListener(v -> {
+            if (editTextEmail.getText() == null || editTextEmail.getText().length() == 0) {
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), ERROR_EMPTY_EMAIL,
+                        Snackbar.LENGTH_SHORT).show();
+                return;
+            }
             String email = editTextEmail.getText().toString().trim();
+            if (editTextPassword.getText() == null  || editTextPassword.getText().length() == 0) {
+                Snackbar.make(requireActivity().findViewById(android.R.id.content),ERROR_EMPTY_PASSWORD,
+                        Snackbar.LENGTH_SHORT).show();
+                return;
+            }
             String password = editTextPassword.getText().toString().trim();
             if (!userViewModel.isAuthenticationError()) {
                 userViewModel.getUserMutableLiveData(email, password, true).observe(
