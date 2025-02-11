@@ -31,8 +31,7 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@+id/midMargin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.35"
-            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marginTop"
             app:layout_constraintWidth_percent="0.9"
@@ -109,7 +108,7 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@+id/bottomMargin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintHeight_percent="0.60"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/midMargin"
             app:layout_constraintWidth_percent="0.9"
@@ -118,8 +117,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="25dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,7 +135,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="25dp"
+                    android:layout_gravity="center"
                     android:layout_marginTop="25dp"
                     android:text="@string/best_score"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
@@ -145,7 +145,7 @@
                     android:id="@+id/best_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="25dp"
                     android:text="@string/_0"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
@@ -154,13 +154,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="25dp"
                     android:text="@string/favourites_catgories"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     android:textColor="@color/md_theme_onSecondaryContainer"/>
 
                 <GridLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:alignmentMode="alignMargins"
