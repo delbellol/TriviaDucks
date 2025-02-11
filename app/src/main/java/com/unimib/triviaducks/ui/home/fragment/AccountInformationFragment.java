@@ -1,7 +1,5 @@
 package com.unimib.triviaducks.ui.home.fragment;
 
-// Import delle costanti per l'uso nelle SharedPreferences
-
 import static com.unimib.triviaducks.util.Constants.*;
 
 import android.os.Bundle;
@@ -46,13 +44,12 @@ import java.util.Set;
 public class AccountInformationFragment extends Fragment {
     private static final String TAG = AccountInformationFragment.class.getSimpleName(); // Tag per i log
 
-    // Dichiarazioni delle variabili UI e logiche
     private Button editProfileButton;
-    private ImageView profileImageView, profilePicture; // Visualizzazione immagine profilo
-    private TextView usernameTextView; // Visualizzazione nome utente
+    private ImageView profileImageView;
+    private TextView usernameTextView;
     private TextView bestScoreTextView;
-    private UserViewModel userViewModel; // ViewModel per gestire i dati utente
-    private SharedPreferencesUtils sharedPreferencesUtils; // Utility per SharedPreferences
+    private UserViewModel userViewModel;
+    private SharedPreferencesUtils sharedPreferencesUtils;
     private CircularProgressIndicator circularProgressIndicator;
     private LottieAnimationView first_place, second_place, third_place;
     private ConstraintLayout profileLayout;
@@ -73,7 +70,7 @@ public class AccountInformationFragment extends Fragment {
 
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
-        userViewModel.setAuthenticationError(false);// Inizializzazione base del fragment
+        userViewModel.setAuthenticationError(false);
     }
 
     @Override
@@ -90,13 +87,10 @@ public class AccountInformationFragment extends Fragment {
         profileLayout = view.findViewById(R.id.profileLayout);
         circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
 
-        // Inizializzazione delle utility
         sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
 
-        // Collegamento della TextView per il nome utente
         usernameTextView = view.findViewById(R.id.username);
 
-        // Collegamento dell'ImageView per il profilo
         profileImageView = view.findViewById(R.id.profilePicture);
 
         editProfileButton = view.findViewById(R.id.editProfile);
@@ -135,7 +129,6 @@ public class AccountInformationFragment extends Fragment {
         });
     }
 
-    // Metodo per caricare i dati del profilo dalle SharedPreferences
     private void loadInformation() {
         showLoadingScreen();
         try {
@@ -196,13 +189,12 @@ public class AccountInformationFragment extends Fragment {
         }
     }
 
-    // Metodo per ottenere l'ID della risorsa dal nome
     private int getResourceIdByName(String resourceName) {
         try {
             return requireContext().getResources().getIdentifier(
                     resourceName,
-                    DRAWABLE, // Ricerca nelle risorse di tipo drawable
-                    requireContext().getPackageName() // Nome del pacchetto
+                    DRAWABLE,
+                    requireContext().getPackageName()
             );
         }catch(Exception ex) {
             if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
