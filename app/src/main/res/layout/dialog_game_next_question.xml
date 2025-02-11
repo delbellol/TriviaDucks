@@ -36,7 +36,7 @@
         android:text="@string/correct_answer_will_be_shown_here"
         android:layout_gravity="center"
         android:textColor="@color/md_theme_onSecondaryContainer"
-        style="@style/TextAppearance.Material3.BodyMedium"
+        style="@style/TextAppearance.Material3.BodyLarge"
         android:layout_marginTop="8dp" />
 
     <Button

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="@string/default_title"
             android:layout_gravity="center"
-            style="@style/MaterialAlertDialog.Material3.Title.Text"/>
+            style="@style/TextAppearance.Material3.TitleLarge"/>
 
         <TextView
             android:id="@+id/dialog_description"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/default_description"
             android:layout_gravity="center"
-            style="@style/MaterialAlertDialog.Material3.Body.Text"/>
+            style="@style/TextAppearance.Material3.BodyMedium"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/default_difficulty_text_value"
-                style="@style/MaterialAlertDialog.Material3.Body.Text"/>
+                style="@style/TextAppearance.Material3.TitleMedium"/>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/number_picker_description"
-                style="@style/MaterialAlertDialog.Material3.Body.Text"/>
+                style="@style/TextAppearance.Material3.TitleMedium"/>
 
 
             <LinearLayout
