@@ -6,6 +6,7 @@ import static com.unimib.triviaducks.util.Constants.*;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -120,6 +121,16 @@ public class AccountInformationFragment extends Fragment {
             }catch(Exception ex) {
                 if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
                 else ex.printStackTrace();
+            }
+        });
+        getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getView() != null) {
+                    if (getActivity() != null) {
+                        getActivity().moveTaskToBack(true);
+                    }
+                }
             }
         });
     }

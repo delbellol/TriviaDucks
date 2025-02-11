@@ -6,6 +6,7 @@ import static com.unimib.triviaducks.util.Constants.VALUE_ON;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -126,6 +127,17 @@ public class SettingsFragment extends Fragment {
             sharedPreferencesUtils.clearPreferences(Constants.SHARED_PREFERENCES_FILENAME);
             Intent intent = new Intent(getActivity(), WelcomeActivity.class);
             startActivity(intent);
+        });
+
+        getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getView() != null) {
+                    if (getActivity() != null) {
+                        getActivity().moveTaskToBack(true);
+                    }
+                }
+            }
         });
     }
 }

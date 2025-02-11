@@ -2,6 +2,7 @@ package com.unimib.triviaducks.ui.home.fragment;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -83,6 +84,16 @@ public class LeaderboardFragment extends Fragment {
 
             adapter = new RankRecyclerAdapter(getContext(), leaderboardSet);
             recyclerView.setAdapter(adapter);
+        });
+        getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getView() != null) {
+                    if (getActivity() != null) {
+                        getActivity().moveTaskToBack(true);
+                    }
+                }
+            }
         });
     }
 }

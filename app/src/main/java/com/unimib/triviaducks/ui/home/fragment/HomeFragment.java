@@ -6,6 +6,7 @@ import static com.unimib.triviaducks.util.Constants.TRIVIA_PARAMETER_CATEGORY;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -78,6 +79,17 @@ public class HomeFragment extends Fragment {
                 args.putInt(TRIVIA_PARAMETER_CATEGORY, selectedCategory);
                 gameModeDialog.setArguments(args);
                 gameModeDialog.show(getParentFragmentManager(), GameModeDialog.class.getSimpleName());
+            }
+        });
+
+        getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getView() != null) {
+                    if (getActivity() != null) {
+                        getActivity().moveTaskToBack(true);
+                    }
+                }
             }
         });
     }
