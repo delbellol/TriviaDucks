@@ -36,6 +36,8 @@ public class Constants {
     // Costanti di errore
     public static final String ERROR = "Error: ";
     public static final String ERROR_CONNECTION = ERROR +"Internet not available. Check connection and then try again";
+    public static final String ERROR_EMPTY_EMAIL = "Email"+CONSTANT_IS_EMPTY;
+    public static final String ERROR_EMPTY_PASSWORD = "Password"+CONSTANT_IS_EMPTY;
     public static final String ERROR_FIREBASE_IMAGE_DATA_NULL = ERROR +"Image data from Firebase"+ CONSTANT_IS_NULL;
     public static final String ERROR_ID_TOKEN_NULL = ERROR +"idToken"+ CONSTANT_IS_NULL;
     public static final String ERROR_INVALID_CREDENTIALS = "Invalid credentials";
