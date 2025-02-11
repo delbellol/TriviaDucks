@@ -95,11 +95,11 @@ public class AccountInformationFragment extends Fragment {
 
         editProfileButton = view.findViewById(R.id.editProfile);
 
-        bestScoreTextView = view.findViewById(R.id.best_score);
+        bestScoreTextView = view.findViewById(R.id.bestScore);
 
-        first_place = view.findViewById(R.id.first_place);
-        second_place = view.findViewById(R.id.second_place);
-        third_place = view.findViewById(R.id.third_place);
+        first_place = view.findViewById(R.id.firstPlace);
+        second_place = view.findViewById(R.id.secondPlace);
+        third_place = view.findViewById(R.id.thirdPlace);
 
         // Carico i dati del profilo
         try {
