@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.adapter.CategoriesPodiumAdapter;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
@@ -53,6 +56,7 @@ public class AccountInformationFragment extends Fragment {
     private CircularProgressIndicator circularProgressIndicator;
     private LottieAnimationView first_place, second_place, third_place;
     private ConstraintLayout profileLayout;
+    private GridView gridView;
 
     public AccountInformationFragment() {}
 
@@ -97,11 +101,8 @@ public class AccountInformationFragment extends Fragment {
 
         bestScoreTextView = view.findViewById(R.id.bestScore);
 
-        first_place = view.findViewById(R.id.firstPlace);
-        second_place = view.findViewById(R.id.secondPlace);
-        third_place = view.findViewById(R.id.thirdPlace);
+        gridView = view.findViewById(R.id.gridLayout);
 
-        // Carico i dati del profilo
         try {
             loadInformation();
         }catch(Exception ex) {
@@ -152,6 +153,23 @@ public class AccountInformationFragment extends Fragment {
                             String.valueOf(sharedPreferencesUtils.readIntData(
                                     Constants.SHARED_PREFERENCES_FILENAME,
                                     Constants.SHARED_PREFERENCES_BEST_SCORE)));
+
+                    Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
+                            Constants.SHARED_PREFERENCES_FILENAME,
+                            Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
+
+                    ArrayList<String> matchPlayedList = new ArrayList<>();
+
+                    if (matchPlayedSet != null && !matchPlayedSet.isEmpty())
+                        matchPlayedList = new ArrayList<>(matchPlayedSet);
+
+                    CategoriesPodiumAdapter adapter = new CategoriesPodiumAdapter(
+                            getContext(),
+                            R.layout.item_categories_podium,
+                            matchPlayedList
+                    );
+                    gridView.setAdapter(adapter);
+
                     hideLoadingScreen();
                 } else {
                     View view = getView();
@@ -163,29 +181,6 @@ public class AccountInformationFragment extends Fragment {
         }catch(Exception ex) {
             if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();
-        }
-
-        if (sharedPreferencesUtils.readStringSetData(
-                Constants.SHARED_PREFERENCES_FILENAME,
-                Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)!=null) {
-            Set<String> matchPlayedSet = sharedPreferencesUtils.readStringSetData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY);
-            if (matchPlayedSet == null || matchPlayedSet.isEmpty()) {
-                Log.e(TAG, ERROR_SET_IS_EMPTY);
-            } else {
-                List<String> matchPlayedList = new ArrayList<>(matchPlayedSet);
-
-                if (matchPlayedList.size() >= 1) {
-                    first_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(0))));
-                    if (matchPlayedList.size() >= 2) {
-                        second_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(1))));
-                        if (matchPlayedList.size() > 2) {
-                            third_place.setAnimation(getCategoryIconFromCode(Integer.parseInt(matchPlayedList.get(2))));
-                        }
-                    }
-                }
-            }
         }
     }
 

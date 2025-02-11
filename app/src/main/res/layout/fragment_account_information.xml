@@ -179,88 +179,24 @@
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     android:textColor="@color/md_theme_onSecondaryContainer"/>
 
-                <GridLayout
+                <GridView
                     android:id="@+id/gridLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintTop_toBottomOf="@id/favouritesCategoriesTitle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.55"
+                    app:layout_constraintWidth_percent="0.5"
                     android:alignmentMode="alignMargins"
                     android:columnCount="3"
                     android:gravity="center"
                     android:useDefaultMargins="true">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/medal1" />
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/firstPlace"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:contentDescription="@string/default_title"
-                        tools:layout_editor_absoluteX="0dp" />
-
-                    <TextView
-                        android:id="@+id/firstPlaceTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="@string/best_score"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="@color/md_theme_onSecondaryContainer" />
-
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/medal2" />
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/secondPlace"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:contentDescription="@string/default_title"
-                        tools:layout_editor_absoluteX="0dp" />
-
-                    <TextView
-                        android:id="@+id/secondPlaceTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="@string/best_score"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="@color/md_theme_onSecondaryContainer" />
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/medal3" />
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/thirdPlace"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:contentDescription="@string/default_title"
-                        tools:layout_editor_absoluteX="0dp" />
-                    <TextView
-                        android:id="@+id/thirdPlaceTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/best_score"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="@color/md_theme_onSecondaryContainer" />
-                </GridLayout>
+                </GridView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
-
         <Space
             android:id="@+id/bottomMargin"
             android:layout_width="0dp"
