@@ -31,12 +31,4 @@ public class QuestionViewModel extends ViewModel {
         }
         return getQuestions();
     }
-
-
-
-    // Metodo privato per ottenere le domande senza parametri (probabilmente non usato)
-//    private MutableLiveData<Result> getQuestions() {
-//        // Chiamata al repository per ottenere tutte le domande
-//        return questionRepository.getQuestions();
-//    }
 }
