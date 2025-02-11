@@ -94,14 +94,14 @@ public class Constants {
     public static final String NULL = "null";
 
     // Game parameters
-    public static final String PARAMETER_REASON = "reason";
-    public static final String PARAMETER_SCORE = "score";
+    public static final String PARAMETER_CAN_PLAY = "can_play";
     public static final String PARAMETER_CORRECT_ANSWER = "correct_answer";
     public static final String PARAMETER_END = "end";
-    public static final String PARAMETER_WRONG_ANSWER = "Wrong answer";
-    public static final String PARAMETER_TIME_EXPIRED = "Time expired";
     public static final String PARAMETER_QUIZ_FINISHED = "Quiz finished";
-    public static final String PARAMETER_CAN_PLAY = "can_play";
+    public static final String PARAMETER_REASON = "reason";
+    public static final String PARAMETER_SCORE = "score";
+    public static final String PARAMETER_TIME_EXPIRED = "Time expired";
+    public static final String PARAMETER_WRONG_ANSWER = "Wrong answer";
 
     public static final int PASSWORD_MINIMUM_LENGTH = 8;
 
