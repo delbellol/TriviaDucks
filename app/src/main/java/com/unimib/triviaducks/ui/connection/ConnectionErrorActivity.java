@@ -2,15 +2,16 @@ package com.unimib.triviaducks.ui.connection;
 
 import static com.unimib.triviaducks.util.Constants.ERROR;
 import static com.unimib.triviaducks.util.Constants.VALUE_OFF;
+import static com.unimib.triviaducks.util.Constants.VALUE_ON;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.unimib.triviaducks.R;
+import com.unimib.triviaducks.ui.connection.fragment.ConnectionErrorFragment;
 import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.MusicService;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
@@ -36,9 +37,9 @@ public class ConnectionErrorActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MusicService.class);
 
             if (isMusicOFF)
-                intent.setAction("OFF"); // Usa l'azione ON per avviare la musica
+                intent.setAction(VALUE_OFF);
             else
-                intent.setAction("ON");
+                intent.setAction(VALUE_ON);
             startService(intent);
 
             setContentView(R.layout.activity_error); //il layout viene settato dopo aver impostato il tema
@@ -94,9 +95,9 @@ public class ConnectionErrorActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);
 
         if (isMusicOFF)
-            intent.setAction("OFF");
+            intent.setAction(VALUE_OFF);
         else
-            intent.setAction("ON");
+            intent.setAction(VALUE_ON);
 
         startService(intent);
     }

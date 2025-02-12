@@ -1,4 +1,4 @@
-package com.unimib.triviaducks.ui.connection;
+package com.unimib.triviaducks.ui.connection.fragment;
 
 import static com.unimib.triviaducks.util.Constants.ERROR_CONNECTION;
 
@@ -22,7 +22,7 @@ import com.unimib.triviaducks.util.NetworkUtil;
 
 public class ConnectionErrorFragment extends Fragment {
 
-    private static final String TAG = com.unimib.triviaducks.ui.connection.ConnectionErrorFragment.class.getSimpleName();
+    private static final String TAG = ConnectionErrorFragment.class.getSimpleName();
 
     public ConnectionErrorFragment() {}
 

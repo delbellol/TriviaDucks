@@ -8,7 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_connection_error"
-        android:name="com.unimib.triviaducks.ui.connection.ConnectionErrorFragment"
+        android:name="com.unimib.triviaducks.ui.connection.fragment.ConnectionErrorFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
