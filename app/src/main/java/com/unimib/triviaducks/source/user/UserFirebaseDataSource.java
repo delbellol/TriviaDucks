@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -122,48 +121,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     }
 
     @Override
-    public void getCategoriesPodium(String idToken) {
-        databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
-                child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot dataSnapshot = task.getResult();
-                            Map<String, Integer> categoryCountMap = new HashMap<>();
-
-                            for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
-                                String category = categorySnapshot.getKey();
-                                Integer count = categorySnapshot.getValue(Integer.class);
-                                categoryCountMap.put(category, count);
-                            }
-
-                            Set<String> topCategories = categoryCountMap
-                                    .entrySet()
-                                    .stream()
-                                    .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
-                                    .limit(LIMIT_TOP_CATEGORIES)
-                                    .map(Map.Entry::getKey)
-                                    .collect(Collectors.toSet());
-
-                            sharedPreferencesUtil.writeStringSetData(
-                                    SHARED_PREFERENCES_FILENAME,
-                                    SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY,
-                                    topCategories
-                            );
-
-                            userResponseCallback.onSuccessFromGettingUserPreferences();
-                        }
-                        else {
-                            Log.e(TAG, ERROR_NO_DATA_CATEGORY_FOUND);
-                        }
-                    }
-                    else {
-                        Log.e(TAG, ERROR +task.getException());
-                    }
-                });
-    }
-
-    @Override
     public void saveUserUsername(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 //TODO Change void with result
@@ -226,7 +183,8 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
     @Override
     public void getLeaderboard() {
-        databaseReference.child(FIREBASE_USERS_COLLECTION)
+        databaseReference
+                .child(FIREBASE_USERS_COLLECTION)
                 .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
                 .limitToLast(LIMIT_LEADERBOARD_ACCOUNT)
                 .get()
@@ -257,6 +215,46 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                         userResponseCallback.onSuccessFromGettingUserPreferences();
                     } else {
                         Log.d(TAG, ERROR + task.getException());
+                    }
+                });
+    }
+
+    @Override
+    public void getCategoriesPodium(String idToken) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .child(idToken)
+                .child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            DataSnapshot dataSnapshot = task.getResult();
+                            HashSet<String> categorySet = new HashSet<>();
+
+                            for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                                String category = categorySnapshot.getKey();
+                                Integer count = categorySnapshot.getValue(Integer.class);
+                                String categoryData = category + SPLIT_CHARACTER + count;
+
+                                if (category != null && count != null) {
+                                    categorySet.add(categoryData);
+                                }
+                            }
+
+                            sharedPreferencesUtil.writeStringSetData(
+                                    SHARED_PREFERENCES_FILENAME,
+                                    SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY,
+                                    categorySet
+                            );
+
+                            userResponseCallback.onSuccessFromGettingUserPreferences();
+                        }
+                        else {
+                            Log.e(TAG, ERROR_NO_DATA_CATEGORY_FOUND);
+                        }
+                    }
+                    else {
+                        Log.e(TAG, ERROR +task.getException());
                     }
                 });
     }

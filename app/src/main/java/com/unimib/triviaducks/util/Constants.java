@@ -45,6 +45,8 @@ public class Constants {
     public static final String ERROR_ITEM_IS_NULL = ERROR +"item"+ CONSTANT_IS_NULL;
     public static final String ERROR_LEADERBOARD_SET_IS_EMPTY = ERROR +"leaderboardSet"+ CONSTANT_IS_EMPTY;
     public static final String ERROR_LEADERBOARD_SET_IS_NULL = ERROR +"leaderboardSet"+ CONSTANT_IS_NULL;
+    public static final String ERROR_CATEGORY_SET_IS_EMPTY = ERROR +"categorySet"+ CONSTANT_IS_EMPTY;
+    public static final String ERROR_CATEGORY_SET_IS_NULL = ERROR +"categorySet"+ CONSTANT_IS_NULL;
     public static final String ERROR_LOADING_QUESTIONS = "Error loading questions";
     public static final String ERROR_NO_DATA_CATEGORY_FOUND = ERROR +"No data found for categories";
     public static final String ERROR_QUESTION_REPOSITORY_IS_NULL = ERROR +"QuestionRepository"+ CONSTANT_IS_NULL;

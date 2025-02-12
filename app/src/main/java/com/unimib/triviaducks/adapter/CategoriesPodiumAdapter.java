@@ -24,6 +24,7 @@ import com.unimib.triviaducks.util.Constants;
 import java.util.ArrayList;
 
 public class CategoriesPodiumAdapter extends ArrayAdapter<String> {
+    private static final String TAG = CategoriesPodiumAdapter.class.getSimpleName();
 
     private int layout;
     private ArrayList<String> categoriesList;

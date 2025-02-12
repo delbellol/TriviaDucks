@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class AccountInformationFragment extends Fragment {
@@ -161,7 +162,8 @@ public class AccountInformationFragment extends Fragment {
                     ArrayList<String> matchPlayedList = new ArrayList<>();
 
                     if (matchPlayedSet != null && !matchPlayedSet.isEmpty())
-                        matchPlayedList = new ArrayList<>(matchPlayedSet);
+                        matchPlayedList = (ArrayList<String>) convertAndSortCategories(matchPlayedSet);
+
 
                     CategoriesPodiumAdapter adapter = new CategoriesPodiumAdapter(
                             getContext(),
@@ -198,21 +200,6 @@ public class AccountInformationFragment extends Fragment {
         return R.drawable.p1;
     }
 
-    private int getCategoryIconFromCode(int code) {
-        switch (code) {
-            case CODE_HISTORY:
-                return R.raw.category_history;
-            case CODE_SCIENCE_NATURE:
-                return R.raw.category_science;
-            case CODE_GEOGRAPHY:
-                return R.raw.category_geography;
-            case CODE_SPORTS:
-                return R.raw.category_sport;
-            default:
-                return R.raw.category_all;
-        }
-    }
-
     public void showLoadingScreen() {
         profileLayout.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
@@ -222,4 +209,39 @@ public class AccountInformationFragment extends Fragment {
         circularProgressIndicator.setVisibility(View.GONE);
         profileLayout.setVisibility(View.VISIBLE);
     }
+
+    private List<String> convertAndSortCategories(Set<String> categoriesSet) {
+        List<String> sortedList = new ArrayList<>();
+        if (categoriesSet != null && !categoriesSet.isEmpty()) {
+            try {
+                sortedList = categoriesSet.stream()
+                        .map(item -> {
+                            if (item != null) {
+                                String[] parts = item.split(SPLIT_CHARACTER);
+                                String category = parts[0];
+                                int matchplayed = (parts.length > 1 && !Objects.equals(parts[1], NULL)) ? Integer.parseInt(parts[1]) : 0;
+                                return new String[]{category, String.valueOf(matchplayed)};
+                            } else {
+                                Log.e(TAG, ERROR_ITEM_IS_NULL);
+                                return null;
+                            }
+                        })
+                        .filter(Objects::nonNull)
+                        .sorted((a, b) -> Integer.compare(Integer.parseInt(b[1]), Integer.parseInt(a[1])))
+                        .map(a -> a[0])
+                        .limit(LIMIT_TOP_CATEGORIES)
+                        .collect(Collectors.toList());
+            } catch (Exception ex) {
+                if (ex.getMessage() != null) Log.e(TAG, ERROR + ex.getMessage());
+                else ex.printStackTrace();
+            }
+        } else {
+            if (categoriesSet == null)
+                Log.e(TAG, ERROR_CATEGORY_SET_IS_NULL);
+            else if (categoriesSet.isEmpty())
+                Log.e(TAG, ERROR_CATEGORY_SET_IS_EMPTY);
+        }
+        return sortedList;
+    }
+
 }

@@ -16,30 +16,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Classe per recuperare le domande da una sorgente remota utilizzando Retrofit.
- */
+
 public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
-    private static final String TAG = QuestionRemoteDataSource.class.getSimpleName(); // Tag per il logging.
+    private static final String TAG = QuestionRemoteDataSource.class.getSimpleName();
 
     private final QuestionAPIService questionAPIService; // Servizio Retrofit per l'API delle domande.
 
     private MutableLiveData<Result> resultMutableLiveData;
 
-    /**
-     * Costruttore: ottiene un'istanza del servizio Retrofit tramite ServiceLocator.
-     */
+
     public QuestionRemoteDataSource() {
         this.questionAPIService = ServiceLocator.getInstance().getQuestionAPIService();
         resultMutableLiveData = new MutableLiveData<Result>();
     }
 
-    /**
-     * Metodo per recuperare le domande dall'API remota.
-     */
+
     @Override
     public void fetchQuestions(int category, int questionAmount, String difficulty) {
-        // Crea una chiamata Retrofit per ottenere le domande.
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
                 questionAmount, // Quantità di domande.
                 TRIVIA_VALUE_TYPE,    // Tipo di domande.
