@@ -9,10 +9,6 @@ public abstract class Result {
         return !(this instanceof Error);
     }
 
-    /**
-     * Class that represents a successful action during the interaction
-     * with a Web Service or a local database.
-     */
     public static final class QuestionSuccess extends Result {
         private final QuestionAPIResponse questionAPIResponse;
         public QuestionSuccess(QuestionAPIResponse questionAPIResponse) {
@@ -43,10 +39,6 @@ public abstract class Result {
         }
     }
 
-    /**
-     * Class that represents an error occurred during the interaction
-     * with a Web Service or a local database.
-     */
     public static final class Error extends Result {
         private final String message;
         public Error(String message) {

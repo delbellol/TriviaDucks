@@ -58,7 +58,6 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.getLottieAnimationView().setAnimation(lottieFiles.get(position));
         viewHolder.getLottieAnimationView().playAnimation();
-        // Imposta il testo descrittivo
         viewHolder.getDescriptionTextView().setText(itemCategoryDescription.get(position));
     }
 

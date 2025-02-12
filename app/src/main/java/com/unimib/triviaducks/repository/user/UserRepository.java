@@ -2,19 +2,13 @@ package com.unimib.triviaducks.repository.user;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.unimib.triviaducks.model.Question;
 import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.source.user.BaseUserAuthenticationRemoteDataSource;
 import com.unimib.triviaducks.source.user.BaseUserDataRemoteDataSource;
 
-import java.util.List;
 
-/**
- * Repository class to get the user information.
- */
 public class UserRepository implements IUserRepository, UserResponseCallback {
-    private static final String TAG = UserRepository.class.getSimpleName();
     private final BaseUserAuthenticationRemoteDataSource userRemoteDataSource;
     private final BaseUserDataRemoteDataSource userDataRemoteDataSource;
     private final MutableLiveData<Result> userMutableLiveData;
@@ -161,15 +155,4 @@ public class UserRepository implements IUserRepository, UserResponseCallback {
     public void onSuccessLogout() {
     }
 
-    //@Override
-    public void onSuccessFromCloudReading(List<Question> questionList) {
-    }
-
-    //@Override
-    public void onSuccessFromCloudWriting(Question question) {
-    }
-
-    //@Override
-    public void onFailureFromCloud(Exception exception) {
-    }
 }

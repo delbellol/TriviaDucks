@@ -18,9 +18,8 @@ import retrofit2.Response;
 
 
 public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
-    private static final String TAG = QuestionRemoteDataSource.class.getSimpleName();
 
-    private final QuestionAPIService questionAPIService; // Servizio Retrofit per l'API delle domande.
+    private final QuestionAPIService questionAPIService;
 
     private MutableLiveData<Result> resultMutableLiveData;
 
@@ -34,25 +33,20 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
     @Override
     public void fetchQuestions(int category, int questionAmount, String difficulty) {
         Call<QuestionAPIResponse> questionResponseCall = questionAPIService.getQuestions(
-                questionAmount, // Quantità di domande.
-                TRIVIA_VALUE_TYPE,    // Tipo di domande.
+                questionAmount,
+                TRIVIA_VALUE_TYPE,
                 category,
                 difficulty
         );
 
-        // Esegue la chiamata in modo asincrono.
+
         questionResponseCall.enqueue(new Callback<QuestionAPIResponse>() {
-            /**
-             * Callback per la risposta positiva della chiamata Retrofit.
-             */
             @Override
             public void onResponse(@NonNull Call<QuestionAPIResponse> call,
                                    @NonNull Response<QuestionAPIResponse> response) {
-                // Verifica se la risposta è valida e contiene il codice di successo (responseCode == 0).
                 if (response.body() != null &&
                         response.isSuccessful() &&
                         response.body().getResponseCode() == 0) {
-                    // Notifica il successo al callback con la risposta e il timestamp corrente.
                     questionCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
                     resultMutableLiveData.postValue(new Result.QuestionSuccess(response.body()));
                 } else {
@@ -60,12 +54,9 @@ public class QuestionRemoteDataSource extends BaseQuestionRemoteDataSource {
                 }
             }
 
-            /**
-             * Callback per la risposta negativa (fallimento) della chiamata Retrofit.
-             */
+
             @Override
             public void onFailure(@NonNull Call<QuestionAPIResponse> call, @NonNull Throwable t) {
-                // Notifica il fallimento al callback con un messaggio di errore generico.
                 questionCallback.onFailureFromRemote(new Exception(ERROR_RETROFIT));
             }
         });

@@ -39,7 +39,6 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
         this.rankList = convertAndSortLeaderboard(leaderboardSet);
     }
 
-    // Classe ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView positionText;
         private final ImageView profileImage;
@@ -107,7 +106,6 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
             return 0;
     }
 
-    // Metodo per convertire e ordinare il Set<String>
     private List<Rank> convertAndSortLeaderboard(Set<String> leaderboardSet) {
         if (leaderboardSet != null && !leaderboardSet.isEmpty()) {
             try {
@@ -130,7 +128,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
                                 return null;
                             }
                         })
-                        .sorted((rank1, rank2) -> Integer.compare(rank2.getScore(), rank1.getScore())) // Ordina per bestScore decrescente
+                        .sorted((rank1, rank2) -> Integer.compare(rank2.getScore(), rank1.getScore()))
                         .collect(Collectors.toList());
             }catch (Exception ex) {
                 if (ex.getMessage() != null) Log.e(TAG, ERROR + ex.getMessage());

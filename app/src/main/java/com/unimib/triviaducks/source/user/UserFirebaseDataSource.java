@@ -19,14 +19,7 @@ import com.unimib.triviaducks.model.User;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
 
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-
-/**
- * Class that gets the user information using Firebase Realtime Database.
- */
 public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     private static final String TAG = UserFirebaseDataSource.class.getSimpleName();
     private final DatabaseReference databaseReference;

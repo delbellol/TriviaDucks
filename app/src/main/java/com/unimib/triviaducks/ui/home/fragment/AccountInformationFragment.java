@@ -19,12 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.unimib.triviaducks.R;
@@ -55,7 +53,6 @@ public class AccountInformationFragment extends Fragment {
     private UserViewModel userViewModel;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private CircularProgressIndicator circularProgressIndicator;
-    private LottieAnimationView first_place, second_place, third_place;
     private ConstraintLayout profileLayout;
     private GridView gridView;
 
@@ -81,9 +78,8 @@ public class AccountInformationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_account_information, container, false);
 
-        return view;
+        return inflater.inflate(R.layout.fragment_account_information, container, false);
     }
 
     @Override
@@ -219,8 +215,8 @@ public class AccountInformationFragment extends Fragment {
                             if (item != null) {
                                 String[] parts = item.split(SPLIT_CHARACTER);
                                 String category = parts[0];
-                                int matchplayed = (parts.length > 1 && !Objects.equals(parts[1], NULL)) ? Integer.parseInt(parts[1]) : 0;
-                                return new String[]{category, String.valueOf(matchplayed)};
+                                int matchplay = (parts.length > 1 && !Objects.equals(parts[1], NULL)) ? Integer.parseInt(parts[1]) : 0;
+                                return new String[]{category, String.valueOf(matchplay)};
                             } else {
                                 Log.e(TAG, ERROR_ITEM_IS_NULL);
                                 return null;
@@ -238,7 +234,7 @@ public class AccountInformationFragment extends Fragment {
         } else {
             if (categoriesSet == null)
                 Log.e(TAG, ERROR_CATEGORY_SET_IS_NULL);
-            else if (categoriesSet.isEmpty())
+            if (categoriesSet.isEmpty())
                 Log.e(TAG, ERROR_CATEGORY_SET_IS_EMPTY);
         }
         return sortedList;
