@@ -23,7 +23,6 @@ public class QuestionActivity extends AppCompatActivity {
     private static final String TAG = QuestionActivity.class.getSimpleName();
 
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private boolean isNightMode;
     private boolean isMusicOFF;
 
     public QuestionActivity() {
@@ -45,10 +44,6 @@ public class QuestionActivity extends AppCompatActivity {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
 
-            isNightMode = sharedPreferencesUtils.readBooleanData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
-
             Intent intent = new Intent(this, MusicService.class);
             stopService(intent);
 
@@ -58,11 +53,6 @@ public class QuestionActivity extends AppCompatActivity {
                 intent.setAction(VALUE_ON);
             }
             startService(intent);
-            if (isNightMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
         }catch (Exception ex) {
             if (ex.getMessage() != null) Log.e(TAG, ERROR +ex.getMessage());
             else ex.printStackTrace();

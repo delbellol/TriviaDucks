@@ -25,8 +25,6 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     private SharedPreferencesUtils sharedPreferencesUtils;
-
-    private boolean isNightMode;
     private boolean isMusicOFF;
 
     @Override
@@ -34,16 +32,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         try {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             sharedPreferencesUtils = new SharedPreferencesUtils(getApplicationContext());
 
             isMusicOFF = sharedPreferencesUtils.readBooleanData(
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
-
-            isNightMode = sharedPreferencesUtils.readBooleanData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
-
 
             Intent intent = new Intent(this, MusicService.class);
 
@@ -52,11 +46,6 @@ public class HomeActivity extends AppCompatActivity {
             else
                 intent.setAction(VALUE_ON);
             startService(intent);
-            if (isNightMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
 
             setContentView(R.layout.activity_main); //il layout viene settato dopo aver impostato il tema
             NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);

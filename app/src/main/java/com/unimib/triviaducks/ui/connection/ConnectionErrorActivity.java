@@ -19,8 +19,6 @@ public class ConnectionErrorActivity extends AppCompatActivity {
     private static final String TAG = com.unimib.triviaducks.ui.connection.ConnectionErrorActivity.class.getSimpleName();
 
     private SharedPreferencesUtils sharedPreferencesUtils;
-
-    private boolean isNightMode;
     private boolean isMusicOFF;
 
     @Override
@@ -34,10 +32,6 @@ public class ConnectionErrorActivity extends AppCompatActivity {
                     Constants.SHARED_PREFERENCES_FILENAME,
                     Constants.SHARED_PREFERENCES_IS_MUSIC_OFF);
 
-            isNightMode = sharedPreferencesUtils.readBooleanData(
-                    Constants.SHARED_PREFERENCES_FILENAME,
-                    Constants.SHARED_PREFERENCES_IS_NIGHT_MODE);
-
 
             Intent intent = new Intent(this, MusicService.class);
 
@@ -46,11 +40,6 @@ public class ConnectionErrorActivity extends AppCompatActivity {
             else
                 intent.setAction("ON");
             startService(intent);
-            if (isNightMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
 
             setContentView(R.layout.activity_error); //il layout viene settato dopo aver impostato il tema
 
