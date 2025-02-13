@@ -29,16 +29,6 @@ public abstract class Result {
         }
     }
 
-    public static final class LeaderboardSuccess extends Result {
-        private final List<User> leaderboard;
-        public LeaderboardSuccess(List<User> leaderboard) {
-            this.leaderboard = leaderboard;
-        }
-        public List<User> getData() {
-            return leaderboard;
-        }
-    }
-
     public static final class Error extends Result {
         private final String message;
         public Error(String message) {

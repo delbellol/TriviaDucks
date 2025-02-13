@@ -31,9 +31,7 @@ public class SignupFragment extends Fragment {
     private UserViewModel userViewModel;
     private TextInputEditText textInputEmail, textInputPassword;
 
-    public SignupFragment() {
-        // Required empty public constructor
-    }
+    public SignupFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,6 @@ public class SignupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         textInputEmail = view.findViewById(R.id.textInputEmail);
@@ -60,7 +57,6 @@ public class SignupFragment extends Fragment {
             String password = textInputPassword.getText().toString().trim();
 
             if (isEmailOk(email) & isPasswordOk(password)) {
-                //binding.progressBar.setVisibility(View.VISIBLE);
                 if (!userViewModel.isAuthenticationError()) {
                     userViewModel.getUserMutableLiveData(email, password, false).observe(
                             getViewLifecycleOwner(), result -> {

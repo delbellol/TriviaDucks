@@ -173,8 +173,8 @@ public class PickUsernameFragment extends Fragment {
     private int getResourceIdByName(String resourceName) {
         return requireContext().getResources().getIdentifier(
                 resourceName,
-                Constants.DRAWABLE, // Ricerca nelle risorse di tipo drawable
-                requireContext().getPackageName() // Nome del pacchetto
+                Constants.DRAWABLE,
+                requireContext().getPackageName()
         );
     }
 }

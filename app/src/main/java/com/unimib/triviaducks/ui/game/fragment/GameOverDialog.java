@@ -111,7 +111,7 @@ public class GameOverDialog extends DialogFragment {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.main_content);
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
-            dismiss(); //chiude la finestra di dialogo
+            dismiss();
         });
 
         dialog_title = view.findViewById(R.id.dialog_title);
@@ -137,7 +137,7 @@ public class GameOverDialog extends DialogFragment {
         else if (correctAnswer != null && !correctAnswer.isEmpty()) {
             // Mostra la risposta corretta, se disponibile
             correctAnswerView.setText(correctAnswer);
-            correctAnswerView.setVisibility(View.VISIBLE); // Rendi visibile la TextView
+            correctAnswerView.setVisibility(View.VISIBLE);
         }
         else {
             Log.w(TAG, WARNING_CORRECT_ANSWER_NULL_OR_EMPTY);

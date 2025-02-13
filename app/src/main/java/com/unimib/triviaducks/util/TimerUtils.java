@@ -25,7 +25,6 @@ public class TimerUtils {
         this.mutableSecondsRemaining = mutableSecondsRemaining;
     }
 
-    //metodo countdown
     public void startCountdown(long duration) {
         if (timer != null) {
             timer.cancel();
@@ -56,6 +55,6 @@ public class TimerUtils {
     }
 
     public void notifyTimerExpired() {
-            fragment.handleTimerExpired(); // Notifica al GameFragment
+            fragment.handleTimerExpired();
     }
 }

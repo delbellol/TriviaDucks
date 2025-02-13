@@ -5,6 +5,7 @@ import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_USER;
 import static com.unimib.triviaducks.util.Constants.ERROR_UNEXPECTED;
 import static com.unimib.triviaducks.util.Constants.ERROR_USER_COLLISION;
 import static com.unimib.triviaducks.util.Constants.ERROR_WEAK_PASSWORD;
+import static com.unimib.triviaducks.util.Constants.WARNING_SIGN_IN_WITH_CREDENTIAL_FAILURE;
 
 import android.util.Log;
 
@@ -86,11 +87,9 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
     @Override
     public void signInWithGoogle(String idToken) {
         if (idToken !=  null) {
-            // Got an ID token from Google. Use it to authenticate with Firebase.
             AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
             firebaseAuth.signInWithCredential(firebaseCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                     if (firebaseUser != null) {
                         userResponseCallback.onSuccessFromAuthentication(
@@ -104,8 +103,7 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
                                 getErrorMessage(task.getException()));
                     }
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    Log.w(TAG, WARNING_SIGN_IN_WITH_CREDENTIAL_FAILURE, task.getException());
                     userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
                 }
             });

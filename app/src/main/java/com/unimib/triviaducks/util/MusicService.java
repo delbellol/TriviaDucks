@@ -13,15 +13,13 @@ import com.unimib.triviaducks.R;
 public class MusicService extends Service {
     private static final String TAG = MusicService.class.getSimpleName();
 
-    private SharedPreferencesUtils sharedPreferencesUtils;
-
     private MediaPlayer music;
 
     @Override
     public void onCreate() {
         super.onCreate();
         music = MediaPlayer.create(this, R.raw.music);
-        music.setLooping(true); // Ripeti la musica
+        music.setLooping(true);
     }
 
     @Override

@@ -116,7 +116,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     @Override
     public void saveUserUsername(String username, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
-                //TODO Change void with result
                 child(SHARED_PREFERENCES_USERNAME).setValue(username).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -128,7 +127,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     @Override
     public void saveUserImage(String imageName, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
-                //TODO Change void with result
                 child(SHARED_PREFERENCES_PROFILE_PICTURE).setValue(imageName).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -141,7 +139,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
         databaseReference.child(FIREBASE_USERS_COLLECTION)
                 .child(idToken)
                 .child(SHARED_PREFERENCES_BEST_SCORE)
-                //TODO Change void with result
                 .setValue(score).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -153,7 +150,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void updateCategoryCounter(String category, String idToken) {
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken)
                 .child(SHARED_PREFERENCES_MATCH_PLAYED_BY_CATEGORY)
-                //TODO Change void with result
                 .child(category).setValue(ServerValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -178,8 +174,8 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
     public void getLeaderboard() {
         databaseReference
                 .child(FIREBASE_USERS_COLLECTION)
-                .orderByChild(SHARED_PREFERENCES_BEST_SCORE)
-                .limitToLast(LIMIT_LEADERBOARD_ACCOUNT)
+                .orderByChild(SHARED_PREFERENCES_BEST_SCORE) // ordina gli utenti in base al loro bestscore in ordine decrescente
+                .limitToLast(LIMIT_LEADERBOARD_ACCOUNT) // limita a 10 il numero di utenti nella leaderboard
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -192,6 +188,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                             Integer bestScore = userSnapshot.child(SHARED_PREFERENCES_BEST_SCORE).getValue(Integer.class);
                             String image = userSnapshot.child(SHARED_PREFERENCES_PROFILE_PICTURE).getValue(String.class);
 
+                            // stringa che contiene le informazioni da usare nella leaderboard, separate da split character
                             String topUserData = bestScore + SPLIT_CHARACTER + username + SPLIT_CHARACTER + image;
 
                             if (username != null && image != null) {
@@ -199,6 +196,7 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                             }
                         }
 
+                        // salva il set di stringhe in shared preferences
                         sharedPreferencesUtil.writeStringSetData(
                                 SHARED_PREFERENCES_FILENAME,
                                 SHARED_PREFERENCES_LEADERBOARD,
@@ -227,6 +225,8 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                             for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
                                 String category = categorySnapshot.getKey();
                                 Integer count = categorySnapshot.getValue(Integer.class);
+
+                                // stringa che contiene la categoria ed il numero di partite giocate
                                 String categoryData = category + SPLIT_CHARACTER + count;
 
                                 if (category != null && count != null) {

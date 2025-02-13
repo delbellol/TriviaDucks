@@ -22,33 +22,30 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceLocator {
-    private static final String TAG = ServiceLocator.class.getSimpleName(); // Tag per il logging.
+    private static final String TAG = ServiceLocator.class.getSimpleName();
 
-    private static volatile ServiceLocator INSTANCE = null; // Istanza singleton della classe.
-
-    // Costruttore privato per evitare istanziazione esterna.
+    private static volatile ServiceLocator INSTANCE = null;
     private ServiceLocator() {}
 
     public static ServiceLocator getInstance() {
         if (INSTANCE == null) {
             synchronized (ServiceLocator.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new ServiceLocator(); // Crea l'istanza se non esiste.
+                    INSTANCE = new ServiceLocator();
                 }
             }
         }
-        return INSTANCE; // Restituisce l'istanza singleton.
+        return INSTANCE;
     }
 
-    // Configura OkHttpClient con un interceptor per aggiungere l'intestazione "User-Agent" a ogni richiesta.
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
                         .header(USER_AGENT_DESCRIPTION, USER_AGENT)
-                        .build(); // Modifica la richiesta per aggiungere l'header.
-                return chain.proceed(request); // Procede con la richiesta modificata.
+                        .build();
+                return chain.proceed(request);
             })
-            .build(); // Crea l'istanza di OkHttpClient.
+            .build();
 
     /**
      * Restituisce un'istanza del servizio Retrofit per le domande.
@@ -63,18 +60,12 @@ public class ServiceLocator {
         return retrofit.create(QuestionAPIService.class); // Crea e restituisce l'istanza del servizio API.
     }
 
-    /**
-     * Restituisce un'istanza di QuestionRepository, che funge da fonte di dati per le domande.
-     * @param application Parametro per accedere allo stato globale dell'applicazione.
-     * @return Un'istanza di QuestionRepository.
-     */
     public QuestionRepository getQuestionsRepository(Application application) {
-        BaseQuestionRemoteDataSource questionRemoteDataSource; // Fonte remota delle domande.
-        SharedPreferencesUtils sharedPreferencesUtil = new SharedPreferencesUtils(application); // Utility per SharedPreferences.
+        BaseQuestionRemoteDataSource questionRemoteDataSource;
+        SharedPreferencesUtils sharedPreferencesUtil = new SharedPreferencesUtils(application);
 
         questionRemoteDataSource = new QuestionRemoteDataSource();
 
-        // Restituisce un'istanza di QuestionRepository con le sorgenti remote e locali.
         return new QuestionRepository(questionRemoteDataSource);
     }
 

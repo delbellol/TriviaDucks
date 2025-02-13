@@ -11,7 +11,6 @@ import com.unimib.triviaducks.R;
 public class WelcomeActivity extends AppCompatActivity {
     public static final String TAG = WelcomeActivity.class.getName();
 
-    private TextInputEditText editTextEMail, editTextPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

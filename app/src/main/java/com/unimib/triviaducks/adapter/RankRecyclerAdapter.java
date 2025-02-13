@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+//classe per la recycler view in LeaderboardFragment che mostra la classifica degli utenti
 public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapter.ViewHolder> {
     private static final String TAG = RankRecyclerAdapter.class.getSimpleName();
 
@@ -106,6 +107,7 @@ public class RankRecyclerAdapter extends RecyclerView.Adapter<RankRecyclerAdapte
             return 0;
     }
 
+    // Converte un set di stringhe in una lista ordinata di rank in ordine descrescente in base al best score
     private List<Rank> convertAndSortLeaderboard(Set<String> leaderboardSet) {
         if (leaderboardSet != null && !leaderboardSet.isEmpty()) {
             try {

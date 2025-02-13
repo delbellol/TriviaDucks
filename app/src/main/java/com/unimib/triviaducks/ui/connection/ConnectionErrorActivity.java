@@ -42,7 +42,7 @@ public class ConnectionErrorActivity extends AppCompatActivity {
                 intent.setAction(VALUE_ON);
             startService(intent);
 
-            setContentView(R.layout.activity_error); //il layout viene settato dopo aver impostato il tema
+            setContentView(R.layout.activity_error);
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
@@ -77,14 +77,13 @@ public class ConnectionErrorActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Assicurati che la musica parta all'avvio dell'attività
         resumeMusic();
     }
 
     private void stopMusic() {
         Intent intent = new Intent(this, MusicService.class);
         intent.setAction(VALUE_OFF);
-        startService(intent); // Ferma la musica
+        startService(intent);
     }
 
     private void resumeMusic() {

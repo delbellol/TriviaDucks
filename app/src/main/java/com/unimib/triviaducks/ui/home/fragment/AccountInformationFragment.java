@@ -182,6 +182,7 @@ public class AccountInformationFragment extends Fragment {
         }
     }
 
+    // metodo per recuperare l'ID dell'immagine profilo dal suo nome da shared preference
     private int getResourceIdByName(String resourceName) {
         try {
             return requireContext().getResources().getIdentifier(
@@ -206,6 +207,9 @@ public class AccountInformationFragment extends Fragment {
         profileLayout.setVisibility(View.VISIBLE);
     }
 
+    // metodo per convertire il set di stringhe che contiene le categorie più giocate in una lista
+    // di stringhe che contengono il codice della categoria, ordinate in ordine decrescente per il
+    // numero di partite giocate.
     private List<String> convertAndSortCategories(Set<String> categoriesSet) {
         List<String> sortedList = new ArrayList<>();
         if (categoriesSet != null && !categoriesSet.isEmpty()) {
@@ -225,7 +229,7 @@ public class AccountInformationFragment extends Fragment {
                         .filter(Objects::nonNull)
                         .sorted((a, b) -> Integer.compare(Integer.parseInt(b[1]), Integer.parseInt(a[1])))
                         .map(a -> a[0])
-                        .limit(LIMIT_TOP_CATEGORIES)
+                        .limit(LIMIT_TOP_CATEGORIES) // limite al numero di categorie mostrate all'utente = 3
                         .collect(Collectors.toList());
             } catch (Exception ex) {
                 if (ex.getMessage() != null) Log.e(TAG, ERROR + ex.getMessage());

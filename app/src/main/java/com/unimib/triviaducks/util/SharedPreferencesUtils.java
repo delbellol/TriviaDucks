@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import java.util.Set;
 
 public class SharedPreferencesUtils {
-    private final Context context; // Variabile di contesto per accedere alle SharedPreferences.
+    private final Context context;
 
-
-    // Costruttore che prende il contesto dell'applicazione per accedere alle SharedPreferences.
     public SharedPreferencesUtils(Context context) {
         this.context = context;
     }
@@ -80,10 +78,7 @@ public class SharedPreferencesUtils {
         // Ottiene il riferimento alle SharedPreferences con il nome specificato, in modalità privata.
         SharedPreferences sharedPref = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE);
         // Restituisce il valore associato alla chiave, o null se non presente.
-        if (key.equals(Constants.SHARED_PREFERENCES_VOLUME))
-            return sharedPref.getInt(key, 50);
-        else
-            return sharedPref.getInt(key, 0);
+        return sharedPref.getInt(key, 0);
     }
 
     public boolean readBooleanData(String sharedPreferencesFileName, String key) {

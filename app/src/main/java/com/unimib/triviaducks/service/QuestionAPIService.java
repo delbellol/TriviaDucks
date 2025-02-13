@@ -18,8 +18,8 @@ public interface QuestionAPIService {
     Call<QuestionAPIResponse> getQuestions( // Restituisce un oggetto Call con la risposta dell'API.
                                             @Query(TRIVIA_PARAMETER_AMOUNT) int amount, // Parametro "amount" per specificare il numero di domande.
                                             @Query(TRIVIA_PARAMETER_TYPE) String type,  // Parametro "type" per specificare il tipo di domande.
-                                            @Query(TRIVIA_PARAMETER_CATEGORY) int category, //categoria
-                                            @Query(TRIVIA_PARAMETER_DIFFICULTY) String difficulty //difficoltà
+                                            @Query(TRIVIA_PARAMETER_CATEGORY) int category, // Parametro "category" per specificare la categoria delle domande
+                                            @Query(TRIVIA_PARAMETER_DIFFICULTY) String difficulty // Parametro "difficulty" per specificare la difficoltà delle domande
     );
 }
 

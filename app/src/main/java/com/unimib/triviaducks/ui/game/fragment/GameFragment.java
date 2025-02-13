@@ -54,7 +54,7 @@ public class GameFragment extends Fragment {
     private GameHandler gameHandler;
     private LottieAnimationView lottieHeart1, lottieHeart2, lottieHeart3;
 
-    private int category; //categoria delle domande da passare al GameHandler
+    private int category;
     private String difficulty;
 
     private int errorsCount = 0;
@@ -92,7 +92,6 @@ public class GameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (canPlay) {
-            // Inizializza gli elementi della vista
             circularProgressIndicator = view.findViewById(R.id.circularProgressIndicator);
             gameLayout = view.findViewById(R.id.gameLayout);
 
@@ -116,7 +115,7 @@ public class GameFragment extends Fragment {
             // Gestisce l'evento di clic sul bottone per chiudere il gioco
             closeImageButton.setOnClickListener(v -> {
                 GameQuitDialog gameQuitDialog = new GameQuitDialog(gameHandler);
-                gameQuitDialog.show(getParentFragmentManager(), "GameQuitFragment");
+                gameQuitDialog.show(getParentFragmentManager(), GameQuitDialog.class.getSimpleName());
             });
 
             // Gestisce l'evento di clic sui bottoni di risposta

@@ -6,21 +6,17 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.unimib.triviaducks.R;
 import com.unimib.triviaducks.adapter.RankRecyclerAdapter;
-import com.unimib.triviaducks.model.Rank;
-import com.unimib.triviaducks.model.Result;
 import com.unimib.triviaducks.repository.user.IUserRepository;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModel;
 import com.unimib.triviaducks.ui.welcome.viewmodel.UserViewModelFactory;
@@ -28,11 +24,6 @@ import com.unimib.triviaducks.util.Constants;
 import com.unimib.triviaducks.util.NetworkUtil;
 import com.unimib.triviaducks.util.ServiceLocator;
 import com.unimib.triviaducks.util.SharedPreferencesUtils;
-
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 public class LeaderboardFragment extends Fragment {

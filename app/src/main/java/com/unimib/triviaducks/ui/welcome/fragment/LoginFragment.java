@@ -1,7 +1,5 @@
 package com.unimib.triviaducks.ui.welcome.fragment;
 
-import static android.app.ProgressDialog.show;
-
 import static com.unimib.triviaducks.util.Constants.ERROR_EMPTY_PASSWORD;
 import static com.unimib.triviaducks.util.Constants.ERROR_EMPTY_EMAIL;
 import static com.unimib.triviaducks.util.Constants.ERROR_INVALID_CREDENTIALS;
@@ -128,7 +126,6 @@ public class LoginFragment extends Fragment {
     private void retrieveUserInformationAndStartActivity(User user, View view) {
         userViewModel.getUserUsername(user.getIdToken()).observe(
                 getViewLifecycleOwner(), userPreferences -> {
-                    //The viewmodel updated sharedprefs
                     goToNextPage(view);
                 }
         );
@@ -148,7 +145,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 

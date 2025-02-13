@@ -164,4 +164,8 @@ public class Constants {
     public static final String WARNING_SPLIT_CHAR_NOT_ALLOWED = SPLIT_CHARACTER + " is not an allowed character in username";
     public static final String WARNING_USERNAME_NOT_SELECTED = "Please enter a username";
     public static final String WARNING_USERNAME_TOO_LONG = "Please enter a shorter username";
+    public static final String WARNING_SIGN_IN_WITH_CREDENTIAL_FAILURE = "signInWithCredential:failure";
+
+
+    public static final String EMPTY_STRING = "";
 }

@@ -13,10 +13,11 @@ import com.unimib.triviaducks.R;
 
 import java.util.List;
 
+// classe per la recycler view del viewpager in HomeFragment
 public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRecyclerAdapter.ViewHolder> {
 
     private final List<Integer> lottieFiles;
-    private final List<String> itemCategoryDescription; // Lista per i testi
+    private final List<String> itemCategoryDescription;
 
     public CategoriesRecyclerAdapter(List<Integer> lottieFiles, List<String> categoryDescriptions) {
         this.lottieFiles = lottieFiles;

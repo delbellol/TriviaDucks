@@ -1,5 +1,6 @@
 package com.unimib.triviaducks.ui.game.fragment;
 
+import static com.unimib.triviaducks.util.Constants.EMPTY_STRING;
 import static com.unimib.triviaducks.util.Constants.PARAMETER_CORRECT_ANSWER;
 import static com.unimib.triviaducks.util.Constants.PARAMETER_REASON;
 
@@ -49,7 +50,7 @@ public class GameNextQuestionDialog extends DialogFragment {
 
         if (getArguments() != null) {
             reason = getArguments().getString(PARAMETER_REASON, getContext().getString(R.string.correct_answer));
-            correctAnswer = getArguments().getString(PARAMETER_CORRECT_ANSWER, "");
+            correctAnswer = getArguments().getString(PARAMETER_CORRECT_ANSWER, EMPTY_STRING);
         }
 
         builder.setView(view);
@@ -70,7 +71,7 @@ public class GameNextQuestionDialog extends DialogFragment {
 
         nextBtn.setOnClickListener(v -> {
             fragment.nextBtnPressed();
-            dismiss(); //chiude la finestra di dialogo
+            dismiss();
         });
         return builder.create();
     }

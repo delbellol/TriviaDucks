@@ -23,9 +23,9 @@ import com.unimib.triviaducks.util.Constants;
 
 import java.util.ArrayList;
 
+// adapter per creare la classifica delle categorie più utilizzate dall'utente
 public class CategoriesPodiumAdapter extends ArrayAdapter<String> {
     private static final String TAG = CategoriesPodiumAdapter.class.getSimpleName();
-
     private int layout;
     private ArrayList<String> categoriesList;
 
@@ -54,6 +54,7 @@ public class CategoriesPodiumAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
+    // in base al codice della categoria ritorna la posizione nella lista Constants.LIST_CATEGORY
     private int getCategoryFromCode(int code) {
         switch (code) {
             case CODE_HISTORY:
@@ -69,6 +70,7 @@ public class CategoriesPodiumAdapter extends ArrayAdapter<String> {
         }
     }
 
+    // in base alla posizione prende il drawable della medaglia corrispondente
     private int getImagePodium(int position) {
         switch (position) {
             case 1:

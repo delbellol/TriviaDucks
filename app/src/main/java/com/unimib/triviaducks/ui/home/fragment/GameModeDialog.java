@@ -84,12 +84,10 @@ public class GameModeDialog extends DialogFragment {
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
 
             @Override
-            // This method is triggered when there is any scrolling activity for the current page
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
 
-            // triggered when you select a new page
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -155,7 +153,8 @@ public class GameModeDialog extends DialogFragment {
     private void increaseCategoryGameCounter(int selectedCategory) {
         String selectedCategoryString = String.valueOf(selectedCategory);
 
-        // Carica il nome associato alla categoria su Firebase
+        // carica il nome associato alla categoria su Firebase e incrementa di 1 le partite giocate
+        // per quella categoria
         userViewModel.updateCategoryCounter(
                 selectedCategoryString,
                 userViewModel.getLoggedUser().getIdToken()

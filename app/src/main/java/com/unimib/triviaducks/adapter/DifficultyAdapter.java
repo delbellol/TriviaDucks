@@ -10,19 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimib.triviaducks.R;
 
+// classe per la recycler view del viewpager in GameModeDialog
 public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.ViewHolder> {
-    // Array of images
-    // Adding images from drawable folder
     private int[] images = {R.drawable.random, R.drawable.easy, R.drawable.medium,
             R.drawable.hard,};
     private Context ctx;
 
-    // Constructor of our ViewPager2Adapter class
     public DifficultyAdapter(Context ctx) {
         this.ctx = ctx;
     }
 
-    // This method returns our layout
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,20 +27,16 @@ public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.Vi
         return new ViewHolder(view);
     }
 
-    // This method binds the screen with the view
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // This will set the images in imageview
         holder.images.setImageResource(images[position]);
     }
 
-    // This Method returns the size of the Array
     @Override
     public int getItemCount() {
         return images.length;
     }
 
-    // The ViewHolder class holds the view
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView images;
 

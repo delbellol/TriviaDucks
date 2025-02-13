@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+// classe per la gestione del gioco
 public class GameHandler {
     private static final String TAG = GameHandler.class.getSimpleName();
 
@@ -90,6 +91,7 @@ public class GameHandler {
         }
         timerUtils = new TimerUtils(fragment, context, mutableSecondsRemaining);
     }
+
 
     public void loadQuestions(int category, int questionAmount, String difficulty) {
         fragment.showLoadingScreen();
