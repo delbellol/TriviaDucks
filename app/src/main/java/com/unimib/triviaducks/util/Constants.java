@@ -66,7 +66,7 @@ public class Constants {
     public static final String INFO_SUCCESS = "success";
 
     // Limits
-    public static final int LIMIT_LEADERBOARD_ACCOUNT = 11;
+    public static final int LIMIT_LEADERBOARD_ACCOUNT = 10;
     public static final int LIMIT_TOP_CATEGORIES = 3;
 
     //List category
